@@ -23,7 +23,7 @@ export default function TrackIndexPage() {
 
   return (
     <PageShell>
-      <div className="max-w-md mx-auto px-4 py-12 flex flex-col gap-8">
+      <div className="max-w-xl mx-auto px-4 sm:px-6 py-12 md:py-20 flex flex-col gap-8">
         {/* Header */}
         <div className="flex flex-col gap-2 text-center">
           <span className="text-5xl" aria-hidden="true">📦</span>

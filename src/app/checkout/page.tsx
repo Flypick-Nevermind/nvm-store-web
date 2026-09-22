@@ -314,10 +314,13 @@ export default function CheckoutPage() {
   if (!mounted) {
     return (
       <PageShell showFooter={false}>
-        <div className="max-w-md mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
           <div className="animate-pulse space-y-4">
-            <div className="h-6 w-32 bg-[#C8C8C8]/40 rounded-lg" />
-            <div className="h-44 bg-white rounded-2xl border border-[#C8C8C8]/50 p-4" />
+            <div className="h-7 w-40 bg-[#C8C8C8]/40 rounded-lg" />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-7 h-96 bg-white rounded-3xl border border-[#C8C8C8]/50 p-6" />
+              <div className="lg:col-span-5 h-80 bg-white rounded-3xl border border-[#C8C8C8]/50 p-6" />
+            </div>
           </div>
         </div>
       </PageShell>
@@ -327,12 +330,12 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <PageShell showFooter={false}>
-        <div className="max-w-md mx-auto px-4 py-20 flex flex-col items-center gap-4 text-center">
+        <div className="max-w-md mx-auto px-4 py-24 flex flex-col items-center gap-4 text-center">
           <span className="text-6xl" aria-hidden="true">🛒</span>
-          <h1 className="text-xl font-display font-bold text-[#1A1A1A]">Keranjangmu kosong</h1>
-          <p className="text-sm text-[#888]">Tambahkan produk dulu sebelum checkout ya!</p>
-          <Button variant="primary" onClick={() => router.push('/')}>
-            Lihat Katalog
+          <h1 className="text-2xl font-display font-bold text-[#1A1A1A]">Keranjangmu kosong</h1>
+          <p className="text-sm text-[#888]">Tambahkan produk favoritmu dari katalog sebelum checkout ya!</p>
+          <Button variant="primary" size="lg" onClick={() => router.push('/')}>
+            Lihat Katalog Sekarang
           </Button>
         </div>
       </PageShell>
@@ -343,124 +346,144 @@ export default function CheckoutPage() {
 
   return (
     <PageShell showFooter={false}>
-      <div className="max-w-md mx-auto px-4 py-8">
-        <h1 className="text-xl font-display font-bold text-[#1A1A1A] mb-2">Checkout</h1>
-
-        {/* Cart summary with manage actions */}
-        <div className="rounded-2xl bg-white border border-[#C8C8C8]/50 p-4 mb-6 flex flex-col gap-3 shadow-xs">
-          <div className="flex items-center justify-between pb-1 border-b border-[#C8C8C8]/30">
-            <p className="text-xs font-bold text-[#888] uppercase tracking-wider">
-              Pesananmu ({totalQuantity} item)
-            </p>
-            {step > 1 && (
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className="text-xs font-semibold text-[#C74375] hover:underline flex items-center gap-1 cursor-pointer"
-              >
-                ✏️ Ubah Item
-              </button>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-2.5">
-            {items.map((item) => (
-              <div key={item.productId} className="flex items-center gap-3 py-1 border-b border-[#C8C8C8]/20 last:border-b-0">
-                {/* Thumbnail */}
-                <div className="relative w-12 h-12 rounded-xl overflow-hidden bg-[#C8C8C8]/20 shrink-0 border border-[#C8C8C8]/40">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="object-cover"
-                    sizes="48px"
-                  />
-                </div>
-
-                {/* Details */}
-                <div className="flex-1 min-w-0">
-                  <span className="inline-block text-[10px] px-1.5 py-0.5 rounded-md font-medium bg-[#FFF8E1] text-[#1A1A1A] border border-[#C8C8C8]/50 mb-0.5">
-                    {item.type === 'pre-order' ? 'PO 14-21 Hari' : 'Ready Stock'}
-                  </span>
-                  <p className="text-sm font-semibold text-[#1A1A1A] truncate">{item.name}</p>
-                  <p className="text-xs text-[#888]">{formatIDR(item.price)}</p>
-                </div>
-
-                {/* Quantity Controls & Delete */}
-                <div className="flex flex-col items-end gap-1.5 shrink-0">
-                  <div className="flex items-center gap-1.5">
-                    {/* Stepper */}
-                    <div className="flex items-center bg-[#FFF8E1] border border-[#C8C8C8]/60 rounded-lg overflow-hidden h-7">
-                      <button
-                        type="button"
-                        onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                        className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-xs transition-colors cursor-pointer"
-                        aria-label="Kurangi kuantitas"
-                        title={item.quantity === 1 ? 'Hapus barang' : 'Kurangi kuantitas'}
-                      >
-                        −
-                      </button>
-                      <span className="w-6 text-center text-xs font-bold text-[#1A1A1A]">
-                        {item.quantity}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                        className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-xs transition-colors cursor-pointer"
-                        aria-label="Tambah kuantitas"
-                      >
-                        +
-                      </button>
-                    </div>
-
-                    {/* Delete action */}
-                    <button
-                      type="button"
-                      onClick={() => removeItem(item.productId)}
-                      className="w-7 h-7 rounded-lg flex items-center justify-center text-[#888] hover:text-[#C74375] hover:bg-[#C74375]/10 transition-colors cursor-pointer"
-                      title="Hapus barang dari keranjang"
-                      aria-label={`Hapus ${item.name}`}
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <span className="text-xs font-bold text-[#C74375]">
-                    {formatIDR(item.price * item.quantity)}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="border-t border-[#C8C8C8]/50 pt-2.5 mt-0.5 flex justify-between items-center">
-            <span className="text-sm font-bold text-[#1A1A1A]">Total</span>
-            <span className="text-base font-extrabold text-[#C74375]">{formatIDR(totalPrice)}</span>
-          </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div className="mb-6">
+          <h1 className="text-2xl sm:text-3xl font-display font-black text-[#1A1A1A]">Checkout Pesanan</h1>
+          <p className="text-xs sm:text-sm text-[#888] mt-1">Selesaikan pembelianmu dengan aman dalam 3 langkah mudah.</p>
         </div>
 
-        <StepIndicator current={step} />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Left Column: 3-Step Wizard */}
+          <div className="lg:col-span-7 flex flex-col gap-6 order-2 lg:order-1">
+            <StepIndicator current={step} />
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -24 }}
-            transition={{ duration: 0.22 }}
-          >
-            {step === 1 && <Step1Form onNext={handleStep1} />}
-            {step === 2 && <Step2Payment onNext={handleStep2} />}
-            {step === 3 && (
-              <Step3Upload
-                onSubmit={handleStep3}
-                isLoading={createOrder.isPending}
-              />
-            )}
-          </motion.div>
-        </AnimatePresence>
+            <div className="bg-white rounded-3xl border border-[#C8C8C8]/50 p-5 sm:p-7 shadow-xs">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={step}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.22 }}
+                >
+                  {step === 1 && <Step1Form onNext={handleStep1} />}
+                  {step === 2 && <Step2Payment onNext={handleStep2} />}
+                  {step === 3 && (
+                    <Step3Upload
+                      onSubmit={handleStep3}
+                      isLoading={createOrder.isPending}
+                    />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Right Column: Order Summary Card (Sticky on Desktop) */}
+          <div className="lg:col-span-5 lg:sticky lg:top-24 flex flex-col gap-4 order-1 lg:order-2">
+            <div className="rounded-3xl bg-white border border-[#C8C8C8]/50 p-5 sm:p-6 flex flex-col gap-4 shadow-xs">
+              <div className="flex items-center justify-between pb-2 border-b border-[#C8C8C8]/30">
+                <p className="text-xs font-bold text-[#888] uppercase tracking-wider">
+                  Ringkasan Pesanan ({totalQuantity} item)
+                </p>
+                {step > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    className="text-xs font-semibold text-[#C74375] hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    ✏️ Ubah Item
+                  </button>
+                )}
+              </div>
+
+              <div className="flex flex-col gap-3 max-h-[420px] overflow-y-auto pr-1">
+                {items.map((item) => (
+                  <div key={item.productId} className="flex items-center gap-3 py-2 border-b border-[#C8C8C8]/20 last:border-b-0">
+                    {/* Thumbnail */}
+                    <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#C8C8C8]/20 shrink-0 border border-[#C8C8C8]/40">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        className="object-cover"
+                        sizes="56px"
+                      />
+                    </div>
+
+                    {/* Details */}
+                    <div className="flex-1 min-w-0">
+                      <span className="inline-block text-[10px] px-1.5 py-0.5 rounded-md font-medium bg-[#FFF8E1] text-[#1A1A1A] border border-[#C8C8C8]/50 mb-0.5">
+                        {item.type === 'pre-order' ? 'PO 14-21 Hari' : 'Ready Stock'}
+                      </span>
+                      <p className="text-sm font-semibold text-[#1A1A1A] truncate">{item.name}</p>
+                      <p className="text-xs text-[#888]">{formatIDR(item.price)}</p>
+                    </div>
+
+                    {/* Quantity Controls & Delete */}
+                    <div className="flex flex-col items-end gap-1.5 shrink-0">
+                      <div className="flex items-center gap-1.5">
+                        {/* Stepper */}
+                        <div className="flex items-center bg-[#FFF8E1] border border-[#C8C8C8]/60 rounded-lg overflow-hidden h-7">
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                            className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-xs transition-colors cursor-pointer"
+                            aria-label="Kurangi kuantitas"
+                            title={item.quantity === 1 ? 'Hapus barang' : 'Kurangi kuantitas'}
+                          >
+                            −
+                          </button>
+                          <span className="w-6 text-center text-xs font-bold text-[#1A1A1A]">
+                            {item.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                            className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-xs transition-colors cursor-pointer"
+                            aria-label="Tambah kuantitas"
+                          >
+                            +
+                          </button>
+                        </div>
+
+                        {/* Delete action */}
+                        <button
+                          type="button"
+                          onClick={() => removeItem(item.productId)}
+                          className="w-7 h-7 rounded-lg flex items-center justify-center text-[#888] hover:text-[#C74375] hover:bg-[#C74375]/10 transition-colors cursor-pointer"
+                          title="Hapus barang dari keranjang"
+                          aria-label={`Hapus ${item.name}`}
+                        >
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <span className="text-xs font-bold text-[#C74375]">
+                        {formatIDR(item.price * item.quantity)}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border-t border-[#C8C8C8]/50 pt-3 mt-1 flex justify-between items-center">
+                <span className="text-base font-bold text-[#1A1A1A]">Total Pembayaran</span>
+                <span className="text-lg font-black text-[#C74375]">{formatIDR(totalPrice)}</span>
+              </div>
+            </div>
+
+            {/* Trust badge note */}
+            <div className="rounded-2xl bg-[#FFF8E1] border border-[#C8C8C8]/40 p-4 text-xs text-[#666] leading-relaxed flex items-start gap-2.5">
+              <span className="text-base shrink-0" aria-hidden="true">🔒</span>
+              <p>
+                Transaksi aman & terenkripsi. Konfirmasi instan langsung diteruskan ke WhatsApp admin NEVERMIND.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </PageShell>
   );

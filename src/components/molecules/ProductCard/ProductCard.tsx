@@ -34,9 +34,9 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Link href={`/products/${product.slug}`} className="block group" aria-label={product.name}>
+    <Link href={`/products/${product.slug}`} className="flex flex-col h-full group" aria-label={product.name}>
       <motion.article
-        className="relative rounded-[1.25rem] overflow-hidden bg-white cursor-pointer"
+        className="flex flex-col h-full relative rounded-[1.25rem] overflow-hidden bg-white cursor-pointer"
         style={{ boxShadow: '0 2px 16px 0 rgba(199,67,117,0.07)' }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
@@ -44,7 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
         transition={{ type: 'spring', stiffness: 320, damping: 28 }}
       >
         {/* Image — 3:4 ratio */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-[#F5F0E8]">
+        <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#F5F0E8] shrink-0">
           <Image
             src={product.images[0]}
             alt={product.name}
@@ -76,7 +76,7 @@ export function ProductCard({ product }: ProductCardProps) {
                   onClick={handleQuickAdd}
                   className={[
                     'w-full py-2.5 px-4 rounded-xl text-sm font-semibold',
-                    'transition-all duration-150',
+                    'transition-all duration-150 cursor-pointer shadow-sm',
                     addedFeedback
                       ? 'bg-[#D8FFF7] text-[#1A6B5C] border border-[#9DDED1]'
                       : 'bg-[#C74375] text-white hover:bg-[#A33360]',
@@ -91,18 +91,20 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {/* Info */}
-        <div className="p-3 flex flex-col gap-1">
-          <h3 className="text-sm font-semibold text-[#1A1A1A] leading-snug line-clamp-2">
+        <div className="p-3 sm:p-3.5 flex flex-col flex-1 justify-between gap-1.5">
+          <h3 className="text-sm font-semibold text-[#1A1A1A] leading-snug line-clamp-2 min-h-[2.5rem]">
             {product.name}
           </h3>
-          <p className="text-[#C74375] font-bold text-sm">
-            {formatIDR(product.price_total)}
-          </p>
-          {product.stock_type === 'pre-order' && (
-            <p className="text-[10px] text-[#888] font-medium">
-              ⏱ Est. {product.lead_time_days[0]}–{product.lead_time_days[1]} hari
+          <div className="flex flex-col gap-0.5 mt-auto">
+            <p className="text-[#C74375] font-bold text-sm sm:text-base">
+              {formatIDR(product.price_total)}
             </p>
-          )}
+            <p className="text-[10px] text-[#888] font-medium min-h-[1rem] flex items-center">
+              {product.stock_type === 'pre-order'
+                ? `⏱ Est. ${product.lead_time_days[0]}–${product.lead_time_days[1]} hari`
+                : '⚡ Siap dikirim hari ini'}
+            </p>
+          </div>
         </div>
       </motion.article>
     </Link>

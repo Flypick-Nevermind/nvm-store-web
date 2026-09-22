@@ -11,7 +11,7 @@ export function PageShell({ children, showFooter = true }: PageShellProps) {
   return (
     <div className="flex flex-col min-h-dvh">
       <Navbar />
-      <main className="flex-1 pt-16" id="main-content">
+      <main className="flex-1 pt-20 sm:pt-22" id="main-content">
         {children}
       </main>
       {showFooter && <Footer />}

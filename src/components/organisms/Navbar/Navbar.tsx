@@ -51,10 +51,10 @@ export function Navbar() {
       ].join(' ')}
     >
       <nav
-        className="max-w-md mx-auto px-4 h-16 flex items-center justify-between"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 sm:h-22 flex items-center justify-between"
         aria-label="Navigasi utama"
       >
-        <Logo size="md" />
+        <Logo size="lg" />
 
         <div className="flex items-center gap-1">
           {navLinks.map((link) => (

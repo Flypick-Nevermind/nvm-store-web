@@ -23,7 +23,8 @@ function SuccessContent() {
   }, [waUrl]);
 
   return (
-    <div className="max-w-md mx-auto px-4 py-16 flex flex-col items-center gap-6 text-center">
+    <div className="max-w-xl mx-auto px-4 sm:px-6 py-12 md:py-20 flex flex-col items-center gap-6 text-center">
+      <div className="w-full bg-white rounded-3xl border border-[#C8C8C8]/50 p-6 sm:p-10 shadow-xs flex flex-col items-center gap-6">
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -103,6 +104,7 @@ function SuccessContent() {
           Kembali ke Katalog
         </Button>
       </motion.div>
+      </div>
     </div>
   );
 }

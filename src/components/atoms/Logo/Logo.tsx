@@ -15,33 +15,42 @@ interface LogoProps {
   showTagline?: boolean;
 }
 
-const sizeConfig: Record<LogoSize, { imageWidth: number; imageHeight: number; textClass: string; taglineClass: string }> = {
-  sm: { imageWidth: 80,  imageHeight: 28,  textClass: 'text-lg',   taglineClass: 'text-[10px]' },
-  md: { imageWidth: 120, imageHeight: 40,  textClass: 'text-2xl',  taglineClass: 'text-xs' },
-  lg: { imageWidth: 160, imageHeight: 56,  textClass: 'text-3xl',  taglineClass: 'text-sm' },
-  xl: { imageWidth: 200, imageHeight: 70,  textClass: 'text-4xl',  taglineClass: 'text-base' },
+const sizeConfig: Record<LogoSize, { imageClass: string; textClass: string; taglineClass: string }> = {
+  sm: { imageClass: 'h-10 sm:h-12 w-auto', textClass: 'text-xl', taglineClass: 'text-[10px]' },
+  md: { imageClass: 'h-12 sm:h-16 w-auto', textClass: 'text-2xl sm:text-3xl', taglineClass: 'text-xs' },
+  lg: { imageClass: 'h-14 sm:h-18 md:h-20 w-auto', textClass: 'text-3xl sm:text-4xl', taglineClass: 'text-sm' },
+  xl: { imageClass: 'h-20 sm:h-24 md:h-28 w-auto', textClass: 'text-4xl sm:text-5xl', taglineClass: 'text-base' },
 };
 
 function LogoContent({ size = 'md', variant = 'dark', showTagline = false }: Omit<LogoProps, 'href'>) {
+  const [logoSrc, setLogoSrc] = useState<string>('/assets/nevermind-logo.PNG');
   const [imageError, setImageError] = useState(false);
   const cfg = sizeConfig[size];
   const textColor = variant === 'dark' ? 'text-[#C74375]' : 'text-white';
   const subColor  = variant === 'dark' ? 'text-[#888]'    : 'text-white/60';
 
+  const handleError = () => {
+    if (logoSrc === '/assets/nevermind-logo.PNG') {
+      setLogoSrc('/assets/logo.svg');
+    } else {
+      setImageError(true);
+    }
+  };
+
   if (!imageError) {
     return (
-      <div className="flex flex-col items-start gap-0.5">
+      <div className="flex items-center gap-2">
         <Image
-          src="/assets/logo.svg"
+          src={logoSrc}
           alt="NEVERMIND"
-          width={cfg.imageWidth}
-          height={cfg.imageHeight}
+          width={320}
+          height={160}
           priority
-          className="object-contain"
-          onError={() => setImageError(true)}
+          className={`${cfg.imageClass} object-contain transition-transform duration-200 hover:scale-102 drop-shadow-xs`}
+          onError={handleError}
         />
         {showTagline && (
-          <span className={`${cfg.taglineClass} ${subColor} font-medium tracking-widest uppercase`}>
+          <span className={`${cfg.taglineClass} ${subColor} font-medium tracking-widest uppercase hidden sm:inline`}>
             Too cute, too care?
           </span>
         )}
