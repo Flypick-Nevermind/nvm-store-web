@@ -20,6 +20,8 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
+
     addItem({
       productId: product.id,
       slug: product.slug,
@@ -29,6 +31,7 @@ export function ProductCard({ product }: ProductCardProps) {
       quantity: 1,
       type: product.stock_type,
     });
+
     setAddedFeedback(true);
     setTimeout(() => setAddedFeedback(false), 1500);
   };

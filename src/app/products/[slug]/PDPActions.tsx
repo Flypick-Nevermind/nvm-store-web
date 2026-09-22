@@ -1,8 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { Button } from '@/components/atoms/Button';
 import { useCartStore } from '@/store/cartStore';
+import { useAuthStore } from '@/store/authStore';
+import { useAuthModalStore } from '@/store/authModalStore';
 import type { Product } from '@/types/api';
 
 interface PDPActionsProps {
@@ -11,7 +14,11 @@ interface PDPActionsProps {
 
 export function PDPActions({ product }: PDPActionsProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const addItem = useCartStore((s) => s.addItem);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const openAuthModal = useAuthModalStore((s) => s.openModal);
+  const [addedFeedback, setAddedFeedback] = useState(false);
 
   const handleBuyNow = () => {
     addItem({
@@ -23,6 +30,17 @@ export function PDPActions({ product }: PDPActionsProps) {
       quantity: 1,
       type: product.stock_type,
     });
+
+    if (!isAuthenticated) {
+      openAuthModal({
+        redirectUrl: '/checkout',
+        productName: product.name,
+        title: 'Masuk untuk Checkout',
+        message: `Kamu akan memesan ${product.name}. Silakan masuk atau daftar akun terlebih dahulu untuk melanjutkan ke pembayaran.`,
+      });
+      return;
+    }
+
     router.push('/checkout');
   };
 
@@ -36,6 +54,9 @@ export function PDPActions({ product }: PDPActionsProps) {
       quantity: 1,
       type: product.stock_type,
     });
+
+    setAddedFeedback(true);
+    setTimeout(() => setAddedFeedback(false), 1500);
   };
 
   return (
@@ -49,7 +70,7 @@ export function PDPActions({ product }: PDPActionsProps) {
           onClick={handleAddToCart}
           className="flex-1"
         >
-          + Keranjang
+          {addedFeedback ? '✓ Ditambahkan!' : '+ Keranjang'}
         </Button>
         <Button
           id={`pdp-buy-now-desktop-${product.id}`}
@@ -72,7 +93,7 @@ export function PDPActions({ product }: PDPActionsProps) {
             onClick={handleAddToCart}
             className="flex-1"
           >
-            + Keranjang
+            {addedFeedback ? '✓ Ditambahkan!' : '+ Keranjang'}
           </Button>
           <Button
             id={`pdp-buy-now-${product.id}`}

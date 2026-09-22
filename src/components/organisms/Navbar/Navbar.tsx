@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from '@/components/atoms/Logo';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
+import { useAuthModalStore } from '@/store/authModalStore';
 import { useState, useEffect } from 'react';
 
 export function Navbar() {
@@ -14,6 +15,7 @@ export function Navbar() {
   const user = useAuthStore((s) => s.user);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const logout = useAuthStore((s) => s.logout);
+  const openAuthModal = useAuthModalStore((s) => s.openModal);
 
   const [scrolled, setScrolled] = useState(false);
   const [lastCount, setLastCount] = useState(totalItems);
@@ -21,6 +23,17 @@ export function Navbar() {
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
 
   const [mounted, setMounted] = useState(false);
+
+  const handleCartClick = (e: React.MouseEvent) => {
+    if (!isAuthenticated && totalItems > 0) {
+      e.preventDefault();
+      openAuthModal({
+        redirectUrl: '/checkout',
+        title: 'Masuk untuk Melanjutkan Checkout',
+        message: `Terdapat ${totalItems} produk di keranjangmu. Silakan masuk atau daftar akun terlebih dahulu untuk melanjutkan pesanan.`,
+      });
+    }
+  };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -101,6 +114,7 @@ export function Navbar() {
           <Link
             href="/checkout"
             id="navbar-cart-btn"
+            onClick={handleCartClick}
             aria-label={mounted ? `Keranjang (${totalItems} item)` : 'Keranjang'}
             className="relative w-10 h-10 rounded-xl flex items-center justify-center text-[#444] hover:text-[#C74375] hover:bg-[#C74375]/8 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C74375]/50"
           >

@@ -15,6 +15,7 @@ import { FileUploader } from '@/components/molecules/FileUploader';
 import { useCartStore } from '@/store/cartStore';
 import { useCheckoutStore } from '@/store/checkoutStore';
 import { useAuthStore } from '@/store/authStore';
+import { useAuthModalStore } from '@/store/authModalStore';
 import { useCreateOrder } from '@/lib/api/orders';
 import { buyerFormSchema, type BuyerFormData } from '@/lib/schemas/checkout.schema';
 import { BANK_ACCOUNTS, QRIS_IMAGE_PATH, buildWhatsAppRedirectUrl } from '@/constants/payment';
@@ -257,6 +258,8 @@ export default function CheckoutPage() {
   const clearCart = useCartStore((s) => s.clearCart);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const openAuthModal = useAuthModalStore((s) => s.openModal);
   const createOrder = useCreateOrder();
 
   const [mounted, setMounted] = useState(false);
@@ -264,6 +267,17 @@ export default function CheckoutPage() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (mounted && !isAuthenticated) {
+      openAuthModal({
+        redirectUrl: '/checkout',
+        title: 'Masuk untuk Melanjutkan Checkout',
+        message: 'Untuk mengisi data pengiriman dan memproses pembayaran, silakan masuk ke akun NEVERMIND terlebih dahulu.',
+        onCancelUrl: '/',
+      });
+    }
+  }, [mounted, isAuthenticated, openAuthModal]);
 
   const handleStep1 = (data: BuyerFormData) => {
     setBuyerData(data);

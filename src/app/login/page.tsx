@@ -24,6 +24,7 @@ function LoginFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get('redirect') || '/';
+  const fromCart = searchParams.get('from') === 'cart';
 
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
   const [isLoading, setIsLoading] = useState(false);
@@ -110,6 +111,25 @@ function LoginFormContent() {
             : 'Daftar sekarang untuk akses kurasi tas China paling update.'}
         </p>
       </div>
+
+      {/* From Cart Notification Banner */}
+      {fromCart && (
+        <motion.div
+          initial={{ opacity: 0, y: -6, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          className="rounded-2xl bg-[#FFF8E1] border border-[#FDFD96] p-4 flex items-center gap-3.5 shadow-xs"
+        >
+          <span className="text-2xl shrink-0" aria-hidden="true">🛍️</span>
+          <div>
+            <p className="font-bold text-xs sm:text-sm text-[#1A1A1A]">
+              Produk tersimpan di keranjangmu!
+            </p>
+            <p className="text-[11px] sm:text-xs text-[#7A6830] mt-0.5 leading-snug">
+              Silakan masuk atau daftar terlebih dahulu agar keranjang dan pesananmu dapat diproses.
+            </p>
+          </div>
+        </motion.div>
+      )}
 
       {/* 1-Click Demo Login Banner */}
       <div className="rounded-2xl bg-gradient-to-r from-[#D8FFF7] to-[#FFF8E1] border border-[#9DDED1] p-4 flex items-center justify-between gap-3 shadow-xs">
