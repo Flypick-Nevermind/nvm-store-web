@@ -50,13 +50,13 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${outfit.variable} ${spaceGrotesk.variable}`}>
+    <html
+      lang="id"
+      data-scroll-behavior="smooth"
+      className={`${outfit.variable} ${spaceGrotesk.variable}`}
+    >
       <body className="min-h-dvh">
         <Providers>{children}</Providers>
       </body>

@@ -1,11 +1,11 @@
 'use client';
 
-import { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import type { ComponentPropsWithoutRef } from 'react';
+import { forwardRef } from 'react';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger';
-type ButtonSize    = 'sm' | 'md' | 'lg' | 'xl';
+type ButtonSize = 'sm' | 'md' | 'lg' | 'xl';
 
 interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
   variant?: ButtonVariant;
@@ -19,14 +19,11 @@ interface ButtonProps extends ComponentPropsWithoutRef<'button'> {
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
     'bg-[#C74375] text-white hover:bg-[#A33360] active:bg-[#8B2A52] shadow-md hover:shadow-lg',
-  secondary:
-    'bg-[#D8FFF7] text-[#1A1A1A] hover:bg-[#B8EFE7] border border-[#C8C8C8]',
-  ghost:
-    'bg-transparent text-[#C74375] hover:bg-[#C74375]/8',
+  secondary: 'bg-[#D8FFF7] text-[#1A1A1A] hover:bg-[#B8EFE7] border border-[#C8C8C8]',
+  ghost: 'bg-transparent text-[#C74375] hover:bg-[#C74375]/8',
   outline:
     'bg-transparent border-2 border-[#C74375] text-[#C74375] hover:bg-[#C74375] hover:text-white',
-  danger:
-    'bg-red-500 text-white hover:bg-red-600',
+  danger: 'bg-red-500 text-white hover:bg-red-600',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -89,8 +86,19 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+              />
             </svg>
           ) : (
             leftIcon && <span className="flex-shrink-0">{leftIcon}</span>
@@ -104,5 +112,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = 'Button';
+
+export type { ButtonProps, ButtonSize, ButtonVariant };
 export { Button };
-export type { ButtonProps, ButtonVariant, ButtonSize };

@@ -33,10 +33,10 @@ export interface Product {
   short_description: string;
   images: string[];
   video_url?: string;
-  price_base: number;        // Harga tas (IDR)
+  price_base: number; // Harga tas (IDR)
   price_import_duty: number; // Estimasi bea impor (IDR)
-  price_shipping: number;    // Estimasi ongkir lokal (IDR)
-  price_total: number;       // Total (IDR)
+  price_shipping: number; // Estimasi ongkir lokal (IDR)
+  price_total: number; // Total (IDR)
   stock_type: ProductType;
   lead_time_days: [number, number]; // e.g. [14, 21]
   category: string;

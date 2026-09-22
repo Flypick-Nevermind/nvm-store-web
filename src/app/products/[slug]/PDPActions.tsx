@@ -1,12 +1,12 @@
 'use client';
 
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
 import { Button } from '@/components/atoms/Button';
-import { useCartStore } from '@/store/cartStore';
-import { useAuthStore } from '@/store/authStore';
-import { useAuthModalStore } from '@/store/authModalStore';
 import { formatIDR } from '@/lib/utils';
+import { useAuthModalStore } from '@/store/authModalStore';
+import { useAuthStore } from '@/store/authStore';
+import { useCartStore } from '@/store/cartStore';
 import type { Product, ProductColor, ProductVariant } from '@/types/api';
 
 interface PDPActionsProps {
@@ -15,7 +15,7 @@ interface PDPActionsProps {
 
 export function PDPActions({ product }: PDPActionsProps) {
   const router = useRouter();
-  const pathname = usePathname();
+  const _pathname = usePathname();
   const addItem = useCartStore((s) => s.addItem);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const openAuthModal = useAuthModalStore((s) => s.openModal);
@@ -32,8 +32,7 @@ export function PDPActions({ product }: PDPActionsProps) {
   const [quantity, setQuantity] = useState(1);
   const [addedFeedback, setAddedFeedback] = useState(false);
 
-  const currentUnitPrice =
-    product.price_total + (selectedVariant?.price_delta || 0);
+  const currentUnitPrice = product.price_total + (selectedVariant?.price_delta || 0);
 
   const buildCartPayload = () => ({
     productId: product.id,
@@ -79,9 +78,7 @@ export function PDPActions({ product }: PDPActionsProps) {
             <span className="text-xs font-bold text-[#1A1A1A] uppercase tracking-wider">
               Pilihan Warna:
             </span>
-            <span className="text-xs font-semibold text-[#C74375]">
-              {selectedColor?.name}
-            </span>
+            <span className="text-xs font-semibold text-[#C74375]">{selectedColor?.name}</span>
           </div>
 
           <div className="flex items-center gap-3 flex-wrap">
@@ -121,9 +118,7 @@ export function PDPActions({ product }: PDPActionsProps) {
             <span className="text-xs font-bold text-[#1A1A1A] uppercase tracking-wider">
               Pilihan Varian / Tipe:
             </span>
-            <span className="text-xs font-semibold text-[#1A1A1A]">
-              {selectedVariant?.name}
-            </span>
+            <span className="text-xs font-semibold text-[#1A1A1A]">{selectedVariant?.name}</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -178,9 +173,7 @@ export function PDPActions({ product }: PDPActionsProps) {
       {/* ── 3. Quantity Stepper & Price Summary ── */}
       <div className="flex items-center justify-between pt-1 pb-1 border-t border-b border-[#C8C8C8]/30 py-3">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-[#888] uppercase tracking-wider">
-            Jumlah:
-          </span>
+          <span className="text-xs font-bold text-[#888] uppercase tracking-wider">Jumlah:</span>
           <div className="flex items-center bg-[#FFF8E1] border border-[#C8C8C8]/60 rounded-xl overflow-hidden h-9">
             <button
               type="button"
@@ -191,9 +184,7 @@ export function PDPActions({ product }: PDPActionsProps) {
             >
               −
             </button>
-            <span className="w-8 text-center text-sm font-bold text-[#1A1A1A]">
-              {quantity}
-            </span>
+            <span className="w-8 text-center text-sm font-bold text-[#1A1A1A]">{quantity}</span>
             <button
               type="button"
               onClick={() => setQuantity((q) => Math.min(10, q + 1))}
@@ -239,9 +230,7 @@ export function PDPActions({ product }: PDPActionsProps) {
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#FFF8E1]/95 backdrop-blur-md border-t border-[#C8C8C8]/40 px-4 py-3 z-40">
         <div className="max-w-md mx-auto flex items-center gap-3">
           <div className="min-w-0 flex-1">
-            <span className="text-[10px] text-[#888] block truncate">
-              Total ({quantity} item)
-            </span>
+            <span className="text-[10px] text-[#888] block truncate">Total ({quantity} item)</span>
             <span className="text-sm font-extrabold text-[#C74375] truncate block">
               {formatIDR(currentUnitPrice * quantity)}
             </span>

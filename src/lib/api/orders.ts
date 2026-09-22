@@ -1,10 +1,10 @@
 'use client';
 
 import {
-  useMutation,
-  useQuery,
   type UseMutationResult,
   type UseQueryResult,
+  useMutation,
+  useQuery,
 } from '@tanstack/react-query';
 import type { CreateOrderDTO, CreateOrderResponse, OrderDetailResponse } from '@/types/api';
 import { mockCreateOrder, mockFetchOrder } from './mockData';
@@ -18,11 +18,7 @@ export const orderKeys = {
 
 // ─── Mutations ────────────────────────────────────────────────────────────────
 
-export function useCreateOrder(): UseMutationResult<
-  CreateOrderResponse,
-  Error,
-  CreateOrderDTO
-> {
+export function useCreateOrder(): UseMutationResult<CreateOrderResponse, Error, CreateOrderDTO> {
   return useMutation({
     mutationFn: async (dto: CreateOrderDTO) => {
       // TODO: Replace with real API call in Phase 2

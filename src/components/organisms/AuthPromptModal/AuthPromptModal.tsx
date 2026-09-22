@@ -1,31 +1,23 @@
 'use client';
 
-import { useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useAuthModalStore } from '@/store/authModalStore';
-import { Button } from '@/components/atoms/Button';
+import { useCallback, useEffect } from 'react';
 import { Badge } from '@/components/atoms/Badge';
+import { Button } from '@/components/atoms/Button';
+import { useAuthModalStore } from '@/store/authModalStore';
 
 export function AuthPromptModal() {
   const router = useRouter();
-  const {
-    isOpen,
-    redirectUrl,
-    title,
-    message,
-    badgeText,
-    productName,
-    onCancelUrl,
-    closeModal,
-  } = useAuthModalStore();
+  const { isOpen, redirectUrl, title, message, badgeText, productName, onCancelUrl, closeModal } =
+    useAuthModalStore();
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     closeModal();
     if (onCancelUrl) {
       router.push(onCancelUrl);
     }
-  };
+  }, [closeModal, onCancelUrl, router]);
 
   // Close on Escape key press
   useEffect(() => {
@@ -36,7 +28,7 @@ export function AuthPromptModal() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isOpen, handleClose]);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -96,7 +88,9 @@ export function AuthPromptModal() {
             {/* Icon Graphic */}
             <div className="flex justify-center pt-2">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#FFF8E1] via-[#D8FFF7] to-[#FDFD96] border border-[#9DDED1] flex items-center justify-center shadow-xs">
-                <span className="text-3xl" aria-hidden="true">🔒</span>
+                <span className="text-3xl" aria-hidden="true">
+                  🔒
+                </span>
               </div>
             </div>
 
@@ -114,7 +108,8 @@ export function AuthPromptModal() {
                   message
                 ) : productName ? (
                   <>
-                    Untuk memesan <strong className="text-[#1A1A1A]">{productName}</strong>, silakan masuk atau daftar akun terlebih dahulu.
+                    Untuk memesan <strong className="text-[#1A1A1A]">{productName}</strong>, silakan
+                    masuk atau daftar akun terlebih dahulu.
                   </>
                 ) : (
                   'Untuk mengisi data pengiriman dan memproses pembayaran, silakan masuk ke akun NEVERMIND terlebih dahulu.'
@@ -124,9 +119,12 @@ export function AuthPromptModal() {
 
             {/* Highlight Box */}
             <div className="rounded-2xl bg-[#FFF8E1] border border-[#FDFD96] p-3 text-left flex items-start gap-2.5 text-[11px] sm:text-xs text-[#7A6830]">
-              <span className="text-base shrink-0 mt-0.5" aria-hidden="true">💡</span>
+              <span className="text-base shrink-0 mt-0.5" aria-hidden="true">
+                💡
+              </span>
               <p>
-                <strong>Belum punya akun?</strong> Tenang, kamu bisa mendaftar gratis dalam 30 detik atau coba <em>Mode Demo</em> instan!
+                <strong>Belum punya akun?</strong> Tenang, kamu bisa mendaftar gratis dalam 30 detik
+                atau coba <em>Mode Demo</em> instan!
               </p>
             </div>
 

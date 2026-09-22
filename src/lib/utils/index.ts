@@ -17,10 +17,7 @@ export function formatIDR(amount: number): string {
  * @param leadTimeDays  Tuple [min, max] in days, e.g. [14, 21]
  * @param from          Optional start date (defaults to today)
  */
-export function formatETA(
-  leadTimeDays: [number, number],
-  from: Date = new Date()
-): string {
+export function formatETA(leadTimeDays: [number, number], from: Date = new Date()): string {
   const [minDays, maxDays] = leadTimeDays;
 
   const dateFrom = new Date(from);
@@ -40,9 +37,8 @@ export function formatETA(
   if (dateFrom.getMonth() === dateTo.getMonth()) {
     const dayFrom = dateFrom.getDate();
     const [, monthYear] = fmt.format(dateTo).split(' ');
-    const yearStr = dateTo.getFullYear() !== new Date().getFullYear()
-      ? ` ${dateTo.getFullYear()}`
-      : '';
+    const yearStr =
+      dateTo.getFullYear() !== new Date().getFullYear() ? ` ${dateTo.getFullYear()}` : '';
     return `${dayFrom} – ${dateTo.getDate()} ${monthYear}${yearStr}`;
   }
 
@@ -55,7 +51,7 @@ export function formatETA(
  */
 export function formatWANumber(number: string): string {
   const digits = number.replace(/\D/g, '');
-  if (digits.startsWith('0')) return '62' + digits.slice(1);
+  if (digits.startsWith('0')) return `62${digits.slice(1)}`;
   if (digits.startsWith('62')) return digits;
   return digits;
 }

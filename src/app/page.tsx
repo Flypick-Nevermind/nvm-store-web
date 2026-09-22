@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useMemo, useState } from 'react';
 import { PageShell } from '@/components/layouts/PageShell';
 import { CategoryPill } from '@/components/molecules/CategoryPill';
 import { ProductCard } from '@/components/molecules/ProductCard';
+import type { CategoryId, StockFilter } from '@/constants/categories';
 import { CATEGORIES, STOCK_FILTERS } from '@/constants/categories';
 import { MOCK_PRODUCTS } from '@/lib/api/mockData';
-import type { CategoryId, StockFilter } from '@/constants/categories';
 
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<CategoryId>('all');
@@ -19,8 +20,7 @@ export default function HomePage() {
         activeCategory === 'all' ||
         p.category === activeCategory ||
         p.tags.includes(activeCategory);
-      const stockMatch =
-        activeStock === 'all' || p.stock_type === activeStock;
+      const stockMatch = activeStock === 'all' || p.stock_type === activeStock;
       return catMatch && stockMatch;
     });
   }, [activeCategory, activeStock]);
@@ -33,8 +33,14 @@ export default function HomePage() {
         aria-label="Hero banner"
       >
         {/* Decorative blobs */}
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-white/10 -translate-y-24 translate-x-24 blur-3xl" aria-hidden="true" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#FDFD96]/20 translate-y-16 -translate-x-16 blur-2xl" aria-hidden="true" />
+        <div
+          className="absolute top-0 right-0 w-96 h-96 rounded-full bg-white/10 -translate-y-24 translate-x-24 blur-3xl"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-[#FDFD96]/20 translate-y-16 -translate-x-16 blur-2xl"
+          aria-hidden="true"
+        />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -49,10 +55,12 @@ export default function HomePage() {
                 ✨ Curated Cross-Border Fashion for Gen Z
               </span>
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-black text-white leading-[1.08] tracking-tight">
-                Too cute,<br className="hidden sm:inline" /> too care?
+                Too cute,
+                <br className="hidden sm:inline" /> too care?
               </h1>
               <p className="text-white/90 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl">
-                Tas trendi pilihan dari produsen terkurasi di China, langsung ke tanganmu. Transparan, harga all-in tanpa hidden fee, dan jaminan full QC fisik.
+                Tas trendi pilihan dari produsen terkurasi di China, langsung ke tanganmu.
+                Transparan, harga all-in tanpa hidden fee, dan jaminan full QC fisik.
               </p>
 
               <div className="flex gap-2.5 sm:gap-3 flex-wrap pt-2">
@@ -80,10 +88,13 @@ export default function HomePage() {
             >
               <div className="relative w-full max-w-sm rounded-3xl bg-white/20 backdrop-blur-xl p-5 border border-white/40 shadow-2xl rotate-1 hover:rotate-0 transition-transform duration-300">
                 <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-white/30 mb-4 border border-white/30">
-                  <img
+                  <Image
                     src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80"
                     alt="Featured Bag"
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="400px"
+                    className="object-cover"
+                    priority
                   />
                   <span className="absolute top-3 left-3 bg-[#FDFD96] text-[#1A1A1A] text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-sm">
                     ⚡ Just Dropped
@@ -91,7 +102,9 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center justify-between text-white">
                   <div>
-                    <p className="text-xs font-bold text-white/70 uppercase tracking-wider">Trending This Week</p>
+                    <p className="text-xs font-bold text-white/70 uppercase tracking-wider">
+                      Trending This Week
+                    </p>
                     <p className="text-base font-bold text-white">Mini Bow Quilted Tote</p>
                   </div>
                   <span className="text-sm font-extrabold text-[#FDFD96] bg-black/20 px-3 py-1 rounded-full">
@@ -105,8 +118,10 @@ export default function HomePage() {
       </section>
 
       {/* ── Catalog Section ─────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex flex-col gap-6" aria-label="Katalog produk">
-        
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex flex-col gap-6"
+        aria-label="Katalog produk"
+      >
         {/* Responsive Filter Toolbar */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[#C8C8C8]/30">
           {/* Category Pills */}
@@ -154,7 +169,8 @@ export default function HomePage() {
         {/* Result count */}
         <div className="flex items-center justify-between">
           <p className="text-xs font-semibold text-[#888]">
-            Menampilkan <span className="text-[#1A1A1A] font-bold">{filtered.length}</span> koleksi tas
+            Menampilkan <span className="text-[#1A1A1A] font-bold">{filtered.length}</span> koleksi
+            tas
           </p>
         </div>
 
@@ -179,9 +195,13 @@ export default function HomePage() {
           </motion.div>
         ) : (
           <div className="flex flex-col items-center justify-center py-20 gap-3 text-center bg-white rounded-3xl border border-[#C8C8C8]/40 p-8">
-            <span className="text-5xl" aria-hidden="true">🛍️</span>
+            <span className="text-5xl" aria-hidden="true">
+              🛍️
+            </span>
             <p className="text-base font-bold text-[#1A1A1A]">Belum ada produk di kategori ini</p>
-            <p className="text-xs text-[#888]">Coba pilih kategori lain atau reset filter stok ya!</p>
+            <p className="text-xs text-[#888]">
+              Coba pilih kategori lain atau reset filter stok ya!
+            </p>
           </div>
         )}
       </section>

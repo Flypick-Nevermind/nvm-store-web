@@ -13,7 +13,8 @@ export function Footer() {
           <div className="flex flex-col gap-3 sm:col-span-2 lg:col-span-1">
             <Logo size="lg" variant="light" showTagline />
             <p className="text-sm text-white/60 leading-relaxed max-w-sm mt-1">
-              Platform cross-border curated fashion untuk Gen Z. Tas trendi dari China, langsung ke tanganmu — transparan & tanpa drama.
+              Platform cross-border curated fashion untuk Gen Z. Tas trendi dari China, langsung ke
+              tanganmu — transparan & tanpa drama.
             </p>
           </div>
 
@@ -22,9 +23,9 @@ export function Footer() {
             <p className="text-xs font-bold uppercase tracking-widest text-[#C74375] mb-3">Toko</p>
             <ul className="flex flex-col gap-2.5">
               {[
-                { href: '/',         label: 'Katalog Produk' },
+                { href: '/', label: 'Katalog Produk' },
                 { href: '/checkout', label: 'Keranjang & Checkout' },
-                { href: '/track',    label: 'Lacak Status Order' },
+                { href: '/track', label: 'Lacak Status Order' },
               ].map((l) => (
                 <li key={l.href}>
                   <Link
@@ -40,12 +41,14 @@ export function Footer() {
 
           {/* Links: Info */}
           <nav aria-label="Menu info">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#C74375] mb-3">Jaminan & Info</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#C74375] mb-3">
+              Jaminan & Info
+            </p>
             <ul className="flex flex-col gap-2.5">
               {[
                 { href: '#cara-order', label: 'Cara Order Pre-Order' },
-                { href: '#qc-policy',  label: 'Standar QC Fisik' },
-                { href: '#faq',        label: 'Tanya Jawab (FAQ)' },
+                { href: '#qc-policy', label: 'Standar QC Fisik' },
+                { href: '#faq', label: 'Tanya Jawab (FAQ)' },
               ].map((l) => (
                 <li key={l.href}>
                   <Link
@@ -61,7 +64,9 @@ export function Footer() {
 
           {/* Links: Customer Care */}
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-[#C74375] mb-3">Customer Care</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#C74375] mb-3">
+              Customer Care
+            </p>
             <p className="text-xs text-white/60 mb-2">
               Ada pertanyaan? Chat admin kami di WhatsApp:
             </p>
@@ -72,19 +77,17 @@ export function Footer() {
               className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-[#C74375] text-white text-xs font-semibold transition-all duration-200"
             >
               <span>💬 WhatsApp Admin</span>
-              <span className="opacity-60" aria-hidden="true">↗</span>
+              <span className="opacity-60" aria-hidden="true">
+                ↗
+              </span>
             </Link>
-            <p className="text-[11px] text-white/40 mt-3">
-              Senin – Minggu: 09.00 – 21.00 WIB
-            </p>
+            <p className="text-[11px] text-white/40 mt-3">Senin – Minggu: 09.00 – 21.00 WIB</p>
           </div>
         </div>
 
         {/* Divider + copyright */}
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/40">
-            © {year} NEVERMIND. All rights reserved.
-          </p>
+          <p className="text-xs text-white/40">© {year} NEVERMIND. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <span className="text-[11px] text-white/30 uppercase tracking-widest font-mono">
               {BRAND.tagline}

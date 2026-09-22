@@ -14,8 +14,8 @@ export function StepperProgress({ currentStage }: StepperProgressProps) {
         {TRACKING_STAGES.map((stage, idx) => {
           const stageNum = stage.id as 1 | 2 | 3 | 4 | 5;
           const isCompleted = stageNum < currentStage;
-          const isActive    = stageNum === currentStage;
-          const isPending   = stageNum > currentStage;
+          const isActive = stageNum === currentStage;
+          const isPending = stageNum > currentStage;
 
           return (
             <li key={stage.id} className="relative flex items-start gap-4 pb-6 last:pb-0">
@@ -38,7 +38,13 @@ export function StepperProgress({ currentStage }: StepperProgressProps) {
                     animate={{ scale: 1 }}
                     className="w-9 h-9 rounded-full bg-[#C74375] flex items-center justify-center"
                   >
-                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={2.5}>
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="none"
+                      viewBox="0 0 16 16"
+                      stroke="currentColor"
+                      strokeWidth={2.5}
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l4 4 6-6" />
                     </svg>
                   </motion.div>
@@ -53,7 +59,9 @@ export function StepperProgress({ currentStage }: StepperProgressProps) {
                       transition={{ duration: 2, repeat: Infinity }}
                     />
                     <div className="w-9 h-9 rounded-full bg-[#C74375] flex items-center justify-center z-10">
-                      <span className="text-base" aria-hidden="true">{stage.icon}</span>
+                      <span className="text-base" aria-hidden="true">
+                        {stage.icon}
+                      </span>
                     </div>
                   </div>
                 )}
@@ -70,16 +78,13 @@ export function StepperProgress({ currentStage }: StepperProgressProps) {
                 <p
                   className={[
                     'font-semibold text-sm leading-snug',
-                    isActive    ? 'text-[#C74375]' :
-                    isCompleted ? 'text-[#1A1A1A]' : 'text-[#C8C8C8]',
+                    isActive ? 'text-[#C74375]' : isCompleted ? 'text-[#1A1A1A]' : 'text-[#C8C8C8]',
                   ].join(' ')}
                 >
                   {stage.title}
                 </p>
                 {(isActive || isCompleted) && (
-                  <p className="text-xs text-[#888] mt-0.5 leading-relaxed">
-                    {stage.description}
-                  </p>
+                  <p className="text-xs text-[#888] mt-0.5 leading-relaxed">{stage.description}</p>
                 )}
               </div>
             </li>

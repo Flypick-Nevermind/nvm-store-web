@@ -1,31 +1,31 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { motion, AnimatePresence } from 'framer-motion';
-import { PageShell } from '@/components/layouts/PageShell';
-import { Input } from '@/components/atoms/Input';
-import { Checkbox } from '@/components/atoms/Checkbox';
 import { Button } from '@/components/atoms/Button';
+import { Checkbox } from '@/components/atoms/Checkbox';
+import { Input } from '@/components/atoms/Input';
+import { PageShell } from '@/components/layouts/PageShell';
 import { BankCard } from '@/components/molecules/BankCard';
 import { FileUploader } from '@/components/molecules/FileUploader';
+import { BRAND } from '@/constants/brand';
+import { BANK_ACCOUNTS, buildWhatsAppRedirectUrl, QRIS_IMAGE_PATH } from '@/constants/payment';
+import { useCreateOrder } from '@/lib/api/orders';
+import { type BuyerFormData, buyerFormSchema } from '@/lib/schemas/checkout.schema';
+import { formatIDR } from '@/lib/utils';
+import { useAuthModalStore } from '@/store/authModalStore';
+import { useAuthStore } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
 import { useCheckoutStore } from '@/store/checkoutStore';
-import { useAuthStore } from '@/store/authStore';
-import { useAuthModalStore } from '@/store/authModalStore';
-import { useCreateOrder } from '@/lib/api/orders';
-import { buyerFormSchema, type BuyerFormData } from '@/lib/schemas/checkout.schema';
-import { BANK_ACCOUNTS, QRIS_IMAGE_PATH, buildWhatsAppRedirectUrl } from '@/constants/payment';
-import { BRAND } from '@/constants/brand';
-import { formatIDR } from '@/lib/utils';
 
 // ─── Step indicator ───────────────────────────────────────────────────────────
 
 const STEPS = [
-  { id: 1, label: 'Data Diri'  },
+  { id: 1, label: 'Data Diri' },
   { id: 2, label: 'Pembayaran' },
   { id: 3, label: 'Konfirmasi' },
 ];
@@ -42,23 +42,36 @@ function StepIndicator({ current }: { current: number }) {
                 current > s.id
                   ? 'bg-[#C74375] text-white'
                   : current === s.id
-                  ? 'bg-[#C74375] text-white ring-4 ring-[#C74375]/20'
-                  : 'bg-[#C8C8C8]/30 text-[#C8C8C8]',
+                    ? 'bg-[#C74375] text-white ring-4 ring-[#C74375]/20'
+                    : 'bg-[#C8C8C8]/30 text-[#C8C8C8]',
               ].join(' ')}
               aria-current={current === s.id ? 'step' : undefined}
             >
               {current > s.id ? (
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 14 14" stroke="currentColor" strokeWidth={2.5}>
+                <svg
+                  className="w-3.5 h-3.5"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2 7l4 4 6-6" />
                 </svg>
-              ) : s.id}
+              ) : (
+                s.id
+              )}
             </div>
-            <span className={`text-[10px] font-medium whitespace-nowrap ${current >= s.id ? 'text-[#C74375]' : 'text-[#C8C8C8]'}`}>
+            <span
+              className={`text-[10px] font-medium whitespace-nowrap ${current >= s.id ? 'text-[#C74375]' : 'text-[#C8C8C8]'}`}
+            >
               {s.label}
             </span>
           </div>
           {idx < STEPS.length - 1 && (
-            <div className={`h-px w-12 mx-1 mb-4 transition-colors duration-300 ${current > s.id ? 'bg-[#C74375]' : 'bg-[#C8C8C8]/40'}`} aria-hidden="true" />
+            <div
+              className={`h-px w-12 mx-1 mb-4 transition-colors duration-300 ${current > s.id ? 'bg-[#C74375]' : 'bg-[#C8C8C8]/40'}`}
+              aria-hidden="true"
+            />
           )}
         </div>
       ))}
@@ -188,15 +201,14 @@ function Step2Payment({ onNext }: { onNext: () => void }) {
               onError={() => {}}
             />
           </div>
-          <p className="text-xs text-[#888] text-center">
-            Screenshot → buka app bank → scan QRIS
-          </p>
+          <p className="text-xs text-[#888] text-center">Screenshot → buka app bank → scan QRIS</p>
         </div>
       </div>
 
       <div className="rounded-2xl bg-[#FDFD96]/40 border border-[#FDFD96] p-4">
         <p className="text-xs text-[#5C5C00] leading-relaxed">
-          ⚠️ <strong>Penting:</strong> Transfer sesuai total yang tertera. Jangan tambah atau kurangi nominal agar lebih mudah diverifikasi.
+          ⚠️ <strong>Penting:</strong> Transfer sesuai total yang tertera. Jangan tambah atau kurangi
+          nominal agar lebih mudah diverifikasi.
         </p>
       </div>
 
@@ -209,7 +221,13 @@ function Step2Payment({ onNext }: { onNext: () => void }) {
 
 // ─── Step 3 — Proof Upload & Submit ──────────────────────────────────────────
 
-function Step3Upload({ onSubmit, isLoading }: { onSubmit: (file: File) => void; isLoading: boolean }) {
+function Step3Upload({
+  onSubmit,
+  isLoading,
+}: {
+  onSubmit: (file: File) => void;
+  isLoading: boolean;
+}) {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -226,9 +244,7 @@ function Step3Upload({ onSubmit, isLoading }: { onSubmit: (file: File) => void; 
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-1">
         <h2 className="text-base font-bold text-[#1A1A1A]">Upload Bukti Transfer</h2>
-        <p className="text-sm text-[#888]">
-          Foto / screenshot bukti transfer dari app bankmu.
-        </p>
+        <p className="text-sm text-[#888]">Foto / screenshot bukti transfer dari app bankmu.</p>
       </div>
 
       <FileUploader onFileSelect={setFile} error={error ?? undefined} />
@@ -273,7 +289,8 @@ export default function CheckoutPage() {
       openAuthModal({
         redirectUrl: '/checkout',
         title: 'Masuk untuk Melanjutkan Checkout',
-        message: 'Untuk mengisi data pengiriman dan memproses pembayaran, silakan masuk ke akun NEVERMIND terlebih dahulu.',
+        message:
+          'Untuk mengisi data pengiriman dan memproses pembayaran, silakan masuk ke akun NEVERMIND terlebih dahulu.',
         onCancelUrl: '/',
       });
     }
@@ -354,9 +371,13 @@ export default function CheckoutPage() {
     return (
       <PageShell showFooter={false}>
         <div className="max-w-md mx-auto px-4 py-24 flex flex-col items-center gap-4 text-center">
-          <span className="text-6xl" aria-hidden="true">🛒</span>
+          <span className="text-6xl" aria-hidden="true">
+            🛒
+          </span>
           <h1 className="text-2xl font-display font-bold text-[#1A1A1A]">Keranjangmu kosong</h1>
-          <p className="text-sm text-[#888]">Tambahkan produk favoritmu dari katalog sebelum checkout ya!</p>
+          <p className="text-sm text-[#888]">
+            Tambahkan produk favoritmu dari katalog sebelum checkout ya!
+          </p>
           <Button variant="primary" size="lg" onClick={() => router.push('/')}>
             Lihat Katalog Sekarang
           </Button>
@@ -371,8 +392,12 @@ export default function CheckoutPage() {
     <PageShell showFooter={false}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="mb-6">
-          <h1 className="text-2xl sm:text-3xl font-display font-black text-[#1A1A1A]">Checkout Pesanan</h1>
-          <p className="text-xs sm:text-sm text-[#888] mt-1">Selesaikan pembelianmu dengan aman dalam 3 langkah mudah.</p>
+          <h1 className="text-2xl sm:text-3xl font-display font-black text-[#1A1A1A]">
+            Checkout Pesanan
+          </h1>
+          <p className="text-xs sm:text-sm text-[#888] mt-1">
+            Selesaikan pembelianmu dengan aman dalam 3 langkah mudah.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -392,10 +417,7 @@ export default function CheckoutPage() {
                   {step === 1 && <Step1Form onNext={handleStep1} />}
                   {step === 2 && <Step2Payment onNext={handleStep2} />}
                   {step === 3 && (
-                    <Step3Upload
-                      onSubmit={handleStep3}
-                      isLoading={createOrder.isPending}
-                    />
+                    <Step3Upload onSubmit={handleStep3} isLoading={createOrder.isPending} />
                   )}
                 </motion.div>
               </AnimatePresence>
@@ -424,7 +446,10 @@ export default function CheckoutPage() {
                 {items.map((item) => {
                   const itemIdentifier = item.key || item.productId;
                   return (
-                    <div key={itemIdentifier} className="flex items-center gap-3 py-2 border-b border-[#C8C8C8]/20 last:border-b-0">
+                    <div
+                      key={itemIdentifier}
+                      className="flex items-center gap-3 py-2 border-b border-[#C8C8C8]/20 last:border-b-0"
+                    >
                       {/* Thumbnail */}
                       <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#C8C8C8]/20 shrink-0 border border-[#C8C8C8]/40">
                         <Image
@@ -485,8 +510,18 @@ export default function CheckoutPage() {
                             title="Hapus barang dari keranjang"
                             aria-label={`Hapus ${item.name}`}
                           >
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth={1.8}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
                             </svg>
                           </button>
                         </div>
@@ -508,9 +543,12 @@ export default function CheckoutPage() {
 
             {/* Trust badge note */}
             <div className="rounded-2xl bg-[#FFF8E1] border border-[#C8C8C8]/40 p-4 text-xs text-[#666] leading-relaxed flex items-start gap-2.5">
-              <span className="text-base shrink-0" aria-hidden="true">🔒</span>
+              <span className="text-base shrink-0" aria-hidden="true">
+                🔒
+              </span>
               <p>
-                Transaksi aman & terenkripsi. Konfirmasi instan langsung diteruskan ke WhatsApp admin NEVERMIND.
+                Transaksi aman & terenkripsi. Konfirmasi instan langsung diteruskan ke WhatsApp
+                admin NEVERMIND.
               </p>
             </div>
           </div>

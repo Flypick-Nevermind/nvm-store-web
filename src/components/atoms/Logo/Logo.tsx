@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-type LogoSize    = 'sm' | 'md' | 'lg' | 'xl';
+type LogoSize = 'sm' | 'md' | 'lg' | 'xl';
 type LogoVariant = 'light' | 'dark';
 
 interface LogoProps {
@@ -15,19 +15,38 @@ interface LogoProps {
   showTagline?: boolean;
 }
 
-const sizeConfig: Record<LogoSize, { imageClass: string; textClass: string; taglineClass: string }> = {
+const sizeConfig: Record<
+  LogoSize,
+  { imageClass: string; textClass: string; taglineClass: string }
+> = {
   sm: { imageClass: 'h-10 sm:h-12 w-auto', textClass: 'text-xl', taglineClass: 'text-[10px]' },
-  md: { imageClass: 'h-12 sm:h-16 w-auto', textClass: 'text-2xl sm:text-3xl', taglineClass: 'text-xs' },
-  lg: { imageClass: 'h-14 sm:h-18 md:h-20 w-auto', textClass: 'text-3xl sm:text-4xl', taglineClass: 'text-sm' },
-  xl: { imageClass: 'h-20 sm:h-24 md:h-28 w-auto', textClass: 'text-4xl sm:text-5xl', taglineClass: 'text-base' },
+  md: {
+    imageClass: 'h-12 sm:h-16 w-auto',
+    textClass: 'text-2xl sm:text-3xl',
+    taglineClass: 'text-xs',
+  },
+  lg: {
+    imageClass: 'h-14 sm:h-18 md:h-20 w-auto',
+    textClass: 'text-3xl sm:text-4xl',
+    taglineClass: 'text-sm',
+  },
+  xl: {
+    imageClass: 'h-20 sm:h-24 md:h-28 w-auto',
+    textClass: 'text-4xl sm:text-5xl',
+    taglineClass: 'text-base',
+  },
 };
 
-function LogoContent({ size = 'md', variant = 'dark', showTagline = false }: Omit<LogoProps, 'href'>) {
+function LogoContent({
+  size = 'md',
+  variant = 'dark',
+  showTagline = false,
+}: Omit<LogoProps, 'href'>) {
   const [logoSrc, setLogoSrc] = useState<string>('/assets/nevermind-logo.PNG');
   const [imageError, setImageError] = useState(false);
   const cfg = sizeConfig[size];
   const textColor = variant === 'dark' ? 'text-[#C74375]' : 'text-white';
-  const subColor  = variant === 'dark' ? 'text-[#888]'    : 'text-white/60';
+  const subColor = variant === 'dark' ? 'text-[#888]' : 'text-white/60';
 
   const handleError = () => {
     if (logoSrc === '/assets/nevermind-logo.PNG') {
@@ -50,7 +69,9 @@ function LogoContent({ size = 'md', variant = 'dark', showTagline = false }: Omi
           onError={handleError}
         />
         {showTagline && (
-          <span className={`${cfg.taglineClass} ${subColor} font-medium tracking-widest uppercase hidden sm:inline`}>
+          <span
+            className={`${cfg.taglineClass} ${subColor} font-medium tracking-widest uppercase hidden sm:inline`}
+          >
             Too cute, too care?
           </span>
         )}

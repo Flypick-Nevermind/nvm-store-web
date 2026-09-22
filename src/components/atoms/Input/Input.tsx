@@ -1,7 +1,7 @@
 'use client';
 
-import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { forwardRef } from 'react';
 
 interface InputProps extends ComponentPropsWithoutRef<'input'> {
   label?: string;
@@ -19,10 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="flex flex-col gap-1.5 w-full">
         {label && (
-          <label
-            htmlFor={inputId}
-            className="text-sm font-medium text-[#1A1A1A]"
-          >
+          <label htmlFor={inputId} className="text-sm font-medium text-[#1A1A1A]">
             {label}
             {props.required && <span className="text-[#C74375] ml-1">*</span>}
           </label>
@@ -51,16 +48,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               className,
             ].join(' ')}
             aria-invalid={hasError}
-            aria-describedby={
-              error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
-            }
+            aria-describedby={error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined}
             {...props}
           />
 
           {rightAdornment && (
-            <span className="absolute right-3 text-[#C8C8C8]">
-              {rightAdornment}
-            </span>
+            <span className="absolute right-3 text-[#C8C8C8]">{rightAdornment}</span>
           )}
         </div>
 
@@ -80,5 +73,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 );
 
 Input.displayName = 'Input';
-export { Input };
+
 export type { InputProps };
+export { Input };

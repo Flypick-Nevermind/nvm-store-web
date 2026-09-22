@@ -1,6 +1,6 @@
 // NEVERMIND — Dummy / Mock Data for Phase 1 MVP
 
-import type { Product, OrderDetailResponse } from '@/types/api';
+import type { OrderDetailResponse, Product } from '@/types/api';
 
 // ─── Mock Products ────────────────────────────────────────────────────────────
 
@@ -76,9 +76,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description:
       'Mini crossbody bag dari material jelly transparan warna aqua yang super cute. Trendy di TikTok & Reels! Adjustable strap, kapasitas compact.',
     short_description: 'Mini crossbody jelly transparan aqua, viral TikTok.',
-    images: [
-      'https://images.unsplash.com/photo-1519183071298-a2962feb14f4?w=600&q=80',
-    ],
+    images: ['https://images.unsplash.com/photo-1519183071298-a2962feb14f4?w=600&q=80'],
     price_base: 135000,
     price_import_duty: 25000,
     price_shipping: 20000,
@@ -106,9 +104,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description:
       'Baguette clutch warna pastel lemony yellow yang on-trend. Strap tali simpel, cocok buat brunch atau date. Material satin-like dengan inner pocket.',
     short_description: 'Baguette clutch pastel yellow satin-like, coquette vibes.',
-    images: [
-      'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80',
-    ],
+    images: ['https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80'],
     price_base: 160000,
     price_import_duty: 30000,
     price_shipping: 20000,
@@ -136,9 +132,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description:
       'Bucket bag bulu-bulu teddy bear yang ultra-cute. Warna warm beige, drawstring closure, dapat dipakai handheld atau shoulder. Limited stock!',
     short_description: 'Bucket bag fluffy teddy bear, hangout & casual vibes.',
-    images: [
-      'https://images.unsplash.com/photo-1555436169-14fb4e4d5c9c?w=600&q=80',
-    ],
+    images: ['https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=600&q=80'],
     price_base: 195000,
     price_import_duty: 38000,
     price_shipping: 20000,
@@ -166,9 +160,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description:
       'Mini backpack dari denim washed dengan patch retro & pin aksesori. Zipper ganda, inner compartment tertata. Perfect untuk school look atau festival.',
     short_description: 'Mini backpack denim retro dengan patch & pin kawaii.',
-    images: [
-      'https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=600&q=80',
-    ],
+    images: ['https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=600&q=80'],
     price_base: 215000,
     price_import_duty: 40000,
     price_shipping: 20000,
@@ -224,7 +216,7 @@ export const MOCK_ORDER: OrderDetailResponse = {
 
 // ─── Mock API Handlers ────────────────────────────────────────────────────────
 
-export async function mockCreateOrder(data: unknown): Promise<{
+export async function mockCreateOrder(_data: unknown): Promise<{
   success: boolean;
   data: { order_id: string; created_at: string; status: string; whatsapp_redirect_url: string };
 }> {

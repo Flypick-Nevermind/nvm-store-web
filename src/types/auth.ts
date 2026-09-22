@@ -12,7 +12,12 @@ export interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   login: (credentials: { identifier: string; password?: string }) => Promise<boolean>;
-  register: (data: { name: string; whatsapp_number: string; email: string; password?: string }) => Promise<boolean>;
+  register: (data: {
+    name: string;
+    whatsapp_number: string;
+    email: string;
+    password?: string;
+  }) => Promise<boolean>;
   loginDemo: () => void;
   logout: () => void;
 }

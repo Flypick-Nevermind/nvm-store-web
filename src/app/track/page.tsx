@@ -1,13 +1,12 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { PageShell } from '@/components/layouts/PageShell';
-import { Input } from '@/components/atoms/Input';
 import { Button } from '@/components/atoms/Button';
-import { orderLookupSchema, type OrderLookupData } from '@/lib/schemas/checkout.schema';
-import type { Metadata } from 'next';
+import { Input } from '@/components/atoms/Input';
+import { PageShell } from '@/components/layouts/PageShell';
+import { type OrderLookupData, orderLookupSchema } from '@/lib/schemas/checkout.schema';
 
 export default function TrackIndexPage() {
   const router = useRouter();
@@ -26,10 +25,10 @@ export default function TrackIndexPage() {
       <div className="max-w-xl mx-auto px-4 sm:px-6 py-12 md:py-20 flex flex-col gap-8">
         {/* Header */}
         <div className="flex flex-col gap-2 text-center">
-          <span className="text-5xl" aria-hidden="true">📦</span>
-          <h1 className="text-2xl font-display font-black text-[#1A1A1A]">
-            Lacak Pesananmu
-          </h1>
+          <span className="text-5xl" aria-hidden="true">
+            📦
+          </span>
+          <h1 className="text-2xl font-display font-black text-[#1A1A1A]">Lacak Pesananmu</h1>
           <p className="text-sm text-[#888] leading-relaxed">
             Masukkan Order ID yang kamu terima setelah checkout untuk melihat status pengirimanmu.
           </p>

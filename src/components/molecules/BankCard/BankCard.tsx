@@ -1,8 +1,8 @@
 'use client';
 
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { copyToClipboard } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
 
 interface BankCardProps {
   bank: string;
@@ -56,7 +56,13 @@ export function BankCard({ bank, accountNumber, accountHolder }: BankCardProps) 
               transition={{ duration: 0.15 }}
               className="flex items-center gap-1"
             >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={2.5}>
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                viewBox="0 0 16 16"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l4 4 6-6" />
               </svg>
               Tersalin!
@@ -70,7 +76,13 @@ export function BankCard({ bank, accountNumber, accountHolder }: BankCardProps) 
               transition={{ duration: 0.15 }}
               className="flex items-center gap-1"
             >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={1.8}>
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                viewBox="0 0 16 16"
+                stroke="currentColor"
+                strokeWidth={1.8}
+              >
                 <rect x="3" y="3" width="8" height="8" rx="1.5" />
                 <path d="M6 3V2a1 1 0 011-1h5a1 1 0 011 1v8a1 1 0 01-1 1h-1" />
               </svg>

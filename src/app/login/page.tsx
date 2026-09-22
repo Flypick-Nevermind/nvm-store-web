@@ -1,24 +1,24 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { PageShell } from '@/components/layouts/PageShell';
-import { Logo } from '@/components/atoms/Logo';
-import { Input } from '@/components/atoms/Input';
-import { Checkbox } from '@/components/atoms/Checkbox';
-import { Button } from '@/components/atoms/Button';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Badge } from '@/components/atoms/Badge';
-import { useAuthStore } from '@/store/authStore';
+import { Button } from '@/components/atoms/Button';
+import { Checkbox } from '@/components/atoms/Checkbox';
+import { Input } from '@/components/atoms/Input';
+import { Logo } from '@/components/atoms/Logo';
+import { PageShell } from '@/components/layouts/PageShell';
 import {
-  loginSchema,
-  registerSchema,
   type LoginFormData,
+  loginSchema,
   type RegisterFormData,
+  registerSchema,
 } from '@/lib/schemas/auth.schema';
+import { useAuthStore } from '@/store/authStore';
 
 function LoginFormContent() {
   const router = useRouter();
@@ -142,7 +142,9 @@ function LoginFormContent() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           className="rounded-2xl bg-[#FFF8E1] border border-[#FDFD96] p-4 flex items-center gap-3.5 shadow-xs"
         >
-          <span className="text-2xl shrink-0" aria-hidden="true">🛍️</span>
+          <span className="text-2xl shrink-0" aria-hidden="true">
+            🛍️
+          </span>
           <div>
             <p className="font-bold text-xs sm:text-sm text-[#1A1A1A]">
               Produk tersimpan di keranjangmu!
@@ -157,7 +159,9 @@ function LoginFormContent() {
       {/* 1-Click Demo Login Banner */}
       <div className="rounded-2xl bg-gradient-to-r from-[#D8FFF7] to-[#FFF8E1] border border-[#9DDED1] p-4 flex items-center justify-between gap-3 shadow-xs">
         <div className="flex items-center gap-2.5 min-w-0">
-          <span className="text-2xl shrink-0" aria-hidden="true">⚡</span>
+          <span className="text-2xl shrink-0" aria-hidden="true">
+            ⚡
+          </span>
           <div className="min-w-0">
             <p className="text-xs font-bold text-[#1A6B5C] truncate">Coba Mode Demo Instan</p>
             <p className="text-[11px] text-[#2D8A76] truncate">Masuk sebagai Nadine Nevermind</p>
@@ -254,7 +258,9 @@ function LoginFormContent() {
                 />
                 <button
                   type="button"
-                  onClick={() => alert('Fitur lupa kata sandi bisa langsung chat admin WhatsApp kami ya!')}
+                  onClick={() =>
+                    alert('Fitur lupa kata sandi bisa langsung chat admin WhatsApp kami ya!')
+                  }
                   className="text-xs text-[#C74375] hover:underline font-semibold cursor-pointer"
                 >
                   Lupa sandi?

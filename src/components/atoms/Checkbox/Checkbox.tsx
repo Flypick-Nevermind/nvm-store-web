@@ -1,7 +1,7 @@
 'use client';
 
-import { forwardRef } from 'react';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { forwardRef } from 'react';
 
 interface CheckboxProps extends Omit<ComponentPropsWithoutRef<'input'>, 'type'> {
   label: ReactNode;
@@ -15,10 +15,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     return (
       <div className="flex flex-col gap-1">
-        <label
-          htmlFor={inputId}
-          className="flex items-start gap-3 cursor-pointer group"
-        >
+        <label htmlFor={inputId} className="flex items-start gap-3 cursor-pointer group">
           <div className="relative flex-shrink-0 mt-0.5">
             <input
               ref={ref}
@@ -65,9 +62,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           </div>
 
           <div className="flex flex-col gap-0.5">
-            <span className="text-sm text-[#1A1A1A] font-medium leading-snug">
-              {label}
-            </span>
+            <span className="text-sm text-[#1A1A1A] font-medium leading-snug">{label}</span>
             {description && (
               <span className="text-xs text-[#888] leading-relaxed">{description}</span>
             )}
@@ -85,5 +80,6 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 );
 
 Checkbox.displayName = 'Checkbox';
-export { Checkbox };
+
 export type { CheckboxProps };
+export { Checkbox };

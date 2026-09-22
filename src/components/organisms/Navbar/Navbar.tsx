@@ -1,13 +1,13 @@
 'use client';
 
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { Logo } from '@/components/atoms/Logo';
-import { useCartStore } from '@/store/cartStore';
-import { useAuthStore } from '@/store/authStore';
 import { useAuthModalStore } from '@/store/authModalStore';
-import { useState, useEffect } from 'react';
+import { useAuthStore } from '@/store/authStore';
+import { useCartStore } from '@/store/cartStore';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -60,8 +60,10 @@ export function Navbar() {
   }, [isAccountMenuOpen]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsAccountMenuOpen(false);
+    if (pathname) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsAccountMenuOpen(false);
+    }
   }, [pathname]);
 
   useEffect(() => {
@@ -74,8 +76,8 @@ export function Navbar() {
   }, [totalItems, lastCount, mounted]);
 
   const navLinks = [
-    { href: '/',         label: 'Katalog' },
-    { href: '/track',    label: 'Lacak Order' },
+    { href: '/', label: 'Katalog' },
+    { href: '/track', label: 'Lacak Order' },
   ];
 
   return (
@@ -118,8 +120,18 @@ export function Navbar() {
             aria-label={mounted ? `Keranjang (${totalItems} item)` : 'Keranjang'}
             className="relative w-10 h-10 rounded-xl flex items-center justify-center text-[#444] hover:text-[#C74375] hover:bg-[#C74375]/8 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C74375]/50"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.8}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              />
             </svg>
 
             <AnimatePresence>
@@ -133,9 +145,7 @@ export function Navbar() {
                   }}
                   exit={{ scale: 0, opacity: 0 }}
                   transition={
-                    badgePulse
-                      ? { duration: 0.3 }
-                      : { type: 'spring', stiffness: 400, damping: 20 }
+                    badgePulse ? { duration: 0.3 } : { type: 'spring', stiffness: 400, damping: 20 }
                   }
                   className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-[#C74375] text-white text-[10px] font-bold flex items-center justify-center leading-none"
                   aria-hidden="true"
@@ -185,12 +195,16 @@ export function Navbar() {
                     {/* User profile header */}
                     <div className="p-3 rounded-2xl bg-[#FFF8E1] border border-[#C8C8C8]/40 flex flex-col gap-1">
                       <div className="flex items-center justify-between">
-                        <p className="text-xs font-extrabold text-[#1A1A1A] truncate">{user.name}</p>
+                        <p className="text-xs font-extrabold text-[#1A1A1A] truncate">
+                          {user.name}
+                        </p>
                         <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#C74375] text-white shadow-2xs">
                           {user.member_tier || 'VIP Club'}
                         </span>
                       </div>
-                      <p className="text-[11px] text-[#888] truncate">{user.email || user.whatsapp_number}</p>
+                      <p className="text-[11px] text-[#888] truncate">
+                        {user.email || user.whatsapp_number}
+                      </p>
                     </div>
 
                     {/* Menu links */}
@@ -237,8 +251,18 @@ export function Navbar() {
               id="navbar-login-btn"
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold text-[#1A1A1A] hover:text-[#C74375] hover:bg-[#C74375]/8 transition-colors border border-[#C8C8C8]/50 bg-white/60"
             >
-              <svg className="w-4 h-4 text-[#C74375]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              <svg
+                className="w-4 h-4 text-[#C74375]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
               </svg>
               <span>Masuk</span>
             </Link>

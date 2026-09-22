@@ -1,12 +1,12 @@
 'use client';
 
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from '@/components/atoms/Badge';
-import { useCartStore } from '@/store/cartStore';
 import { formatIDR } from '@/lib/utils';
+import { useCartStore } from '@/store/cartStore';
 import type { Product } from '@/types/api';
 
 interface ProductCardProps {
@@ -37,7 +37,11 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Link href={`/products/${product.slug}`} className="flex flex-col h-full group" aria-label={product.name}>
+    <Link
+      href={`/products/${product.slug}`}
+      className="flex flex-col h-full group"
+      aria-label={product.name}
+    >
       <motion.article
         className="flex flex-col h-full relative rounded-[1.25rem] overflow-hidden bg-white cursor-pointer"
         style={{ boxShadow: '0 2px 16px 0 rgba(199,67,117,0.07)' }}

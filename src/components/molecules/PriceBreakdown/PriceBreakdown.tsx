@@ -28,7 +28,13 @@ function LineItem({ label, value, isTotal = false, hint }: LineItemProps) {
         </span>
         {hint && <span className="text-[10px] text-[#888]">{hint}</span>}
       </div>
-      <span className={isTotal ? 'text-base font-extrabold text-[#C74375]' : 'text-sm font-semibold text-[#1A1A1A]'}>
+      <span
+        className={
+          isTotal
+            ? 'text-base font-extrabold text-[#C74375]'
+            : 'text-sm font-semibold text-[#1A1A1A]'
+        }
+      >
         {formatIDR(value)}
       </span>
     </div>
@@ -47,7 +53,9 @@ export function PriceBreakdown({
       style={{ backdropFilter: 'blur(12px)' }}
     >
       <div className="flex items-center gap-2 mb-1">
-        <span className="text-base" aria-hidden="true">💸</span>
+        <span className="text-base" aria-hidden="true">
+          💸
+        </span>
         <h3 className="text-sm font-bold text-[#1A1A1A]">Rincian Harga</h3>
         <span className="text-[10px] text-[#C74375] font-semibold bg-[#C74375]/10 px-2 py-0.5 rounded-full ml-auto">
           Transparan ✓
@@ -61,11 +69,7 @@ export function PriceBreakdown({
           value={priceImportDuty}
           hint="Tergantung regulasi bea cukai"
         />
-        <LineItem
-          label="Estimasi Ongkir Lokal"
-          value={priceShipping}
-          hint="Jakarta & sekitarnya"
-        />
+        <LineItem label="Estimasi Ongkir Lokal" value={priceShipping} hint="Jakarta & sekitarnya" />
         <LineItem label="Total Bayar" value={priceTotal} isTotal />
       </div>
 

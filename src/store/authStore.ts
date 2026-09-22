@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>()(
       login: async ({ identifier }) => {
         // Simulated network delay
         await new Promise((r) => setTimeout(r, 400));
-        
+
         const isEmail = identifier.includes('@');
         const user: User = {
           id: `usr_${Date.now()}`,

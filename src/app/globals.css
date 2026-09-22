@@ -4,47 +4,49 @@
 
 @theme inline {
   /* Brand Colour Palette */
-  --color-brand-primary:  #C74375;  /* Fuchsia Rose  */
-  --color-brand-silver:   #C8C8C8;  /* Chrome Silver */
-  --color-brand-aqua:     #D8FFF7;  /* Aqua Mist     */
-  --color-brand-yellow:   #FDFD96;  /* Pastel Yellow */
-  --color-brand-cream:    #FFF8E1;  /* Cream         */
-  --color-brand-charcoal: #1A1A1A;  /* Deep Charcoal */
+  --color-brand-primary: #c74375; /* Fuchsia Rose  */
+  --color-brand-silver: #c8c8c8; /* Chrome Silver */
+  --color-brand-aqua: #d8fff7; /* Aqua Mist     */
+  --color-brand-yellow: #fdfd96; /* Pastel Yellow */
+  --color-brand-cream: #fff8e1; /* Cream         */
+  --color-brand-charcoal: #1a1a1a; /* Deep Charcoal */
 
   /* Derived shades */
-  --color-brand-primary-light: #E8688F;
-  --color-brand-primary-dark:  #A33360;
-  --color-brand-cream-dark:    #F5E8C8;
+  --color-brand-primary-light: #e8688f;
+  --color-brand-primary-dark: #a33360;
+  --color-brand-cream-dark: #f5e8c8;
 
   /* Typography */
-  --font-sans:    var(--font-outfit), 'Outfit', system-ui, sans-serif;
-  --font-display: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  --font-sans: var(--font-outfit), "Outfit", system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), "Space Grotesk", sans-serif;
 
   /* Border radius */
-  --radius-brand:  1.25rem;
-  --radius-pill:   9999px;
-  --radius-card:   0.875rem;
+  --radius-brand: 1.25rem;
+  --radius-pill: 9999px;
+  --radius-card: 0.875rem;
 
   /* Shadows */
-  --shadow-card:   0 2px 20px 0 rgba(199, 67, 117, 0.08);
-  --shadow-glow:   0 0 24px 4px rgba(199, 67, 117, 0.25);
-  --shadow-float:  0 8px 32px 0 rgba(26, 26, 26, 0.14);
+  --shadow-card: 0 2px 20px 0 rgba(199, 67, 117, 0.08);
+  --shadow-glow: 0 0 24px 4px rgba(199, 67, 117, 0.25);
+  --shadow-float: 0 8px 32px 0 rgba(26, 26, 26, 0.14);
 }
 
 /* ─── CSS Custom Properties ──────────────────────────────── */
 :root {
-  --background: #FFF8E1;
-  --foreground: #1A1A1A;
-  --brand-primary:  #C74375;
-  --brand-silver:   #C8C8C8;
-  --brand-aqua:     #D8FFF7;
-  --brand-yellow:   #FDFD96;
-  --brand-cream:    #FFF8E1;
-  --brand-charcoal: #1A1A1A;
+  --background: #fff8e1;
+  --foreground: #1a1a1a;
+  --brand-primary: #c74375;
+  --brand-silver: #c8c8c8;
+  --brand-aqua: #d8fff7;
+  --brand-yellow: #fdfd96;
+  --brand-cream: #fff8e1;
+  --brand-charcoal: #1a1a1a;
 }
 
 /* ─── Base Reset & Typography ────────────────────────────── */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -57,14 +59,21 @@ body {
   background-color: var(--brand-cream);
   color: var(--brand-charcoal);
   font-family: var(--font-sans);
-  font-feature-settings: "rlig" 1, "calt" 1;
+  font-feature-settings:
+    "rlig" 1,
+    "calt" 1;
   line-height: 1.6;
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -76,9 +85,16 @@ h1, h2, h3, h4, h5, h6 {
   width: 6px;
   height: 6px;
 }
-::-webkit-scrollbar-track  { background: var(--brand-cream); }
-::-webkit-scrollbar-thumb  { background: var(--brand-silver); border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--brand-primary); }
+::-webkit-scrollbar-track {
+  background: var(--brand-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brand-silver);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-primary);
+}
 
 /* ─── Selection ──────────────────────────────────────────── */
 ::selection {
@@ -90,7 +106,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Gradient text  */
 .text-gradient-primary {
-  background: linear-gradient(135deg, #C74375 0%, #E8688F 50%, #FDFD96 100%);
+  background: linear-gradient(135deg, #c74375 0%, #e8688f 50%, #fdfd96 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -107,7 +123,9 @@ h1, h2, h3, h4, h5, h6 {
 /* Chrome Y2K border */
 .chrome-border {
   border: 1.5px solid var(--brand-silver);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
 }
 
 /* Brand glow */
@@ -139,5 +157,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Hide scrollbar but keep scroll */
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

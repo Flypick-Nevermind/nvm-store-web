@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { Navbar } from '@/components/organisms/Navbar';
 import { Footer } from '@/components/organisms/Footer';
+import { Navbar } from '@/components/organisms/Navbar';
 
 interface PageShellProps {
   children: ReactNode;

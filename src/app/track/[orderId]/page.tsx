@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import { PageShell } from '@/components/layouts/PageShell';
 import { TrackingContent } from '@/app/track/[orderId]/TrackingContent';
+import { PageShell } from '@/components/layouts/PageShell';
 import { WhatsAppFAB } from '@/components/organisms/WhatsAppFAB';
 
 interface Props {
@@ -27,7 +27,8 @@ export default async function TrackingPage({ params }: Props) {
             Lacak Pesanan
           </h1>
           <p className="text-sm text-[#888]">
-            Order ID: <span className="font-mono font-bold text-[#C74375] text-base">#{orderId}</span>
+            Order ID:{' '}
+            <span className="font-mono font-bold text-[#C74375] text-base">#{orderId}</span>
           </p>
         </div>
 

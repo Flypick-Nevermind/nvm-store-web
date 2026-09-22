@@ -27,6 +27,5 @@ export const useCheckoutStore = create<CheckoutStore>()((set) => ({
   setBuyerData: (data) => set({ buyerData: data }),
   setOrderId: (id) => set({ orderId: id }),
   setProofFile: (file) => set({ proofFile: file }),
-  reset: () =>
-    set({ step: 1, buyerData: null, orderId: null, proofFile: null }),
+  reset: () => set({ step: 1, buyerData: null, orderId: null, proofFile: null }),
 }));

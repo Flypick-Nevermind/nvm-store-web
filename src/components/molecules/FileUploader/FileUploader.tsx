@@ -1,7 +1,7 @@
 'use client';
 
+import { AnimatePresence, motion } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { formatFileSize } from '@/lib/utils';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
@@ -13,7 +13,11 @@ interface FileUploaderProps {
   label?: string;
 }
 
-export function FileUploader({ onFileSelect, error, label = 'Upload Bukti Transfer' }: FileUploaderProps) {
+export function FileUploader({
+  onFileSelect,
+  error,
+  label = 'Upload Bukti Transfer',
+}: FileUploaderProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -89,7 +93,10 @@ export function FileUploader({ onFileSelect, error, label = 'Upload Bukti Transf
       {!file ? (
         <motion.div
           onClick={() => inputRef.current?.click()}
-          onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setIsDragging(true);
+          }}
           onDragLeave={() => setIsDragging(false)}
           onDrop={handleDrop}
           animate={{ borderColor: isDragging ? '#C74375' : displayError ? '#F87171' : '#C8C8C8' }}
@@ -104,11 +111,11 @@ export function FileUploader({ onFileSelect, error, label = 'Upload Bukti Transf
           tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && inputRef.current?.click()}
         >
-          <span className="text-4xl" aria-hidden="true">📤</span>
+          <span className="text-4xl" aria-hidden="true">
+            📤
+          </span>
           <div className="text-center">
-            <p className="text-sm font-semibold text-[#1A1A1A]">
-              Klik atau seret file ke sini
-            </p>
+            <p className="text-sm font-semibold text-[#1A1A1A]">Klik atau seret file ke sini</p>
             <p id="upload-hint" className="text-xs text-[#888] mt-0.5">
               JPG, PNG, PDF · Maks. 5MB
             </p>
@@ -123,10 +130,16 @@ export function FileUploader({ onFileSelect, error, label = 'Upload Bukti Transf
           >
             {preview ? (
               /* eslint-disable-next-line @next/next/no-img-element */
-              <img src={preview} alt="Preview bukti transfer" className="w-14 h-14 rounded-xl object-cover border border-[#C8C8C8]/40 flex-shrink-0" />
+              <img
+                src={preview}
+                alt="Preview bukti transfer"
+                className="w-14 h-14 rounded-xl object-cover border border-[#C8C8C8]/40 flex-shrink-0"
+              />
             ) : (
               <div className="w-14 h-14 rounded-xl bg-[#C74375]/10 flex items-center justify-center flex-shrink-0">
-                <span className="text-2xl" aria-hidden="true">📄</span>
+                <span className="text-2xl" aria-hidden="true">
+                  📄
+                </span>
               </div>
             )}
             <div className="flex-1 min-w-0">
@@ -138,7 +151,13 @@ export function FileUploader({ onFileSelect, error, label = 'Upload Bukti Transf
               aria-label="Hapus file"
               className="w-8 h-8 rounded-full bg-white border border-[#C8C8C8] flex items-center justify-center flex-shrink-0 hover:border-red-300 hover:text-red-500 transition-colors"
             >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 14 14" stroke="currentColor" strokeWidth={2}>
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                viewBox="0 0 14 14"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
                 <path strokeLinecap="round" d="M3 3l8 8M11 3l-8 8" />
               </svg>
             </button>

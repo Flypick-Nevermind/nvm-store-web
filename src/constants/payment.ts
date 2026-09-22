@@ -41,10 +41,7 @@ export const buildWhatsAppRedirectUrl = (params: {
 };
 
 // Support WA template (for tracking page FAB)
-export const buildSupportWhatsAppUrl = (params: {
-  whatsappNumber: string;
-  orderId: string;
-}) => {
+export const buildSupportWhatsAppUrl = (params: { whatsappNumber: string; orderId: string }) => {
   const msg = encodeURIComponent(
     `Halo NEVERMIND! 👋\n\n` +
       `Saya mau tanya status order saya:\n` +
