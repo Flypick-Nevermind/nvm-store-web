@@ -14,6 +14,7 @@ import { BankCard } from '@/components/molecules/BankCard';
 import { FileUploader } from '@/components/molecules/FileUploader';
 import { useCartStore } from '@/store/cartStore';
 import { useCheckoutStore } from '@/store/checkoutStore';
+import { useAuthStore } from '@/store/authStore';
 import { useCreateOrder } from '@/lib/api/orders';
 import { buyerFormSchema, type BuyerFormData } from '@/lib/schemas/checkout.schema';
 import { BANK_ACCOUNTS, QRIS_IMAGE_PATH, buildWhatsAppRedirectUrl } from '@/constants/payment';
@@ -67,11 +68,19 @@ function StepIndicator({ current }: { current: number }) {
 // ─── Step 1 — Buyer Form ──────────────────────────────────────────────────────
 
 function Step1Form({ onNext }: { onNext: (data: BuyerFormData) => void }) {
+  const user = useAuthStore((s) => s.user);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<BuyerFormData>({ resolver: zodResolver(buyerFormSchema) });
+  } = useForm<BuyerFormData>({
+    resolver: zodResolver(buyerFormSchema),
+    defaultValues: {
+      full_name: user?.name || '',
+      whatsapp_number: user?.whatsapp_number || '',
+    },
+  });
 
   return (
     <form onSubmit={handleSubmit(onNext)} className="flex flex-col gap-5" noValidate>

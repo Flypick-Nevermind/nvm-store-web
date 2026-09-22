@@ -4,14 +4,15 @@ import { Footer } from '@/components/organisms/Footer';
 
 interface PageShellProps {
   children: ReactNode;
+  showNavbar?: boolean;
   showFooter?: boolean;
 }
 
-export function PageShell({ children, showFooter = true }: PageShellProps) {
+export function PageShell({ children, showNavbar = true, showFooter = true }: PageShellProps) {
   return (
     <div className="flex flex-col min-h-dvh">
-      <Navbar />
-      <main className="flex-1 pt-20 sm:pt-22" id="main-content">
+      {showNavbar && <Navbar />}
+      <main className={`flex-1 ${showNavbar ? 'pt-20 sm:pt-22' : ''}`} id="main-content">
         {children}
       </main>
       {showFooter && <Footer />}
