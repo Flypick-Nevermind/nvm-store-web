@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -29,10 +29,24 @@ function LoginFormContent() {
   const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const login = useAuthStore((s) => s.login);
   const registerUser = useAuthStore((s) => s.register);
   const loginDemo = useAuthStore((s) => s.loginDemo);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
+  // Redirect away if already logged in (e.g. via browser back button or direct access)
+  useEffect(() => {
+    if (mounted && isAuthenticated) {
+      router.replace(redirectPath);
+    }
+  }, [mounted, isAuthenticated, redirectPath, router]);
 
   // Login form
   const loginForm = useForm<LoginFormData>({
@@ -61,7 +75,7 @@ function LoginFormContent() {
     setAuthError(null);
     try {
       await login({ identifier: data.identifier, password: data.password });
-      router.push(redirectPath);
+      router.replace(redirectPath);
     } catch {
       setAuthError('Gagal masuk. Periksa kembali email/nomor dan kata sandimu.');
     } finally {
@@ -79,7 +93,7 @@ function LoginFormContent() {
         email: data.email,
         password: data.password,
       });
-      router.push(redirectPath);
+      router.replace(redirectPath);
     } catch {
       setAuthError('Pendaftaran gagal. Silakan coba lagi.');
     } finally {
@@ -89,8 +103,17 @@ function LoginFormContent() {
 
   const handleDemoLogin = () => {
     loginDemo();
-    router.push(redirectPath);
+    router.replace(redirectPath);
   };
+
+  if (mounted && isAuthenticated) {
+    return (
+      <div className="max-w-md mx-auto px-4 py-24 flex flex-col items-center justify-center gap-3 text-center">
+        <div className="w-8 h-8 border-3 border-[#C74375] border-t-transparent rounded-full animate-spin" />
+        <p className="text-xs font-semibold text-[#888]">Kamu sudah masuk. Mengalihkan...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto px-4 py-8 md:py-14 flex flex-col gap-6">
