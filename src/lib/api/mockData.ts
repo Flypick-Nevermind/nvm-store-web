@@ -27,6 +27,16 @@ export const MOCK_PRODUCTS: Product[] = [
     is_featured: true,
     tags: ['bow', 'tote', 'y2k', 'cream'],
     created_at: '2026-09-01T00:00:00Z',
+    colors: [
+      { name: 'Warm Cream', hex: '#FFF8E1' },
+      { name: 'Blush Pink', hex: '#FFD1DC' },
+      { name: 'Midnight Noir', hex: '#1A1A1A' },
+    ],
+    variants: [
+      { id: 'regular', name: 'Regular Size' },
+      { id: 'mini-petite', name: 'Mini Petite' },
+      { id: 'pearl-strap', name: 'Bundle + Pearl Chain Strap', price_delta: 25000 },
+    ],
   },
   {
     id: 'prod-002',
@@ -49,6 +59,15 @@ export const MOCK_PRODUCTS: Product[] = [
     is_featured: true,
     tags: ['chrome', 'quilted', 'shoulder', 'metalik'],
     created_at: '2026-09-05T00:00:00Z',
+    colors: [
+      { name: 'Metallic Chrome', hex: '#C8C8C8' },
+      { name: 'Cyber Aqua', hex: '#D8FFF7' },
+      { name: 'Glossy Black', hex: '#111111' },
+    ],
+    variants: [
+      { id: 'shoulder-std', name: 'Classic Shoulder' },
+      { id: 'crossbody-ext', name: 'Crossbody (Long Strap)', price_delta: 20000 },
+    ],
   },
   {
     id: 'prod-003',
@@ -70,6 +89,15 @@ export const MOCK_PRODUCTS: Product[] = [
     is_featured: false,
     tags: ['jelly', 'crossbody', 'transparan', 'aqua'],
     created_at: '2026-09-10T00:00:00Z',
+    colors: [
+      { name: 'Aqua Mist', hex: '#9DDED1' },
+      { name: 'Berry Jelly', hex: '#C74375' },
+      { name: 'Clear Crystal', hex: '#EAEAEA' },
+    ],
+    variants: [
+      { id: 'standard', name: 'Standard Bag' },
+      { id: 'charm-bundle', name: 'Bundle + Y2K Keychain Charm', price_delta: 15000 },
+    ],
   },
   {
     id: 'prod-004',
@@ -91,6 +119,15 @@ export const MOCK_PRODUCTS: Product[] = [
     is_featured: true,
     tags: ['baguette', 'clutch', 'pastel', 'coquette'],
     created_at: '2026-09-15T00:00:00Z',
+    colors: [
+      { name: 'Lemon Pastel', hex: '#FDFD96' },
+      { name: 'Lilac Haze', hex: '#DDA0DD' },
+      { name: 'Soft Ivory', hex: '#FAF9F6' },
+    ],
+    variants: [
+      { id: 'clutch-std', name: 'Classic Clutch' },
+      { id: 'chain-strap', name: 'With Silver Chain Strap', price_delta: 20000 },
+    ],
   },
   {
     id: 'prod-005',
@@ -112,6 +149,15 @@ export const MOCK_PRODUCTS: Product[] = [
     is_featured: false,
     tags: ['fluffy', 'bucket', 'teddy', 'casual'],
     created_at: '2026-09-12T00:00:00Z',
+    colors: [
+      { name: 'Teddy Beige', hex: '#D2B48C' },
+      { name: 'Warm Cream', hex: '#FFF8E1' },
+      { name: 'Choco Brown', hex: '#5C3826' },
+    ],
+    variants: [
+      { id: 'medium', name: 'Medium Bucket' },
+      { id: 'large-daily', name: 'Large Daily (+Rp 30.000)', price_delta: 30000 },
+    ],
   },
   {
     id: 'prod-006',
@@ -133,6 +179,15 @@ export const MOCK_PRODUCTS: Product[] = [
     is_featured: false,
     tags: ['denim', 'backpack', 'retro', 'y2k'],
     created_at: '2026-09-08T00:00:00Z',
+    colors: [
+      { name: 'Washed Light Blue', hex: '#A4C2E0' },
+      { name: 'Deep Indigo', hex: '#2A4B7C' },
+      { name: 'Washed Charcoal', hex: '#3A3A3A' },
+    ],
+    variants: [
+      { id: 'standard', name: 'Standard Edition' },
+      { id: 'pins-bundle', name: 'Bundle + 5 Y2K Enamel Pins', price_delta: 25000 },
+    ],
   },
 ];
 

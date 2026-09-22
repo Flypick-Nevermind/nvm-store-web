@@ -14,6 +14,17 @@ export type ProductType = 'pre-order' | 'ready-stock';
 
 // ─── Product ────────────────────────────────────────────────
 
+export interface ProductColor {
+  name: string;
+  hex: string;
+}
+
+export interface ProductVariant {
+  id: string;
+  name: string;
+  price_delta?: number;
+}
+
 export interface Product {
   id: string;
   slug: string;
@@ -32,6 +43,8 @@ export interface Product {
   is_featured: boolean;
   tags: string[];
   created_at: string;
+  colors?: ProductColor[];
+  variants?: ProductVariant[];
 }
 
 // ─── Order ──────────────────────────────────────────────────
@@ -103,4 +116,7 @@ export interface CartItem {
   quantity: number;
   type: ProductType;
   eta?: string;
+  color?: string;
+  variant?: string;
+  key?: string;
 }

@@ -421,75 +421,83 @@ export default function CheckoutPage() {
               </div>
 
               <div className="flex flex-col gap-3 max-h-[420px] overflow-y-auto pr-1">
-                {items.map((item) => (
-                  <div key={item.productId} className="flex items-center gap-3 py-2 border-b border-[#C8C8C8]/20 last:border-b-0">
-                    {/* Thumbnail */}
-                    <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#C8C8C8]/20 shrink-0 border border-[#C8C8C8]/40">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        className="object-cover"
-                        sizes="56px"
-                      />
-                    </div>
+                {items.map((item) => {
+                  const itemIdentifier = item.key || item.productId;
+                  return (
+                    <div key={itemIdentifier} className="flex items-center gap-3 py-2 border-b border-[#C8C8C8]/20 last:border-b-0">
+                      {/* Thumbnail */}
+                      <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#C8C8C8]/20 shrink-0 border border-[#C8C8C8]/40">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                          sizes="56px"
+                        />
+                      </div>
 
-                    {/* Details */}
-                    <div className="flex-1 min-w-0">
-                      <span className="inline-block text-[10px] px-1.5 py-0.5 rounded-md font-medium bg-[#FFF8E1] text-[#1A1A1A] border border-[#C8C8C8]/50 mb-0.5">
-                        {item.type === 'pre-order' ? 'PO 14-21 Hari' : 'Ready Stock'}
-                      </span>
-                      <p className="text-sm font-semibold text-[#1A1A1A] truncate">{item.name}</p>
-                      <p className="text-xs text-[#888]">{formatIDR(item.price)}</p>
-                    </div>
+                      {/* Details */}
+                      <div className="flex-1 min-w-0">
+                        <span className="inline-block text-[10px] px-1.5 py-0.5 rounded-md font-medium bg-[#FFF8E1] text-[#1A1A1A] border border-[#C8C8C8]/50 mb-0.5">
+                          {item.type === 'pre-order' ? 'PO 14-21 Hari' : 'Ready Stock'}
+                        </span>
+                        <p className="text-sm font-semibold text-[#1A1A1A] truncate">{item.name}</p>
+                        {(item.color || item.variant) && (
+                          <p className="text-[11px] text-[#C74375] font-semibold truncate">
+                            {[item.color, item.variant].filter(Boolean).join(' • ')}
+                          </p>
+                        )}
+                        <p className="text-xs text-[#888]">{formatIDR(item.price)}</p>
+                      </div>
 
-                    {/* Quantity Controls & Delete */}
-                    <div className="flex flex-col items-end gap-1.5 shrink-0">
-                      <div className="flex items-center gap-1.5">
-                        {/* Stepper */}
-                        <div className="flex items-center bg-[#FFF8E1] border border-[#C8C8C8]/60 rounded-lg overflow-hidden h-7">
+                      {/* Quantity Controls & Delete */}
+                      <div className="flex flex-col items-end gap-1.5 shrink-0">
+                        <div className="flex items-center gap-1.5">
+                          {/* Stepper */}
+                          <div className="flex items-center bg-[#FFF8E1] border border-[#C8C8C8]/60 rounded-lg overflow-hidden h-7">
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(itemIdentifier, item.quantity - 1)}
+                              className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-xs transition-colors cursor-pointer"
+                              aria-label="Kurangi kuantitas"
+                              title={item.quantity === 1 ? 'Hapus barang' : 'Kurangi kuantitas'}
+                            >
+                              −
+                            </button>
+                            <span className="w-6 text-center text-xs font-bold text-[#1A1A1A]">
+                              {item.quantity}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(itemIdentifier, item.quantity + 1)}
+                              className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-xs transition-colors cursor-pointer"
+                              aria-label="Tambah kuantitas"
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          {/* Delete action */}
                           <button
                             type="button"
-                            onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                            className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-xs transition-colors cursor-pointer"
-                            aria-label="Kurangi kuantitas"
-                            title={item.quantity === 1 ? 'Hapus barang' : 'Kurangi kuantitas'}
+                            onClick={() => removeItem(itemIdentifier)}
+                            className="w-7 h-7 rounded-lg flex items-center justify-center text-[#888] hover:text-[#C74375] hover:bg-[#C74375]/10 transition-colors cursor-pointer"
+                            title="Hapus barang dari keranjang"
+                            aria-label={`Hapus ${item.name}`}
                           >
-                            −
-                          </button>
-                          <span className="w-6 text-center text-xs font-bold text-[#1A1A1A]">
-                            {item.quantity}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                            className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-xs transition-colors cursor-pointer"
-                            aria-label="Tambah kuantitas"
-                          >
-                            +
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
                           </button>
                         </div>
 
-                        {/* Delete action */}
-                        <button
-                          type="button"
-                          onClick={() => removeItem(item.productId)}
-                          className="w-7 h-7 rounded-lg flex items-center justify-center text-[#888] hover:text-[#C74375] hover:bg-[#C74375]/10 transition-colors cursor-pointer"
-                          title="Hapus barang dari keranjang"
-                          aria-label={`Hapus ${item.name}`}
-                        >
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
+                        <span className="text-xs font-bold text-[#C74375]">
+                          {formatIDR(item.price * item.quantity)}
+                        </span>
                       </div>
-
-                      <span className="text-xs font-bold text-[#C74375]">
-                        {formatIDR(item.price * item.quantity)}
-                      </span>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="border-t border-[#C8C8C8]/50 pt-3 mt-1 flex justify-between items-center">
