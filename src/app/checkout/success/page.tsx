@@ -53,13 +53,13 @@ function SuccessContent() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="w-full rounded-2xl bg-white border border-[#C8C8C8]/50 p-4 flex flex-col gap-1"
+            className="w-full rounded-2xl bg-white border border-[#E8D5C0] p-4 flex flex-col gap-1"
           >
-            <p className="text-xs text-[#888] font-medium uppercase tracking-wider">Order ID</p>
-            <p className="font-mono font-extrabold text-[#C74375] text-lg tracking-wide">
+            <p className="text-xs text-[#8A7880] font-medium uppercase tracking-wider">Order ID</p>
+            <p className="font-mono font-extrabold text-[#9E1A59] text-lg tracking-wide">
               #{orderId}
             </p>
-            <p className="text-xs text-[#888]">Simpan ID ini untuk melacak pesananmu</p>
+            <p className="text-xs text-[#8A7880]">Simpan ID ini untuk melacak pesananmu</p>
           </motion.div>
         )}
 

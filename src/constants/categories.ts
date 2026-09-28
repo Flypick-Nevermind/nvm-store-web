@@ -15,18 +15,19 @@ export interface Category {
 }
 
 export const CATEGORIES: Category[] = [
-  { id: 'all', label: 'Semua', emoji: '✨' },
-  { id: 'trending-now', label: 'Trending Now', emoji: '🔥' },
-  { id: 'y2k-core', label: 'Y2K Core', emoji: '💿' },
-  { id: 'just-dropped', label: 'Just Dropped', emoji: '🆕' },
+  { id: 'all', label: 'Semua Koleksi', emoji: '✨' },
+  { id: 'trending-now', label: 'Trending in China', emoji: '🌐' },
+  { id: 'y2k-core', label: 'Y2K Finds', emoji: '⭐️' },
+  { id: 'just-dropped', label: 'Limited Drops', emoji: '🤍' },
+  { id: 'cute-finds', label: 'From China, With Love', emoji: '✈️' },
   { id: 'under-300k', label: 'Under Rp300K', emoji: '💸' },
-  { id: 'cute-finds', label: 'Cute Finds', emoji: '🎀' },
 ] as const;
 
-export type StockFilter = 'all' | 'pre-order' | 'ready-stock';
+export type StockFilter = 'all' | 'ready-stock' | 'pre-order' | 'sold-out';
 
 export const STOCK_FILTERS: { id: StockFilter; label: string }[] = [
   { id: 'all', label: 'Semua' },
-  { id: 'pre-order', label: 'Pre-Order' },
   { id: 'ready-stock', label: 'Ready Stock' },
+  { id: 'pre-order', label: 'Pre-Order' },
+  { id: 'sold-out', label: 'Sold Out' },
 ];

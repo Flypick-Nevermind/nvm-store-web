@@ -10,7 +10,7 @@ type LogoVariant = 'light' | 'dark';
 interface LogoProps {
   size?: LogoSize;
   variant?: LogoVariant;
-  href?: string;
+  href?: string | null;
   className?: string;
   showTagline?: boolean;
 }
@@ -45,8 +45,8 @@ function LogoContent({
   const [logoSrc, setLogoSrc] = useState<string>('/assets/nevermind-logo.PNG');
   const [imageError, setImageError] = useState(false);
   const cfg = sizeConfig[size];
-  const textColor = variant === 'dark' ? 'text-[#C74375]' : 'text-white';
-  const subColor = variant === 'dark' ? 'text-[#888]' : 'text-white/60';
+  const textColor = variant === 'dark' ? 'text-[#9E1A59]' : 'text-white';
+  const subColor = variant === 'dark' ? 'text-[#8A7880]' : 'text-white/70';
 
   const handleError = () => {
     if (logoSrc === '/assets/nevermind-logo.PNG') {
@@ -72,7 +72,7 @@ function LogoContent({
           <span
             className={`${cfg.taglineClass} ${subColor} font-medium tracking-widest uppercase hidden sm:inline`}
           >
-            Too cute, too care?
+            too cute, too care
           </span>
         )}
       </div>
@@ -95,10 +95,10 @@ function LogoContent({
       </span>
       {showTagline && (
         <span
-          className={`${cfg.taglineClass} ${subColor} font-medium tracking-widest uppercase`}
-          style={{ letterSpacing: '0.18em' }}
+          className={`${cfg.taglineClass} ${subColor} font-medium tracking-widest lowercase`}
+          style={{ letterSpacing: '0.12em' }}
         >
-          Too cute, too care?
+          too cute, too care ♡
         </span>
       )}
     </div>
@@ -106,10 +106,18 @@ function LogoContent({
 }
 
 export function Logo({ href = '/', className = '', ...props }: LogoProps) {
+  if (!href) {
+    return (
+      <div className={`inline-flex items-center ${className}`}>
+        <LogoContent {...props} />
+      </div>
+    );
+  }
+
   return (
     <Link
       href={href}
-      className={`inline-flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C74375] focus-visible:ring-offset-2 rounded-sm ${className}`}
+      className={`inline-flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59] focus-visible:ring-offset-2 rounded-sm ${className}`}
       aria-label="NEVERMIND — Beranda"
     >
       <LogoContent {...props} />

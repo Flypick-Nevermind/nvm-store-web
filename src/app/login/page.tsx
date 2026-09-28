@@ -109,8 +109,8 @@ function LoginFormContent() {
   if (mounted && isAuthenticated) {
     return (
       <div className="max-w-md mx-auto px-4 py-24 flex flex-col items-center justify-center gap-3 text-center">
-        <div className="w-8 h-8 border-3 border-[#C74375] border-t-transparent rounded-full animate-spin" />
-        <p className="text-xs font-semibold text-[#888]">Kamu sudah masuk. Mengalihkan...</p>
+        <div className="w-8 h-8 border-3 border-[#9E1A59] border-t-transparent rounded-full animate-spin" />
+        <p className="text-xs font-semibold text-[#8A7880]">Kamu sudah masuk. Mengalihkan...</p>
       </div>
     );
   }
@@ -124,11 +124,11 @@ function LoginFormContent() {
 
       {/* Header */}
       <div className="text-center flex flex-col items-center gap-2">
-        <Badge variant="yellow">✨ NEVERMIND Club</Badge>
+        <Badge variant="primary">✨ NEVERMIND Club</Badge>
         <h1 className="text-2xl sm:text-3xl font-display font-black text-[#1A1A1A]">
           {activeTab === 'login' ? 'Selamat Datang Kembali!' : 'Gabung Komunitas Kami'}
         </h1>
-        <p className="text-xs sm:text-sm text-[#888]">
+        <p className="text-xs sm:text-sm text-[#8A7880]">
           {activeTab === 'login'
             ? 'Masuk untuk pantau pesanan dan nikmati diskon eksklusif.'
             : 'Daftar sekarang untuk akses kurasi tas China paling update.'}
@@ -140,7 +140,7 @@ function LoginFormContent() {
         <motion.div
           initial={{ opacity: 0, y: -6, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          className="rounded-2xl bg-[#FFF8E1] border border-[#FDFD96] p-4 flex items-center gap-3.5 shadow-xs"
+          className="rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] p-4 flex items-center gap-3.5 shadow-xs"
         >
           <span className="text-2xl shrink-0" aria-hidden="true">
             🛍️
@@ -149,7 +149,7 @@ function LoginFormContent() {
             <p className="font-bold text-xs sm:text-sm text-[#1A1A1A]">
               Produk tersimpan di keranjangmu!
             </p>
-            <p className="text-[11px] sm:text-xs text-[#7A6830] mt-0.5 leading-snug">
+            <p className="text-[11px] sm:text-xs text-[#8E1744] mt-0.5 leading-snug">
               Silakan masuk atau daftar terlebih dahulu agar keranjang dan pesananmu dapat diproses.
             </p>
           </div>
@@ -170,16 +170,16 @@ function LoginFormContent() {
         <button
           type="button"
           onClick={handleDemoLogin}
-          className="shrink-0 px-3 py-1.5 rounded-xl bg-[#C74375] hover:bg-[#A33360] text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+          className="shrink-0 px-3 py-1.5 rounded-xl bg-[#9E1A59] hover:bg-[#7A1244] text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
         >
           Masuk Demo →
         </button>
       </div>
 
       {/* Card Form */}
-      <div className="rounded-3xl bg-white border border-[#C8C8C8]/50 p-6 sm:p-8 shadow-xs">
+      <div className="rounded-3xl bg-white border border-[#E8D5C0] p-6 sm:p-8 shadow-xs">
         {/* Tab Switcher */}
-        <div className="flex bg-[#FFF8E1] rounded-2xl p-1 border border-[#C8C8C8]/40 mb-6">
+        <div className="flex bg-[#FFF8E1] rounded-2xl p-1 border border-[#E8D5C0] mb-6">
           <button
             type="button"
             onClick={() => {
@@ -189,8 +189,8 @@ function LoginFormContent() {
             className={[
               'flex-1 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer',
               activeTab === 'login'
-                ? 'bg-white text-[#C74375] shadow-xs'
-                : 'text-[#888] hover:text-[#1A1A1A]',
+                ? 'bg-white text-[#9E1A59] shadow-xs'
+                : 'text-[#8A7880] hover:text-[#1A1A1A]',
             ].join(' ')}
           >
             Masuk
@@ -204,8 +204,8 @@ function LoginFormContent() {
             className={[
               'flex-1 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer',
               activeTab === 'register'
-                ? 'bg-white text-[#C74375] shadow-xs'
-                : 'text-[#888] hover:text-[#1A1A1A]',
+                ? 'bg-white text-[#9E1A59] shadow-xs'
+                : 'text-[#8A7880] hover:text-[#1A1A1A]',
             ].join(' ')}
           >
             Daftar Akun
@@ -261,7 +261,7 @@ function LoginFormContent() {
                   onClick={() =>
                     alert('Fitur lupa kata sandi bisa langsung chat admin WhatsApp kami ya!')
                   }
-                  className="text-xs text-[#C74375] hover:underline font-semibold cursor-pointer"
+                  className="text-xs text-[#9E1A59] hover:underline font-semibold cursor-pointer"
                 >
                   Lupa sandi?
                 </button>
@@ -357,7 +357,7 @@ function LoginFormContent() {
 
       {/* Back to Home Link */}
       <div className="text-center">
-        <Link href="/" className="text-xs text-[#888] hover:text-[#C74375] transition-colors">
+        <Link href="/" className="text-xs text-[#8A7880] hover:text-[#9E1A59] transition-colors">
           ← Kembali ke Katalog Produk
         </Link>
       </div>

@@ -69,6 +69,53 @@ export function PDPActions({ product }: PDPActionsProps) {
     setTimeout(() => setAddedFeedback(false), 1500);
   };
 
+  const isSoldOut = product.stock_type === 'sold-out';
+
+  if (isSoldOut) {
+    return (
+      <div className="flex flex-col gap-4 pt-1">
+        {/* Sold out notice card */}
+        <div className="p-4 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] flex items-start gap-3">
+          <span className="text-2xl shrink-0">⚠️</span>
+          <div>
+            <h4 className="text-sm font-bold text-[#1A1A1A]">Batch Ini Telah Habis Terjual (Sold Out)</h4>
+            <p className="text-xs text-[#777] mt-1 leading-relaxed">
+              Produk ini sangat diminati dan stok batch saat ini telah habis. Hubungi admin kami untuk memesan slot restock berikutnya!
+            </p>
+          </div>
+        </div>
+
+        {/* Desktop notification button */}
+        <div className="hidden md:flex flex-col gap-2 pt-1">
+          <a
+            href={`https://wa.me/6281234567890?text=Halo+Nevermind,+tolong+kabari+saya+jika+produk+${encodeURIComponent(
+              product.name
+            )}+sudah+restock!`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-3.5 px-4 rounded-xl text-sm font-bold text-center bg-[#1A1A1A] text-white hover:bg-black transition-colors shadow-md flex items-center justify-center gap-2"
+          >
+            <span>💬</span> Ingatkan Saya Saat Restock (WhatsApp)
+          </a>
+        </div>
+
+        {/* Mobile fixed bottom bar */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#FFF8E1]/95 backdrop-blur-md border-t border-[#E8D5C0] px-4 py-3 z-40">
+          <a
+            href={`https://wa.me/6281234567890?text=Halo+Nevermind,+tolong+kabari+saya+jika+produk+${encodeURIComponent(
+              product.name
+            )}+sudah+restock!`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-center bg-[#1A1A1A] text-white flex items-center justify-center gap-2"
+          >
+            <span>💬</span> Notifikasi Restock via WhatsApp
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-5 pt-1">
       {/* ── 1. Color Selector ── */}
@@ -78,7 +125,7 @@ export function PDPActions({ product }: PDPActionsProps) {
             <span className="text-xs font-bold text-[#1A1A1A] uppercase tracking-wider">
               Pilihan Warna:
             </span>
-            <span className="text-xs font-semibold text-[#C74375]">{selectedColor?.name}</span>
+            <span className="text-xs font-semibold text-[#9E1A59]">{selectedColor?.name}</span>
           </div>
 
           <div className="flex items-center gap-3 flex-wrap">
@@ -92,8 +139,8 @@ export function PDPActions({ product }: PDPActionsProps) {
                   className={[
                     'flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all cursor-pointer',
                     isSelected
-                      ? 'border-[#C74375] bg-[#FFF8E1] text-[#C74375] shadow-xs ring-2 ring-[#C74375]/20 scale-102'
-                      : 'border-[#C8C8C8]/60 bg-white text-[#444] hover:border-[#888] hover:bg-[#FDFBF7]',
+                      ? 'border-[#9E1A59] bg-[#FFF8E1] text-[#9E1A59] shadow-xs ring-2 ring-[#9E1A59]/20 scale-102'
+                      : 'border-[#E8D5C0] bg-white text-[#444] hover:border-[#888] hover:bg-[#FAF0F3]',
                   ].join(' ')}
                   aria-pressed={isSelected}
                   aria-label={`Pilih warna ${color.name}`}
@@ -103,7 +150,7 @@ export function PDPActions({ product }: PDPActionsProps) {
                     style={{ backgroundColor: color.hex }}
                   />
                   <span>{color.name}</span>
-                  {isSelected && <span className="text-[#C74375] text-xs">✓</span>}
+                  {isSelected && <span className="text-[#9E1A59] text-xs">✓</span>}
                 </button>
               );
             })}
@@ -132,8 +179,8 @@ export function PDPActions({ product }: PDPActionsProps) {
                   className={[
                     'flex items-center justify-between p-3 rounded-2xl border text-xs transition-all cursor-pointer text-left',
                     isSelected
-                      ? 'border-[#C74375] bg-white ring-2 ring-[#C74375]/25 shadow-xs'
-                      : 'border-[#C8C8C8]/50 bg-white/70 hover:border-[#888] hover:bg-white',
+                      ? 'border-[#9E1A59] bg-white ring-2 ring-[#9E1A59]/25 shadow-xs'
+                      : 'border-[#E8D5C0] bg-white/70 hover:border-[#888] hover:bg-white',
                   ].join(' ')}
                   aria-pressed={isSelected}
                 >
@@ -142,8 +189,8 @@ export function PDPActions({ product }: PDPActionsProps) {
                       className={[
                         'w-4 h-4 rounded-full border flex items-center justify-center shrink-0 text-[10px]',
                         isSelected
-                          ? 'border-[#C74375] bg-[#C74375] text-white'
-                          : 'border-[#C8C8C8]',
+                          ? 'border-[#9E1A59] bg-[#9E1A59] text-white'
+                          : 'border-[#E8D5C0]',
                       ].join(' ')}
                     >
                       {isSelected ? '✓' : ''}
@@ -159,7 +206,7 @@ export function PDPActions({ product }: PDPActionsProps) {
                   </div>
 
                   {variant.price_delta ? (
-                    <span className="text-[11px] font-bold text-[#C74375] shrink-0 ml-2">
+                    <span className="text-[11px] font-bold text-[#9E1A59] shrink-0 ml-2">
                       +{formatIDR(variant.price_delta)}
                     </span>
                   ) : null}
@@ -171,15 +218,15 @@ export function PDPActions({ product }: PDPActionsProps) {
       )}
 
       {/* ── 3. Quantity Stepper & Price Summary ── */}
-      <div className="flex items-center justify-between pt-1 pb-1 border-t border-b border-[#C8C8C8]/30 py-3">
+      <div className="flex items-center justify-between pt-1 pb-1 border-t border-b border-[#E8D5C0] py-3">
         <div className="flex items-center gap-3">
-          <span className="text-xs font-bold text-[#888] uppercase tracking-wider">Jumlah:</span>
-          <div className="flex items-center bg-[#FFF8E1] border border-[#C8C8C8]/60 rounded-xl overflow-hidden h-9">
+          <span className="text-xs font-bold text-[#8A7880] uppercase tracking-wider">Jumlah:</span>
+          <div className="flex items-center bg-[#FFF8E1] border border-[#E8D5C0] rounded-xl overflow-hidden h-9">
             <button
               type="button"
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
               disabled={quantity <= 1}
-              className="w-8 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-sm transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-8 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#9E1A59] font-bold text-sm transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Kurangi jumlah"
             >
               −
@@ -188,7 +235,7 @@ export function PDPActions({ product }: PDPActionsProps) {
             <button
               type="button"
               onClick={() => setQuantity((q) => Math.min(10, q + 1))}
-              className="w-8 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-sm transition-colors cursor-pointer"
+              className="w-8 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#9E1A59] font-bold text-sm transition-colors cursor-pointer"
               aria-label="Tambah jumlah"
             >
               +
@@ -197,8 +244,8 @@ export function PDPActions({ product }: PDPActionsProps) {
         </div>
 
         <div className="text-right">
-          <span className="text-[11px] text-[#888] block">Subtotal:</span>
-          <span className="text-base sm:text-lg font-black text-[#C74375]">
+          <span className="text-[11px] text-[#8A7880] block">Subtotal:</span>
+          <span className="text-base sm:text-lg font-black text-[#9E1A59]">
             {formatIDR(currentUnitPrice * quantity)}
           </span>
         </div>
@@ -220,18 +267,20 @@ export function PDPActions({ product }: PDPActionsProps) {
           variant="primary"
           size="lg"
           onClick={handleBuyNow}
-          className="flex-1 shadow-md shadow-[#C74375]/25"
+          className="flex-1 shadow-md shadow-[#9E1A59]/25"
         >
           {product.stock_type === 'pre-order' ? 'Pre-Order Sekarang' : 'Beli Sekarang'}
         </Button>
       </div>
 
       {/* ── 5. Mobile Fixed Bottom Bar ── */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#FFF8E1]/95 backdrop-blur-md border-t border-[#C8C8C8]/40 px-4 py-3 z-40">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#FFF8E1]/95 backdrop-blur-md border-t border-[#E8D5C0] px-4 py-3 z-40">
         <div className="max-w-md mx-auto flex items-center gap-3">
           <div className="min-w-0 flex-1">
-            <span className="text-[10px] text-[#888] block truncate">Total ({quantity} item)</span>
-            <span className="text-sm font-extrabold text-[#C74375] truncate block">
+            <span className="text-[10px] text-[#8A7880] block truncate">
+              Total ({quantity} item)
+            </span>
+            <span className="text-sm font-extrabold text-[#9E1A59] truncate block">
               {formatIDR(currentUnitPrice * quantity)}
             </span>
           </div>

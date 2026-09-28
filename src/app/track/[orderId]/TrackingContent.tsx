@@ -149,9 +149,9 @@ export function TrackingContent({ orderId }: TrackingContentProps) {
             ))}
           </div>
 
-          <div className="border-t border-[#C8C8C8]/40 pt-3 flex justify-between items-center">
+          <div className="border-t border-[#E8D5C0] pt-3 flex justify-between items-center">
             <span className="text-sm font-bold text-[#1A1A1A]">Total Dibayar</span>
-            <span className="text-lg font-black text-[#C74375]">
+            <span className="text-lg font-black text-[#9E1A59]">
               {formatIDR(order.total_amount)}
             </span>
           </div>

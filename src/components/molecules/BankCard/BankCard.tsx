@@ -40,10 +40,10 @@ export function BankCard({ bank, accountNumber, accountHolder }: BankCardProps) 
         aria-label={`Salin nomor rekening ${bank}`}
         className={[
           'flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold',
-          'transition-all duration-200 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C74375]/40',
+          'transition-all duration-200 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59]/40',
           copied
             ? 'bg-[#D8FFF7] text-[#1A6B5C] border-[#9DDED1]'
-            : 'bg-[#C74375]/8 text-[#C74375] border-[#C74375]/30 hover:bg-[#C74375] hover:text-white hover:border-[#C74375]',
+            : 'bg-[#9E1A59]/8 text-[#9E1A59] border-[#9E1A59]/30 hover:bg-[#9E1A59] hover:text-white hover:border-[#9E1A59]',
         ].join(' ')}
       >
         <AnimatePresence mode="wait">

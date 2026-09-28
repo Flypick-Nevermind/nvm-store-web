@@ -31,7 +31,7 @@ function LineItem({ label, value, isTotal = false, hint }: LineItemProps) {
       <span
         className={
           isTotal
-            ? 'text-base font-extrabold text-[#C74375]'
+            ? 'text-base font-extrabold text-[#9E1A59]'
             : 'text-sm font-semibold text-[#1A1A1A]'
         }
       >
@@ -49,7 +49,7 @@ export function PriceBreakdown({
 }: PriceBreakdownProps) {
   return (
     <div
-      className="rounded-2xl border border-[#C8C8C8]/60 bg-white/80 p-4 flex flex-col gap-3"
+      className="rounded-2xl border border-[#E8D5C0] bg-white/90 p-4 flex flex-col gap-3"
       style={{ backdropFilter: 'blur(12px)' }}
     >
       <div className="flex items-center gap-2 mb-1">
@@ -57,7 +57,7 @@ export function PriceBreakdown({
           💸
         </span>
         <h3 className="text-sm font-bold text-[#1A1A1A]">Rincian Harga</h3>
-        <span className="text-[10px] text-[#C74375] font-semibold bg-[#C74375]/10 px-2 py-0.5 rounded-full ml-auto">
+        <span className="text-[10px] text-[#9E1A59] font-semibold bg-[#9E1A59]/10 px-2 py-0.5 rounded-full ml-auto">
           Transparan ✓
         </span>
       </div>

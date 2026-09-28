@@ -73,21 +73,21 @@ export function AuthPromptModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 12 }}
             transition={{ type: 'spring', duration: 0.35, bounce: 0.2 }}
-            className="relative w-full max-w-md bg-white rounded-3xl p-6 sm:p-7 shadow-2xl border border-[#C8C8C8]/40 z-10 overflow-hidden flex flex-col gap-5 text-center"
+            className="relative w-full max-w-md bg-white rounded-3xl p-6 sm:p-7 shadow-2xl border border-[#E8D5C0] z-10 overflow-hidden flex flex-col gap-5 text-center"
           >
             {/* Close 'X' Button */}
             <button
               type="button"
               onClick={handleClose}
               aria-label="Tutup notifikasi"
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#FFF8E1] hover:bg-[#FDFD96]/60 text-[#888] hover:text-[#1A1A1A] flex items-center justify-center transition-colors cursor-pointer text-sm"
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#FFF8E1] hover:bg-[#FAF0F3] text-[#8A7880] hover:text-[#1A1A1A] flex items-center justify-center transition-colors cursor-pointer text-sm"
             >
               ✕
             </button>
 
             {/* Icon Graphic */}
             <div className="flex justify-center pt-2">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#FFF8E1] via-[#D8FFF7] to-[#FDFD96] border border-[#9DDED1] flex items-center justify-center shadow-xs">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#FFF8E1] via-[#FAF0F3] to-[#FDFD96] border border-[#E8D5C0] flex items-center justify-center shadow-xs">
                 <span className="text-3xl" aria-hidden="true">
                   🔒
                 </span>
@@ -96,7 +96,7 @@ export function AuthPromptModal() {
 
             {/* Header Text */}
             <div className="flex flex-col items-center gap-2">
-              <Badge variant="yellow">{badgeText || '✨ Login Diperlukan'}</Badge>
+              <Badge variant="primary">{badgeText || '✨ Login Diperlukan'}</Badge>
               <h2
                 id="auth-modal-title"
                 className="text-xl sm:text-2xl font-display font-black text-[#1A1A1A] tracking-tight leading-tight"
@@ -118,7 +118,7 @@ export function AuthPromptModal() {
             </div>
 
             {/* Highlight Box */}
-            <div className="rounded-2xl bg-[#FFF8E1] border border-[#FDFD96] p-3 text-left flex items-start gap-2.5 text-[11px] sm:text-xs text-[#7A6830]">
+            <div className="rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] p-3 text-left flex items-start gap-2.5 text-[11px] sm:text-xs text-[#8E1744]">
               <span className="text-base shrink-0 mt-0.5" aria-hidden="true">
                 💡
               </span>
@@ -146,7 +146,7 @@ export function AuthPromptModal() {
                 variant="primary"
                 size="md"
                 onClick={handleProceedLogin}
-                className="flex-1 order-1 sm:order-2 text-xs sm:text-sm shadow-md shadow-[#C74375]/25"
+                className="flex-1 order-1 sm:order-2 text-xs sm:text-sm shadow-md shadow-[#9E1A59]/25"
               >
                 Masuk Sekarang →
               </Button>

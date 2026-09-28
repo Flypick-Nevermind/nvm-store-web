@@ -2,9 +2,9 @@
 
 export const BRAND = {
   name: 'NEVERMIND',
-  tagline: 'Too cute, too care?',
+  tagline: 'too cute, too care',
   description:
-    'Platform cross-border curated fashion untuk Gen Z. Tas trendi dari China, langsung ke tanganmu.',
+    "The first Gen Z jastip for China's trendiest bags. Curated cross-border fashion langsung ke tanganmu.",
   // ⚠️  Replace with real WA number before production
   whatsappNumber: '6281234567890',
   currency: 'IDR',
@@ -12,10 +12,18 @@ export const BRAND = {
 } as const;
 
 export const COLORS = {
-  primary: '#C74375',
-  silver: '#C8C8C8',
-  aqua: '#D8FFF7',
-  yellow: '#FDFD96',
-  cream: '#FFF8E1',
-  charcoal: '#1A1A1A',
+  primary: '#9E1A59', // Magenta Rose — bold, deep, confident
+  primaryDark: '#7A1244', // Deep Magenta
+  primaryLight: '#C23070', // Rose Pink
+  cream: '#FFF8E1', // Cream — soft, warm, timeless
+  blush: '#FFF8E1', // Alias for cream background
+  receipt: '#FFF8E1', // Cream paper
+  card: '#FFFFFF', // Clean White Card
+  border: '#E8D5C0', // Warm cream border
+  silver: '#C8C8C8', // Chrome Silver
+  chrome: '#D6D8DB', // Metallic Liquid Chrome
+  aqua: '#D8FFF7', // Aqua Mist
+  yellow: '#FDFD96', // Pastel Yellow
+  charcoal: '#1A1A1A', // Deep Charcoal
 } as const;
+

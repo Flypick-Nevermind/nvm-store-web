@@ -77,7 +77,7 @@ export function FileUploader({
   return (
     <div className="flex flex-col gap-2 w-full">
       <label className="text-sm font-medium text-[#1A1A1A]">
-        {label} <span className="text-[#C74375]">*</span>
+        {label} <span className="text-[#9E1A59]">*</span>
       </label>
 
       <input
@@ -99,12 +99,12 @@ export function FileUploader({
           }}
           onDragLeave={() => setIsDragging(false)}
           onDrop={handleDrop}
-          animate={{ borderColor: isDragging ? '#C74375' : displayError ? '#F87171' : '#C8C8C8' }}
+          animate={{ borderColor: isDragging ? '#9E1A59' : displayError ? '#F87171' : '#E8D5C0' }}
           className={[
             'relative flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed',
             'p-8 cursor-pointer transition-colors duration-200',
-            'hover:border-[#C74375]/60 hover:bg-[#C74375]/3',
-            isDragging ? 'bg-[#C74375]/5 border-[#C74375]' : 'bg-white',
+            'hover:border-[#9E1A59]/60 hover:bg-[#9E1A59]/3',
+            isDragging ? 'bg-[#9E1A59]/5 border-[#9E1A59]' : 'bg-white',
           ].join(' ')}
           role="button"
           aria-label="Upload bukti transfer"
@@ -116,7 +116,7 @@ export function FileUploader({
           </span>
           <div className="text-center">
             <p className="text-sm font-semibold text-[#1A1A1A]">Klik atau seret file ke sini</p>
-            <p id="upload-hint" className="text-xs text-[#888] mt-0.5">
+            <p id="upload-hint" className="text-xs text-[#8A7880] mt-0.5">
               JPG, PNG, PDF · Maks. 5MB
             </p>
           </div>
@@ -133,10 +133,10 @@ export function FileUploader({
               <img
                 src={preview}
                 alt="Preview bukti transfer"
-                className="w-14 h-14 rounded-xl object-cover border border-[#C8C8C8]/40 flex-shrink-0"
+                className="w-14 h-14 rounded-xl object-cover border border-[#E8D5C0] flex-shrink-0"
               />
             ) : (
-              <div className="w-14 h-14 rounded-xl bg-[#C74375]/10 flex items-center justify-center flex-shrink-0">
+              <div className="w-14 h-14 rounded-xl bg-[#9E1A59]/10 flex items-center justify-center flex-shrink-0">
                 <span className="text-2xl" aria-hidden="true">
                   📄
                 </span>

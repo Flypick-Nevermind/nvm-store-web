@@ -24,7 +24,7 @@ export function StepperProgress({ currentStage }: StepperProgressProps) {
                 <div
                   className={[
                     'absolute left-[17px] top-9 w-0.5 h-full',
-                    isCompleted ? 'bg-[#C74375]' : 'bg-[#C8C8C8]/60',
+                    isCompleted ? 'bg-[#9E1A59]' : 'bg-[#C8C8C8]/60',
                   ].join(' ')}
                   aria-hidden="true"
                 />
@@ -36,7 +36,7 @@ export function StepperProgress({ currentStage }: StepperProgressProps) {
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="w-9 h-9 rounded-full bg-[#C74375] flex items-center justify-center"
+                    className="w-9 h-9 rounded-full bg-[#9E1A59] flex items-center justify-center"
                   >
                     <svg
                       className="w-4 h-4 text-white"
@@ -54,11 +54,11 @@ export function StepperProgress({ currentStage }: StepperProgressProps) {
                   <div className="relative w-9 h-9 flex items-center justify-center">
                     {/* Pulse ring */}
                     <motion.div
-                      className="absolute inset-0 rounded-full bg-[#C74375]/20"
+                      className="absolute inset-0 rounded-full bg-[#9E1A59]/20"
                       animate={{ scale: [1, 1.5, 1], opacity: [0.6, 0, 0.6] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
-                    <div className="w-9 h-9 rounded-full bg-[#C74375] flex items-center justify-center z-10">
+                    <div className="w-9 h-9 rounded-full bg-[#9E1A59] flex items-center justify-center z-10">
                       <span className="text-base" aria-hidden="true">
                         {stage.icon}
                       </span>
@@ -78,7 +78,7 @@ export function StepperProgress({ currentStage }: StepperProgressProps) {
                 <p
                   className={[
                     'font-semibold text-sm leading-snug',
-                    isActive ? 'text-[#C74375]' : isCompleted ? 'text-[#1A1A1A]' : 'text-[#C8C8C8]',
+                    isActive ? 'text-[#9E1A59]' : isCompleted ? 'text-[#1A1A1A]' : 'text-[#C8C8C8]',
                   ].join(' ')}
                 >
                   {stage.title}

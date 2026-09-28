@@ -10,7 +10,7 @@ export type OrderStatus =
   | 'out_for_delivery'
   | 'delivered';
 
-export type ProductType = 'pre-order' | 'ready-stock';
+export type ProductType = 'pre-order' | 'ready-stock' | 'sold-out';
 
 // ─── Product ────────────────────────────────────────────────
 

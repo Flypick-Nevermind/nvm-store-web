@@ -40,9 +40,9 @@ function StepIndicator({ current }: { current: number }) {
               className={[
                 'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300',
                 current > s.id
-                  ? 'bg-[#C74375] text-white'
+                  ? 'bg-[#9E1A59] text-white'
                   : current === s.id
-                    ? 'bg-[#C74375] text-white ring-4 ring-[#C74375]/20'
+                    ? 'bg-[#9E1A59] text-white ring-4 ring-[#9E1A59]/20'
                     : 'bg-[#C8C8C8]/30 text-[#C8C8C8]',
               ].join(' ')}
               aria-current={current === s.id ? 'step' : undefined}
@@ -62,14 +62,14 @@ function StepIndicator({ current }: { current: number }) {
               )}
             </div>
             <span
-              className={`text-[10px] font-medium whitespace-nowrap ${current >= s.id ? 'text-[#C74375]' : 'text-[#C8C8C8]'}`}
+              className={`text-[10px] font-medium whitespace-nowrap ${current >= s.id ? 'text-[#9E1A59]' : 'text-[#C8C8C8]'}`}
             >
               {s.label}
             </span>
           </div>
           {idx < STEPS.length - 1 && (
             <div
-              className={`h-px w-12 mx-1 mb-4 transition-colors duration-300 ${current > s.id ? 'bg-[#C74375]' : 'bg-[#C8C8C8]/40'}`}
+              className={`h-px w-12 mx-1 mb-4 transition-colors duration-300 ${current > s.id ? 'bg-[#9E1A59]' : 'bg-[#C8C8C8]/40'}`}
               aria-hidden="true"
             />
           )}
@@ -427,15 +427,15 @@ export default function CheckoutPage() {
           {/* Right Column: Order Summary Card (Sticky on Desktop) */}
           <div className="lg:col-span-5 lg:sticky lg:top-24 flex flex-col gap-4 order-1 lg:order-2">
             <div className="rounded-3xl bg-white border border-[#C8C8C8]/50 p-5 sm:p-6 flex flex-col gap-4 shadow-xs">
-              <div className="flex items-center justify-between pb-2 border-b border-[#C8C8C8]/30">
-                <p className="text-xs font-bold text-[#888] uppercase tracking-wider">
+              <div className="flex items-center justify-between pb-2 border-b border-[#E8D5C0]">
+                <p className="text-xs font-bold text-[#8A7880] uppercase tracking-wider">
                   Ringkasan Pesanan ({totalQuantity} item)
                 </p>
                 {step > 1 && (
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="text-xs font-semibold text-[#C74375] hover:underline flex items-center gap-1 cursor-pointer"
+                    className="text-xs font-semibold text-[#9E1A59] hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     ✏️ Ubah Item
                   </button>
@@ -448,10 +448,10 @@ export default function CheckoutPage() {
                   return (
                     <div
                       key={itemIdentifier}
-                      className="flex items-center gap-3 py-2 border-b border-[#C8C8C8]/20 last:border-b-0"
+                      className="flex items-center gap-3 py-2 border-b border-[#E8D5C0] last:border-b-0"
                     >
                       {/* Thumbnail */}
-                      <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#C8C8C8]/20 shrink-0 border border-[#C8C8C8]/40">
+                      <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#FFF8E1] shrink-0 border border-[#E8D5C0]">
                         <Image
                           src={item.image}
                           alt={item.name}
@@ -463,27 +463,27 @@ export default function CheckoutPage() {
 
                       {/* Details */}
                       <div className="flex-1 min-w-0">
-                        <span className="inline-block text-[10px] px-1.5 py-0.5 rounded-md font-medium bg-[#FFF8E1] text-[#1A1A1A] border border-[#C8C8C8]/50 mb-0.5">
+                        <span className="inline-block text-[10px] px-1.5 py-0.5 rounded-md font-medium bg-[#FFF8E1] text-[#1A1A1A] border border-[#E8D5C0] mb-0.5">
                           {item.type === 'pre-order' ? 'PO 14-21 Hari' : 'Ready Stock'}
                         </span>
                         <p className="text-sm font-semibold text-[#1A1A1A] truncate">{item.name}</p>
                         {(item.color || item.variant) && (
-                          <p className="text-[11px] text-[#C74375] font-semibold truncate">
+                          <p className="text-[11px] text-[#9E1A59] font-semibold truncate">
                             {[item.color, item.variant].filter(Boolean).join(' • ')}
                           </p>
                         )}
-                        <p className="text-xs text-[#888]">{formatIDR(item.price)}</p>
+                        <p className="text-xs text-[#8A7880]">{formatIDR(item.price)}</p>
                       </div>
 
                       {/* Quantity Controls & Delete */}
                       <div className="flex flex-col items-end gap-1.5 shrink-0">
                         <div className="flex items-center gap-1.5">
                           {/* Stepper */}
-                          <div className="flex items-center bg-[#FFF8E1] border border-[#C8C8C8]/60 rounded-lg overflow-hidden h-7">
+                          <div className="flex items-center bg-[#FFF8E1] border border-[#E8D5C0] rounded-lg overflow-hidden h-7">
                             <button
                               type="button"
                               onClick={() => updateQuantity(itemIdentifier, item.quantity - 1)}
-                              className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-xs transition-colors cursor-pointer"
+                              className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#9E1A59] font-bold text-xs transition-colors cursor-pointer"
                               aria-label="Kurangi kuantitas"
                               title={item.quantity === 1 ? 'Hapus barang' : 'Kurangi kuantitas'}
                             >
@@ -495,7 +495,7 @@ export default function CheckoutPage() {
                             <button
                               type="button"
                               onClick={() => updateQuantity(itemIdentifier, item.quantity + 1)}
-                              className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#C74375] font-bold text-xs transition-colors cursor-pointer"
+                              className="w-6 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#9E1A59] font-bold text-xs transition-colors cursor-pointer"
                               aria-label="Tambah kuantitas"
                             >
                               +
@@ -506,7 +506,7 @@ export default function CheckoutPage() {
                           <button
                             type="button"
                             onClick={() => removeItem(itemIdentifier)}
-                            className="w-7 h-7 rounded-lg flex items-center justify-center text-[#888] hover:text-[#C74375] hover:bg-[#C74375]/10 transition-colors cursor-pointer"
+                            className="w-7 h-7 rounded-lg flex items-center justify-center text-[#888] hover:text-[#9E1A59] hover:bg-[#9E1A59]/10 transition-colors cursor-pointer"
                             title="Hapus barang dari keranjang"
                             aria-label={`Hapus ${item.name}`}
                           >
@@ -526,7 +526,7 @@ export default function CheckoutPage() {
                           </button>
                         </div>
 
-                        <span className="text-xs font-bold text-[#C74375]">
+                        <span className="text-xs font-bold text-[#9E1A59]">
                           {formatIDR(item.price * item.quantity)}
                         </span>
                       </div>
@@ -535,14 +535,14 @@ export default function CheckoutPage() {
                 })}
               </div>
 
-              <div className="border-t border-[#C8C8C8]/50 pt-3 mt-1 flex justify-between items-center">
+              <div className="border-t border-[#E8D5C0] pt-3 mt-1 flex justify-between items-center">
                 <span className="text-base font-bold text-[#1A1A1A]">Total Pembayaran</span>
-                <span className="text-lg font-black text-[#C74375]">{formatIDR(totalPrice)}</span>
+                <span className="text-lg font-black text-[#9E1A59]">{formatIDR(totalPrice)}</span>
               </div>
             </div>
 
             {/* Trust badge note */}
-            <div className="rounded-2xl bg-[#FFF8E1] border border-[#C8C8C8]/40 p-4 text-xs text-[#666] leading-relaxed flex items-start gap-2.5">
+            <div className="rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] p-4 text-xs text-[#8A7880] leading-relaxed flex items-start gap-2.5">
               <span className="text-base shrink-0" aria-hidden="true">
                 🔒
               </span>

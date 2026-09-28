@@ -28,7 +28,7 @@ export const MOCK_PRODUCTS: Product[] = [
     tags: ['bow', 'tote', 'y2k', 'cream'],
     created_at: '2026-09-01T00:00:00Z',
     colors: [
-      { name: 'Warm Cream', hex: '#FFF8E1' },
+      { name: 'Vintage Cream', hex: '#FFF8E1' },
       { name: 'Blush Pink', hex: '#FFD1DC' },
       { name: 'Midnight Noir', hex: '#1A1A1A' },
     ],
@@ -89,7 +89,7 @@ export const MOCK_PRODUCTS: Product[] = [
     created_at: '2026-09-10T00:00:00Z',
     colors: [
       { name: 'Aqua Mist', hex: '#9DDED1' },
-      { name: 'Berry Jelly', hex: '#C74375' },
+      { name: 'Berry Jelly', hex: '#9E1A59' },
       { name: 'Clear Crystal', hex: '#EAEAEA' },
     ],
     variants: [
@@ -130,22 +130,22 @@ export const MOCK_PRODUCTS: Product[] = [
     slug: 'fluffy-bear-bucket-bag',
     name: 'Fluffy Bear Bucket Bag',
     description:
-      'Bucket bag bulu-bulu teddy bear yang ultra-cute. Warna warm beige, drawstring closure, dapat dipakai handheld atau shoulder. Limited stock!',
-    short_description: 'Bucket bag fluffy teddy bear, hangout & casual vibes.',
+      'Bucket bag bulu-bulu teddy bear yang ultra-cute. Warna warm beige, drawstring closure, dapat dipakai handheld atau shoulder. Batch ini telah habis terjual dan sedang menunggu jadwal restock!',
+    short_description: 'Bucket bag fluffy teddy bear, hangout & casual vibes. [HABIS TERJUAL]',
     images: ['https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?w=600&q=80'],
     price_base: 195000,
     price_import_duty: 38000,
     price_shipping: 20000,
     price_total: 253000,
-    stock_type: 'ready-stock',
-    lead_time_days: [3, 5],
+    stock_type: 'sold-out',
+    lead_time_days: [0, 0],
     category: 'cute-finds',
     is_featured: false,
     tags: ['fluffy', 'bucket', 'teddy', 'casual'],
     created_at: '2026-09-12T00:00:00Z',
     colors: [
       { name: 'Teddy Beige', hex: '#D2B48C' },
-      { name: 'Warm Cream', hex: '#FFF8E1' },
+      { name: 'Vintage Cream', hex: '#FFF8E1' },
       { name: 'Choco Brown', hex: '#5C3826' },
     ],
     variants: [

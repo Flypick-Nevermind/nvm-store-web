@@ -22,7 +22,7 @@ export default function TrackIndexPage() {
 
   return (
     <PageShell>
-      <div className="max-w-xl mx-auto px-4 sm:px-6 py-12 md:py-20 flex flex-col gap-8">
+      <div className="max-w-xl mx-auto px-4 sm:px-6 pt-40 pb-20 flex flex-col gap-8">
         {/* Header */}
         <div className="flex flex-col gap-2 text-center">
           <span className="text-5xl" aria-hidden="true">
@@ -70,7 +70,7 @@ export default function TrackIndexPage() {
           <p className="text-xs text-[#5C5C00] font-medium mb-2">✨ Demo — Coba contoh order:</p>
           <button
             onClick={() => router.push('/track/NVM20260915ABC123')}
-            className="text-xs font-mono text-[#C74375] underline underline-offset-2"
+            className="text-xs font-mono text-[#9E1A59] underline underline-offset-2 cursor-pointer"
           >
             /track/NVM20260915ABC123
           </button>

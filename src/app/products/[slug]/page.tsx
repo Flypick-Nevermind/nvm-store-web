@@ -42,10 +42,13 @@ export default async function ProductDetailPage({ params }: Props) {
 
   return (
     <PageShell>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10 pb-24 md:pb-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-40 pb-24 md:pb-16">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-[#888]">
-          <Link href="/" className="hover:text-[#C74375] transition-colors">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-6 flex items-center gap-2 text-xs text-[#8A7880]"
+        >
+          <Link href="/" className="hover:text-[#9E1A59] transition-colors">
             Katalog
           </Link>
           <span>/</span>
@@ -56,7 +59,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
         <article className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left Column: Compact, elegant Gallery (sticky on desktop) */}
-          <div className="md:col-span-5 lg:col-span-5 md:sticky md:top-24 flex justify-center">
+          <div className="md:col-span-5 lg:col-span-5 md:sticky md:top-48 flex justify-center">
             <ProductGallery images={product.images} productName={product.name} />
           </div>
 
@@ -65,8 +68,20 @@ export default async function ProductDetailPage({ params }: Props) {
             {/* Header */}
             <div className="flex flex-col gap-2.5">
               <div className="flex items-center gap-2 flex-wrap">
-                <Badge variant={product.stock_type === 'pre-order' ? 'yellow' : 'aqua'}>
-                  {product.stock_type === 'pre-order' ? '⏳ Pre-Order' : '✅ Ready Stock'}
+                <Badge
+                  variant={
+                    product.stock_type === 'sold-out'
+                      ? 'sold-out'
+                      : product.stock_type === 'pre-order'
+                        ? 'yellow'
+                        : 'aqua'
+                  }
+                >
+                  {product.stock_type === 'sold-out'
+                    ? '❌ Sold Out'
+                    : product.stock_type === 'pre-order'
+                      ? '⏳ Pre-Order'
+                      : '✅ Ready Stock'}
                 </Badge>
                 {product.tags.slice(0, 3).map((tag) => (
                   <Badge key={tag} variant="silver">
@@ -78,10 +93,10 @@ export default async function ProductDetailPage({ params }: Props) {
                 {product.name}
               </h1>
               <div className="flex items-baseline gap-3">
-                <p className="text-2xl sm:text-3xl font-extrabold text-[#C74375]">
+                <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
                   Rp {product.price_total.toLocaleString('id-ID')}
                 </p>
-                <span className="text-xs text-[#888] font-medium bg-[#FFF8E1] px-2.5 py-1 rounded-full border border-[#C8C8C8]/40">
+                <span className="text-xs text-[#8A7880] font-medium bg-[#FFF8E1] px-2.5 py-1 rounded-full border border-[#E8D5C0]">
                   Sudah Termasuk Bea Cukai & Ongkir
                 </span>
               </div>
@@ -95,14 +110,41 @@ export default async function ProductDetailPage({ params }: Props) {
             {/* Actions (desktop inline + mobile sticky) */}
             <PDPActions product={product} />
 
+            {/* Benefit badges from Mockup */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#E8D5C0] text-[11px] text-[#444]">
+                <span className="text-base">🚚</span>
+                <span className="font-semibold">
+                  FREE SHIPPING{' '}
+                  <span className="text-[10px] text-[#888] font-normal block">
+                    for selected items
+                  </span>
+                </span>
+              </div>
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#E8D5C0] text-[11px] text-[#444]">
+                <span className="text-base">🛍️</span>
+                <span className="font-semibold">
+                  AUTHENTIC SOURCE{' '}
+                  <span className="text-[10px] text-[#888] font-normal block">from China</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#E8D5C0] text-[11px] text-[#444]">
+                <span className="text-base">💌</span>
+                <span className="font-semibold">
+                  JASTIP SERVICE{' '}
+                  <span className="text-[10px] text-[#888] font-normal block">with love ♡</span>
+                </span>
+              </div>
+            </div>
+
             {/* Description */}
-            <div className="flex flex-col gap-2 pt-2 border-t border-[#C8C8C8]/30">
+            <div className="flex flex-col gap-2 pt-2 border-t border-[#E8D5C0]">
               <h2 className="text-sm font-bold text-[#1A1A1A]">Deskripsi Produk</h2>
               <p className="text-sm text-[#555] leading-relaxed">{product.description}</p>
             </div>
 
             {/* Specifications Card */}
-            <div className="rounded-2xl bg-white border border-[#C8C8C8]/50 p-4 shadow-xs flex flex-col gap-2.5">
+            <div className="rounded-2xl bg-white border border-[#E8D5C0] p-4 shadow-xs flex flex-col gap-2.5">
               <h3 className="text-xs font-bold text-[#1A1A1A] uppercase tracking-wider text-[#888]">
                 Informasi & Spesifikasi
               </h3>
@@ -116,9 +158,11 @@ export default async function ProductDetailPage({ params }: Props) {
                 <div className="flex flex-col">
                   <span className="text-[#888]">Tipe Pengiriman</span>
                   <span className="font-semibold text-[#1A1A1A]">
-                    {product.stock_type === 'pre-order'
-                      ? `Kurasi PO (${product.lead_time_days[0]}–${product.lead_time_days[1]} hari)`
-                      : 'Ready Stock (Kirim Hari Ini)'}
+                    {product.stock_type === 'sold-out'
+                      ? 'Stok Habis (Menunggu Jadwal Restock)'
+                      : product.stock_type === 'pre-order'
+                        ? `Kurasi PO (${product.lead_time_days[0]}–${product.lead_time_days[1]} hari)`
+                        : 'Ready Stock (Kirim Hari Ini)'}
                   </span>
                 </div>
                 <div className="flex flex-col">
@@ -160,17 +204,17 @@ export default async function ProductDetailPage({ params }: Props) {
 
         {/* Related Products Section */}
         {relatedProducts.length > 0 && (
-          <section className="mt-16 pt-10 border-t border-[#C8C8C8]/40 flex flex-col gap-6">
+          <section className="mt-16 pt-10 border-t border-[#E8D5C0] flex flex-col gap-6">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-xs font-bold text-[#C74375] uppercase tracking-wider">
+                <span className="text-xs font-bold text-[#9E1A59] uppercase tracking-wider">
                   Koleksi Terkait
                 </span>
                 <h2 className="text-xl sm:text-2xl font-display font-black text-[#1A1A1A]">
                   Kamu Mungkin Juga Suka ✨
                 </h2>
               </div>
-              <Link href="/" className="text-xs font-semibold text-[#C74375] hover:underline">
+              <Link href="/" className="text-xs font-semibold text-[#9E1A59] hover:underline">
                 Lihat Semua →
               </Link>
             </div>

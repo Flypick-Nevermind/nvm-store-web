@@ -84,10 +84,10 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
               onClick={() => setActiveIdx(idx)}
               className={[
                 'relative flex-shrink-0 w-16 h-20 sm:w-18 sm:h-22 rounded-2xl overflow-hidden border-2 transition-all duration-150 cursor-pointer',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C74375]/60',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59]/60',
                 activeIdx === idx
-                  ? 'border-[#C74375] shadow-xs scale-102 ring-2 ring-[#C74375]/20'
-                  : 'border-[#C8C8C8]/50 opacity-70 hover:opacity-100 hover:border-[#C8C8C8]',
+                  ? 'border-[#9E1A59] shadow-xs scale-102 ring-2 ring-[#9E1A59]/20'
+                  : 'border-[#E8D5C0] opacity-70 hover:opacity-100 hover:border-[#888]',
               ].join(' ')}
               aria-label={`Lihat foto ${idx + 1}`}
               aria-pressed={activeIdx === idx}
