@@ -42,15 +42,15 @@ function LogoContent({
   variant = 'dark',
   showTagline = false,
 }: Omit<LogoProps, 'href'>) {
-  const [logoSrc, setLogoSrc] = useState<string>('/assets/nevermind-logo.PNG');
+  const [logoSrc, setLogoSrc] = useState<string>('/assets/nvm-logo.png');
   const [imageError, setImageError] = useState(false);
   const cfg = sizeConfig[size];
   const textColor = variant === 'dark' ? 'text-[#9E1A59]' : 'text-white';
   const subColor = variant === 'dark' ? 'text-[#8A7880]' : 'text-white/70';
 
   const handleError = () => {
-    if (logoSrc === '/assets/nevermind-logo.PNG') {
-      setLogoSrc('/assets/logo.svg');
+    if (logoSrc === '/assets/nvm-logo.png') {
+      setLogoSrc('/assets/nevermind-logo.PNG');
     } else {
       setImageError(true);
     }
