@@ -148,16 +148,16 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* ── Layer 2: Logo (Left) + Search (Center Desktop) + Icons (Right) ─────────────────── */}
+      {/* ── Layer 2: Mobile (Logo Left, Icons Right) | Desktop (Search Left, Logo Center, Icons Right) ── */}
       <div className="bg-[#FFF8E1] border-b border-[#E8D5C0] py-2.5 sm:py-3 transition-all duration-300">
-        <div className="w-full px-3 sm:px-6 lg:px-8 flex items-center justify-between min-h-[52px] sm:min-h-[72px] md:min-h-[80px]">
-          {/* Sisi Kiri: Logo */}
-          <div className="flex items-center justify-start shrink-0 z-10">
+        <div className="relative w-full px-3 sm:px-6 lg:px-8 flex items-center justify-between min-h-[52px] sm:min-h-[72px] md:min-h-[80px]">
+          {/* Mobile: Logo di Kiri */}
+          <div className="flex md:hidden items-center justify-start shrink-0 z-10">
             <Logo size="lg" variant="dark" />
           </div>
 
-          {/* Desktop Search Bar (Tengah di Desktop) */}
-          <div className="hidden md:flex items-center flex-1 max-w-sm lg:max-w-md mx-6 lg:mx-10 z-10">
+          {/* Desktop: Search Bar di Kiri */}
+          <div className="hidden md:flex items-center gap-2 flex-1 max-w-[220px] lg:max-w-xs z-10">
             <div className="relative w-full">
               <svg
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9E1A59]/60 pointer-events-none"
@@ -179,6 +179,11 @@ export function Navbar() {
                 aria-label="Search products"
               />
             </div>
+          </div>
+
+          {/* Desktop: Logo di Tengah (Exact 50% Center) */}
+          <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 items-center justify-center pointer-events-auto z-10">
+            <Logo size="lg" variant="dark" />
           </div>
 
           {/* Sisi Kanan: Action Icons */}
@@ -415,11 +420,14 @@ export function Navbar() {
                   stroke="currentColor"
                   strokeWidth={2}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
                 </svg>
                 <input
                   type="search"
-                  autoFocus
                   placeholder="Cari tas, brand, atau warna..."
                   className="w-full pl-9 pr-8 py-2 text-xs rounded-full border border-[#E8D5C0] bg-white text-[#1A1A1A] placeholder-[#888] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15"
                   aria-label="Cari produk"
