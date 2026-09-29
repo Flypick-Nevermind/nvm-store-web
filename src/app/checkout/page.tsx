@@ -616,12 +616,12 @@ export default function CheckoutPage() {
                           }
                         }}
                         placeholder="Kode promo (cth: NVM5)"
-                        className="flex-1 px-3 py-1.5 text-xs font-mono font-bold bg-[#FAF6F0] rounded-xl border border-[#E8D5C0] focus:border-[#9E1A59] focus:outline-none uppercase placeholder:font-sans placeholder:normal-case placeholder:font-normal placeholder:text-[#999]"
+                        className="flex-1 min-w-0 px-3 py-2 text-xs font-mono font-bold bg-[#FAF6F0] rounded-xl border border-[#E8D5C0] focus:border-[#9E1A59] focus:outline-none uppercase placeholder:font-sans placeholder:normal-case placeholder:font-normal placeholder:text-[#999]"
                       />
                       <button
                         type="button"
                         onClick={handleApplyVoucher}
-                        className="px-3.5 py-1.5 text-xs font-bold bg-[#9E1A59] text-white rounded-xl hover:bg-[#7A1244] active:scale-95 transition-all cursor-pointer shadow-xs"
+                        className="shrink-0 px-3.5 py-2 text-xs font-bold bg-[#9E1A59] text-white rounded-xl hover:bg-[#7A1244] active:scale-95 transition-all cursor-pointer shadow-xs"
                       >
                         Pakai
                       </button>

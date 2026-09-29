@@ -19,21 +19,21 @@ const sizeConfig: Record<
   LogoSize,
   { imageClass: string; textClass: string; taglineClass: string }
 > = {
-  sm: { imageClass: 'h-10 sm:h-12 w-auto', textClass: 'text-xl', taglineClass: 'text-[10px]' },
+  sm: { imageClass: 'h-7 sm:h-9 md:h-12 w-auto', textClass: 'text-lg sm:text-xl', taglineClass: 'text-[9px] sm:text-[10px]' },
   md: {
-    imageClass: 'h-12 sm:h-16 w-auto',
-    textClass: 'text-2xl sm:text-3xl',
-    taglineClass: 'text-xs',
+    imageClass: 'h-8 sm:h-10 md:h-14 w-auto',
+    textClass: 'text-xl sm:text-2xl md:text-3xl',
+    taglineClass: 'text-[10px] sm:text-xs',
   },
   lg: {
-    imageClass: 'h-14 sm:h-18 md:h-20 w-auto',
-    textClass: 'text-3xl sm:text-4xl',
-    taglineClass: 'text-sm',
+    imageClass: 'h-8.5 sm:h-12 md:h-16 lg:h-20 w-auto',
+    textClass: 'text-2xl sm:text-3xl md:text-4xl',
+    taglineClass: 'text-xs sm:text-sm',
   },
   xl: {
-    imageClass: 'h-20 sm:h-24 md:h-28 w-auto',
-    textClass: 'text-4xl sm:text-5xl',
-    taglineClass: 'text-base',
+    imageClass: 'h-12 sm:h-16 md:h-20 lg:h-24 w-auto',
+    textClass: 'text-3xl sm:text-4xl md:text-5xl',
+    taglineClass: 'text-sm sm:text-base',
   },
 };
 
@@ -108,7 +108,7 @@ function LogoContent({
 export function Logo({ href = '/', className = '', ...props }: LogoProps) {
   if (!href) {
     return (
-      <div className={`inline-flex items-center ${className}`}>
+      <div className={`inline-flex items-center justify-start ${className}`}>
         <LogoContent {...props} />
       </div>
     );
@@ -117,7 +117,7 @@ export function Logo({ href = '/', className = '', ...props }: LogoProps) {
   return (
     <Link
       href={href}
-      className={`inline-flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59] focus-visible:ring-offset-2 rounded-sm ${className}`}
+      className={`inline-flex items-center justify-start focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59] focus-visible:ring-offset-2 rounded-sm ${className}`}
       aria-label="NEVERMIND — Beranda"
     >
       <LogoContent {...props} />

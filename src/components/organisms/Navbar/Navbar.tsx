@@ -44,6 +44,7 @@ export function Navbar() {
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const [isSupportOpen, setIsSupportOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   const supportRef = useRef<HTMLLIElement>(null);
@@ -105,6 +106,8 @@ export function Navbar() {
       setIsSupportOpen(false);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsMobileMenuOpen(false);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsMobileSearchOpen(false);
     }
   }, [pathname]);
 
@@ -145,14 +148,19 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* ── Layer 2: Logo + Search + Icons ─────────────────── */}
-      <div className="bg-[#FFF8E1] border-b border-[#E8D5C0] py-3 transition-all duration-300">
-        <div className="relative w-full px-4 sm:px-6 lg:px-4 flex items-center justify-between min-h-[56px] sm:min-h-[72px] md:min-h-[80px]">
-          {/* Search (left) */}
-          <div className="hidden md:flex items-center gap-2 flex-1 max-w-[220px] lg:max-w-xs z-10">
+      {/* ── Layer 2: Logo (Left) + Search (Center Desktop) + Icons (Right) ─────────────────── */}
+      <div className="bg-[#FFF8E1] border-b border-[#E8D5C0] py-2.5 sm:py-3 transition-all duration-300">
+        <div className="w-full px-3 sm:px-6 lg:px-8 flex items-center justify-between min-h-[52px] sm:min-h-[72px] md:min-h-[80px]">
+          {/* Sisi Kiri: Logo */}
+          <div className="flex items-center justify-start shrink-0 z-10">
+            <Logo size="lg" variant="dark" />
+          </div>
+
+          {/* Desktop Search Bar (Tengah di Desktop) */}
+          <div className="hidden md:flex items-center flex-1 max-w-sm lg:max-w-md mx-6 lg:mx-10 z-10">
             <div className="relative w-full">
               <svg
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9E1A59]/60"
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9E1A59]/60 pointer-events-none"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -167,27 +175,23 @@ export function Navbar() {
               <input
                 type="search"
                 placeholder="Search for products..."
-                className="w-full pl-9 pr-4 py-2 text-xs rounded-full border border-[#E8D5C0] bg-white text-[#1A1A1A] placeholder-[#C8A0B0] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15 transition-all"
+                className="w-full pl-10 pr-4 py-2 text-xs rounded-full border border-[#E8D5C0] bg-white text-[#1A1A1A] placeholder-[#C8A0B0] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15 transition-all"
                 aria-label="Search products"
               />
             </div>
           </div>
 
-          {/* Logo (center - mathematically centered at exact 50%) */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-auto z-10">
-            <Logo size="lg" variant="dark" />
-          </div>
-
-          {/* Icons (right) */}
-          <div className="flex-1 flex items-center justify-end gap-1 z-10">
+          {/* Sisi Kanan: Action Icons */}
+          <div className="flex items-center justify-end gap-0.5 sm:gap-1.5 z-10">
             {/* Mobile search toggle */}
             <button
               type="button"
-              className="md:hidden w-9 h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF8E1] transition-colors"
+              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+              className="md:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF0F5] transition-colors"
               aria-label="Search"
             >
               <svg
-                className="w-4.5 h-4.5"
+                className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#1A1A1A]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -209,13 +213,13 @@ export function Navbar() {
                   onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
                   aria-expanded={isAccountMenuOpen}
                   aria-label="Menu akun"
-                  className="flex items-center gap-1.5 px-2 py-1.5 rounded-full hover:bg-[#FFF8E1] text-[#1A1A1A] transition-all cursor-pointer"
+                  className="flex items-center gap-1 px-1.5 sm:px-2 py-1.5 rounded-full hover:bg-[#FFF0F5] text-[#1A1A1A] transition-all cursor-pointer"
                 >
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#9E1A59] to-[#C23070] text-white flex items-center justify-center text-xs font-black uppercase">
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-tr from-[#9E1A59] to-[#C23070] text-white flex items-center justify-center text-[11px] sm:text-xs font-black uppercase">
                     {user.name ? user.name.charAt(0) : 'U'}
                   </div>
                   <svg
-                    className={`w-3 h-3 text-[#999] transition-transform ${isAccountMenuOpen ? 'rotate-180' : ''}`}
+                    className={`w-3 h-3 text-[#999] transition-transform hidden sm:inline ${isAccountMenuOpen ? 'rotate-180' : ''}`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -286,11 +290,11 @@ export function Navbar() {
               <Link
                 href="/login"
                 id="navbar-login-btn"
-                className="w-9 h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF8E1] hover:text-[#9E1A59] transition-colors"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF0F5] hover:text-[#9E1A59] transition-colors"
                 aria-label="Login"
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4.5 h-4.5 sm:w-5 sm:h-5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -308,11 +312,11 @@ export function Navbar() {
             {/* Wishlist */}
             <button
               type="button"
-              className="w-9 h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF8E1] hover:text-[#9E1A59] transition-colors"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF0F5] hover:text-[#9E1A59] transition-colors"
               aria-label="Wishlist"
             >
               <svg
-                className="w-5 h-5"
+                className="w-4.5 h-4.5 sm:w-5 sm:h-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -332,10 +336,10 @@ export function Navbar() {
               id="navbar-cart-btn"
               onClick={handleCartClick}
               aria-label={mounted ? `Keranjang (${totalItems} item)` : 'Keranjang'}
-              className="relative w-9 h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF8E1] hover:text-[#9E1A59] transition-colors"
+              className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF0F5] hover:text-[#9E1A59] transition-colors"
             >
               <svg
-                className="w-5 h-5"
+                className="w-4.5 h-4.5 sm:w-5 sm:h-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -359,7 +363,7 @@ export function Navbar() {
                         ? { duration: 0.3 }
                         : { type: 'spring', stiffness: 400, damping: 20 }
                     }
-                    className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold flex items-center justify-center leading-none bg-[#9E1A59] text-white"
+                    className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full text-[9px] font-bold flex items-center justify-center leading-none bg-[#9E1A59] text-white"
                     aria-hidden="true"
                   >
                     {totalItems > 99 ? '99+' : totalItems}
@@ -368,10 +372,10 @@ export function Navbar() {
               </AnimatePresence>
             </Link>
 
-            {/* Mobile hamburger */}
+            {/* Mobile Hamburger */}
             <button
               type="button"
-              className="lg:hidden w-9 h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF8E1] transition-colors ml-1"
+              className="lg:hidden w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF0F5] transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Menu"
               aria-expanded={isMobileMenuOpen}
@@ -392,6 +396,45 @@ export function Navbar() {
             </button>
           </div>
         </div>
+
+        {/* Mobile Search Bar Dropdown */}
+        <AnimatePresence>
+          {isMobileSearchOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden px-4 py-2.5 border-t border-[#E8D5C0] bg-[#FFF8E1]"
+            >
+              <div className="relative w-full">
+                <svg
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9E1A59]/70 pointer-events-none"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input
+                  type="search"
+                  autoFocus
+                  placeholder="Cari tas, brand, atau warna..."
+                  className="w-full pl-9 pr-8 py-2 text-xs rounded-full border border-[#E8D5C0] bg-white text-[#1A1A1A] placeholder-[#888] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15"
+                  aria-label="Cari produk"
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsMobileSearchOpen(false)}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#888] hover:text-[#1A1A1A] p-1"
+                >
+                  ✕
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* ── Layer 3: Desktop Navigation Menu ───────────────── */}
@@ -511,6 +554,19 @@ export function Navbar() {
                   {link.label}
                 </Link>
               ))}
+
+              {/* Wishlist in mobile drawer */}
+              <Link
+                href="/products"
+                className="px-4 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-colors text-[#1A1A1A] hover:bg-[#FFF8E1] hover:text-[#9E1A59] flex items-center justify-between"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span className="flex items-center gap-2">
+                  <span>🤍</span>
+                  <span>WISHLIST SAYA</span>
+                </span>
+                <span className="text-[10px] font-semibold text-[#888]">Koleksi Favorit</span>
+              </Link>
 
               {/* Support section in mobile */}
               <div className="mt-2 border-t border-[#E8D5C0] pt-2">

@@ -30,14 +30,15 @@ export default function AllProductsPage() {
             {filtered.length} Products
           </p>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <button
               type="button"
               onClick={() => openRequestBag()}
-              className="hidden md:inline-flex items-center gap-1.5 text-xs font-bold text-[#9E1A59] bg-[#FFF0F5] hover:bg-[#FCE4EC] border border-[#F48FB1]/50 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-[#9E1A59] bg-[#FFF0F5] hover:bg-[#FCE4EC] border border-[#F48FB1]/50 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full transition-colors cursor-pointer shrink-0"
             >
               <span>✨</span>
-              <span>Cari model lain? Request di sini</span>
+              <span className="hidden sm:inline">Cari model lain? Request di sini</span>
+              <span className="sm:hidden">Request Tas</span>
             </button>
 
             <div className="flex items-center gap-2">
@@ -70,7 +71,7 @@ export default function AllProductsPage() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5"
+              className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5"
             >
               {filtered.map((product, i) => (
                 <motion.div
@@ -85,12 +86,12 @@ export default function AllProductsPage() {
             </motion.div>
 
             {/* Bottom Request a Bag Strip */}
-            <div className="mt-14 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#FAF6F0] via-[#FFF8E1] to-[#FFF0F5] border border-[#E8D5C0] flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
+            <div className="mt-10 sm:mt-14 p-5 sm:p-8 rounded-2xl bg-gradient-to-r from-[#FAF6F0] via-[#FFF8E1] to-[#FFF0F5] border border-[#E8D5C0] flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-5 text-center md:text-left">
               <div>
-                <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[11px] font-bold uppercase tracking-wider mb-2">
+                <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mb-1.5 sm:mb-2">
                   Special Concierge Sourcing
                 </span>
-                <h3 className="font-display font-bold text-lg text-[#1A1A1A]">
+                <h3 className="font-display font-black text-base sm:text-lg text-[#1A1A1A]">
                   Tidak Menemukan Tas yang Kamu Cari di Katalog?
                 </h3>
                 <p className="text-xs sm:text-sm text-[#666] mt-1 max-w-xl">
@@ -100,7 +101,7 @@ export default function AllProductsPage() {
               <button
                 type="button"
                 onClick={() => openRequestBag()}
-                className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9E1A59] hover:bg-[#7A1244] text-white text-xs sm:text-sm font-bold tracking-wide shadow-md hover:shadow-lg transition-all cursor-pointer"
+                className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#9E1A59] hover:bg-[#7A1244] text-white text-xs sm:text-sm font-bold tracking-wide shadow-md hover:shadow-lg transition-all cursor-pointer"
               >
                 <span>✨ Request a Bag</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

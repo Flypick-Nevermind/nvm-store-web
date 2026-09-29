@@ -67,19 +67,19 @@ export function PromoVoucherBadge() {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -60, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-            className="fixed left-0 top-1/2 -translate-y-1/2 z-40 select-none"
+            className="fixed left-0 top-[38%] sm:top-1/2 -translate-y-1/2 z-40 select-none"
           >
             <div className="relative group">
-              {/* Circular White Close Button overlapping top-right */}
+              {/* Circular White Close Button overlapping top-right with accessible tap target */}
               <button
                 type="button"
                 onClick={handleCloseTab}
                 aria-label="Tutup voucher promo"
                 title="Tutup voucher"
-                className="absolute -top-3 -right-3 w-7 h-7 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.15)] flex items-center justify-center text-[#DABACA] hover:text-[#9E1A59] hover:scale-105 active:scale-95 transition-all cursor-pointer z-30 border border-black/[0.03]"
+                className="absolute -top-2.5 -right-2.5 sm:-top-3 sm:-right-3 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white shadow-[0_2px_8px_rgba(0,0,0,0.15)] flex items-center justify-center text-[#DABACA] hover:text-[#9E1A59] hover:scale-105 active:scale-95 transition-all cursor-pointer z-30 border border-black/[0.04]"
               >
                 <svg
-                  className="w-3.5 h-3.5"
+                  className="w-3 h-3 sm:w-3.5 sm:h-3.5"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -94,13 +94,10 @@ export function PromoVoucherBadge() {
                 type="button"
                 onClick={handleTabClick}
                 aria-label="Buka voucher Get 5% OFF"
-                className="flex items-center justify-center bg-[#F9D4E3] hover:bg-[#F3C5D8] active:brightness-95 text-black transition-all rounded-r-[4px] shadow-[2px_4px_14px_rgba(0,0,0,0.08)] cursor-pointer py-4 px-1.5 w-[36px] sm:w-[40px]"
-                style={{
-                  minHeight: '150px',
-                }}
+                className="flex items-center justify-center bg-[#F9D4E3] hover:bg-[#F3C5D8] active:brightness-95 text-black transition-all rounded-r-[4px] shadow-[2px_4px_14px_rgba(0,0,0,0.08)] cursor-pointer py-3 sm:py-4 px-1 sm:px-1.5 w-[30px] sm:w-[40px] min-h-[125px] sm:min-h-[150px]"
               >
                 <span
-                  className="font-bold text-xs sm:text-[13px] tracking-wider uppercase whitespace-nowrap text-black select-none"
+                  className="font-bold text-[10px] sm:text-[13px] tracking-wide sm:tracking-wider uppercase whitespace-nowrap text-black select-none"
                   style={{
                     writingMode: 'vertical-rl',
                     textOrientation: 'upright',
@@ -118,7 +115,7 @@ export function PromoVoucherBadge() {
       {/* Detail Modal / Flyout when tab is clicked */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/50 backdrop-blur-xs">
             {/* Backdrop click to close */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -134,7 +131,7 @@ export function PromoVoucherBadge() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.92, y: 12 }}
               transition={{ type: 'spring', stiffness: 400, damping: 28 }}
-              className="relative w-full max-w-sm rounded-3xl bg-[#FFFDF9] border border-[#E8D5C0] shadow-2xl p-6 overflow-hidden z-10"
+              className="relative w-full max-w-[340px] sm:max-w-sm rounded-2xl sm:rounded-3xl bg-[#FFFDF9] border border-[#E8D5C0] shadow-2xl p-5 sm:p-6 overflow-hidden z-10 max-h-[88vh] overflow-y-auto"
             >
               {/* Close Button X */}
               <button
