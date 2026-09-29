@@ -6,6 +6,7 @@ import { PageShell } from '@/components/layouts/PageShell';
 import { ETACalculator } from '@/components/molecules/ETACalculator';
 import { PriceBreakdown } from '@/components/molecules/PriceBreakdown';
 import { ProductCard } from '@/components/molecules/ProductCard';
+import { CustomerReviews } from '@/components/organisms/CustomerReviews';
 import { ProductGallery } from '@/components/organisms/ProductGallery';
 import { MOCK_PRODUCTS } from '@/lib/api/mockData';
 import { PDPActions } from './PDPActions';
@@ -92,6 +93,25 @@ export default async function ProductDetailPage({ params }: Props) {
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black text-[#1A1A1A] leading-snug">
                 {product.name}
               </h1>
+
+              {/* Rating & Review Anchor */}
+              <a
+                href="#customer-reviews"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-[#888] hover:text-[#9E1A59] transition-colors group w-fit cursor-pointer"
+              >
+                <div className="flex items-center text-[#F59E0B] text-sm">
+                  <span>★★★★★</span>
+                </div>
+                <span className="font-bold text-[#1A1A1A]">4.9</span>
+                <span>·</span>
+                <span className="underline underline-offset-2 group-hover:text-[#9E1A59]">
+                  Lihat Ulasan Pembeli
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#D8FFF7] text-[#1A6B5C] font-bold">
+                  ✓ Terverifikasi
+                </span>
+              </a>
+
               <div className="flex items-baseline gap-3">
                 <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
                   Rp {product.price_total.toLocaleString('id-ID')}
@@ -201,6 +221,13 @@ export default async function ProductDetailPage({ params }: Props) {
             </div>
           </div>
         </article>
+
+        {/* Customer Reviews Section */}
+        <CustomerReviews
+          productId={product.id}
+          productName={product.name}
+          variants={product.variants}
+        />
 
         {/* Related Products Section */}
         {relatedProducts.length > 0 && (

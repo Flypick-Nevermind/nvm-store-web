@@ -1,0 +1,1 @@
+export { CustomerReviews } from './CustomerReviews';

@@ -120,3 +120,20 @@ export interface CartItem {
   variant?: string;
   key?: string;
 }
+
+// ─── Customer Review ────────────────────────────────────────
+
+export interface CustomerReview {
+  id: string;
+  productId: string;
+  authorName: string;
+  rating: number; // 1 - 5
+  title: string;
+  comment: string;
+  variantName?: string;
+  date: string;
+  isVerifiedPurchase: boolean;
+  helpfulCount: number;
+  avatarUrl?: string;
+  images?: string[];
+}
