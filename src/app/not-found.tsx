@@ -8,7 +8,7 @@ import { BRAND } from '@/constants/brand';
 export default function NotFound() {
   return (
     <PageShell>
-      <section className="min-h-[75vh] bg-[#FFF8E1] pt-40 pb-16 px-4 flex items-center justify-center">
+      <section className="min-h-[75vh] bg-[#FFF8E1] py-16 px-4 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

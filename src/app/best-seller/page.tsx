@@ -29,12 +29,9 @@ const BEST_SELLER_STATS: Record<string, BestSellerMeta> = {
   'prod-006': { rank: 6, salesCount: 190, rating: 4.7, reviewCount: 43 },
 };
 
-type StockFilterType = 'all' | 'ready-stock' | 'pre-order' | 'sold-out';
 type SortByType = 'rank' | 'sales' | 'rating' | 'price-asc' | 'price-desc';
 
 export default function BestSellerPage() {
-  const [stockFilter, setStockFilter] = useState<StockFilterType>('all');
-  const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<SortByType>('rank');
   const [addedProductId, setAddedProductId] = useState<string | null>(null);
 
@@ -72,14 +69,7 @@ export default function BestSellerPage() {
 
   // Filtered & sorted products list
   const filteredProducts = useMemo(() => {
-    let list = rankedProducts.filter((product) => {
-      const matchStock = stockFilter === 'all' || product.stock_type === stockFilter;
-      const matchCategory =
-        categoryFilter === 'all' ||
-        product.category === categoryFilter ||
-        product.tags.includes(categoryFilter);
-      return matchStock && matchCategory;
-    });
+    let list = [...rankedProducts];
 
     if (sortBy === 'sales') {
       list = [...list].sort(
@@ -103,61 +93,12 @@ export default function BestSellerPage() {
     }
 
     return list;
-  }, [rankedProducts, stockFilter, categoryFilter, sortBy]);
+  }, [rankedProducts, sortBy]);
 
   return (
     <PageShell>
-      {/* ── Breadcrumb Hero Header ──────────────────────────── */}
-      <section className="bg-[#FFF8E1] pt-40 pb-12 px-4 text-center border-b border-[#E8D5C0]">
-        <div className="max-w-7xl mx-auto">
-          {/* Breadcrumb */}
-          <nav
-            className="flex items-center justify-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#999] mb-4"
-            aria-label="Breadcrumb"
-          >
-            <Link href="/" className="hover:text-[#9E1A59] transition-colors">
-              HOME
-            </Link>
-            <span>/</span>
-            <span className="text-[#1A1A1A]">BEST SELLER</span>
-          </nav>
-
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[11px] font-bold tracking-widest uppercase mb-3">
-            <span>🔥</span> MOST WANTED PIECES
-          </div>
-
-          {/* Title */}
-          <h1 className="text-5xl sm:text-6xl font-display font-black text-[#1A1A1A] tracking-tight">
-            Best Sellers
-          </h1>
-          <p className="mt-3 text-sm text-[#777] max-w-xl mx-auto font-medium">
-            Koleksi terfavorit yang paling banyak di-checkout dan dicintai Nevermind Babes.
-            Diurutkan langsung dari volume pesanan & rating tertinggi.
-          </p>
-
-          {/* Social Proof Stats Bar */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10 pt-6 border-t border-[#E8D5C0]/60 max-w-2xl mx-auto">
-            <div className="text-center">
-              <p className="text-xl sm:text-2xl font-black text-[#9E1A59]">2,500+</p>
-              <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider">Bags Shipped</p>
-            </div>
-            <div className="h-8 w-px bg-[#E8D5C0]" />
-            <div className="text-center">
-              <p className="text-xl sm:text-2xl font-black text-[#9E1A59]">4.9 ★</p>
-              <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider">Average Rating</p>
-            </div>
-            <div className="h-8 w-px bg-[#E8D5C0]" />
-            <div className="text-center">
-              <p className="text-xl sm:text-2xl font-black text-[#9E1A59]">99.4%</p>
-              <p className="text-[11px] font-bold text-[#888] uppercase tracking-wider">Happy Babes</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── Top 3 Spotlight Podium (Hall of Fame) ─────────── */}
-      <section className="bg-[#9E1A59] py-14 px-4 sm:px-6 lg:px-8 border-y border-[#7A1244] shadow-inner relative overflow-hidden">
+      <section className="bg-[#9E1A59] py-12 px-4 sm:px-6 lg:px-8 border-y border-[#7A1244] shadow-inner relative overflow-hidden">
         {/* Subtle decorative background circle accents */}
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-[#7A1244]/40 rounded-full blur-3xl pointer-events-none" />
@@ -287,65 +228,20 @@ export default function BestSellerPage() {
         </div>
       </section>
 
-      {/* ── Filter & Sort Bar (Sticky) ──────────────────────── */}
-      <section className="bg-[#FFF8E1] border-b border-[#E8D5C0] sticky top-[7rem] lg:top-[11.25rem] z-30 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          {/* Category Filter Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5 flex-1">
-            {[
-              { id: 'all', label: 'Semua Kategori' },
-              { id: 'cute-finds', label: 'Cute Finds' },
-              { id: 'y2k-core', label: 'Y2K Core' },
-              { id: 'trending-now', label: 'Trending Now' },
-              { id: 'just-dropped', label: 'Just Dropped' },
-            ].map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setCategoryFilter(cat.id)}
-                className={[
-                  'shrink-0 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase transition-all cursor-pointer border',
-                  categoryFilter === cat.id
-                    ? 'bg-[#9E1A59] text-white border-[#9E1A59] shadow-sm'
-                    : 'bg-white text-[#888] border-[#E8D5C0] hover:text-[#9E1A59] hover:border-[#9E1A59] hover:bg-[#FFF8E1]',
-                ].join(' ')}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
+      {/* ── Complete Leaderboard Grid ──────────────────────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" aria-label="Best seller products">
+        {/* Sleek Minimalist Toolbar */}
+        <div className="flex items-center justify-between py-3 mb-6 border-b border-[#E8D5C0]/80">
+          <p className="text-xs font-bold text-[#8A7880] uppercase tracking-widest">
+            {filteredProducts.length} Best Sellers
+          </p>
 
-          {/* Right: Stock Filter + Sort Dropdown */}
-          <div className="flex items-center gap-2 shrink-0">
-            {/* Stock filter pills */}
-            <div className="flex items-center gap-0.5 bg-white rounded-full p-1 border border-[#E8D5C0]">
-              {[
-                { id: 'all', label: 'Semua' },
-                { id: 'ready-stock', label: 'Ready Stock' },
-                { id: 'pre-order', label: 'Pre-Order' },
-                { id: 'sold-out', label: 'Sold Out' },
-              ].map((stock) => (
-                <button
-                  key={stock.id}
-                  type="button"
-                  onClick={() => setStockFilter(stock.id as StockFilterType)}
-                  className={[
-                    'px-3.5 py-1.5 rounded-full text-[11px] font-bold tracking-wide transition-all cursor-pointer',
-                    stockFilter === stock.id
-                      ? 'bg-[#9E1A59] text-white shadow-sm'
-                      : 'text-[#888] hover:text-[#9E1A59] hover:bg-[#FFF8E1]',
-                  ].join(' ')}
-                >
-                  {stock.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Sort Dropdown */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-medium text-[#888] hidden sm:inline">Urutkan:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortByType)}
-              className="pl-4 pr-8 py-2 text-[11px] font-bold rounded-full border border-[#E8D5C0] bg-white text-[#9E1A59] focus:outline-none focus:border-[#9E1A59] focus:ring-1 focus:ring-[#9E1A59]/20 cursor-pointer appearance-none transition-all"
+              className="pl-3 pr-8 py-1.5 text-xs font-semibold rounded-full border border-[#E8D5C0] bg-white text-[#1A1A1A] hover:border-[#9E1A59] focus:outline-none focus:border-[#9E1A59] transition-all cursor-pointer shadow-xs appearance-none"
               style={{
                 backgroundImage:
                   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239E1A59' stroke-width='2.5'%3E%3Cpath d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\")",
@@ -354,7 +250,7 @@ export default function BestSellerPage() {
               }}
               aria-label="Sort by"
             >
-              <option value="rank">Sort: Ranking #1–#6</option>
+              <option value="rank">Ranking #1–#6</option>
               <option value="sales">Penjualan Terbanyak</option>
               <option value="rating">Rating Tertinggi</option>
               <option value="price-asc">Harga: Low → High</option>
@@ -362,19 +258,10 @@ export default function BestSellerPage() {
             </select>
           </div>
         </div>
-      </section>
-
-      {/* ── Complete Leaderboard Grid ──────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" aria-label="Best seller products">
-        <div className="flex items-center justify-between mb-6">
-          <p className="text-xs text-[#9E1A59] font-bold tracking-wide">
-            Menampilkan {filteredProducts.length} produk best seller
-          </p>
-        </div>
 
         {filteredProducts.length > 0 ? (
           <motion.div
-            key={`${stockFilter}-${categoryFilter}-${sortBy}`}
+            key={sortBy}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
@@ -533,14 +420,10 @@ export default function BestSellerPage() {
             </p>
             <button
               type="button"
-              onClick={() => {
-                setStockFilter('all');
-                setCategoryFilter('all');
-                setSortBy('rank');
-              }}
+              onClick={() => setSortBy('rank')}
               className="mt-2 px-5 py-2 rounded-full bg-[#9E1A59] text-white text-xs font-bold tracking-wide hover:bg-[#7A1244] transition-colors cursor-pointer"
             >
-              Reset Filter
+              Reset Urutan
             </button>
           </div>
         )}

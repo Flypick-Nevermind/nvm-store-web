@@ -136,15 +136,10 @@ export function Navbar() {
       </div>
 
       {/* ── Layer 2: Logo + Search + Icons ─────────────────── */}
-      <div
-        className={[
-          'bg-[#FFF8E1] border-b border-[#E8D5C0] transition-all duration-300',
-          scrolled ? 'py-2' : 'py-3',
-        ].join(' ')}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-4">
+      <div className="bg-[#FFF8E1] border-b border-[#E8D5C0] py-3 transition-all duration-300">
+        <div className="relative w-full px-4 sm:px-6 lg:px-4 flex items-center justify-between min-h-[56px] sm:min-h-[72px] md:min-h-[80px]">
           {/* Search (left) */}
-          <div className="hidden md:flex items-center gap-2 flex-1 max-w-xs">
+          <div className="hidden md:flex items-center gap-2 flex-1 max-w-[220px] lg:max-w-xs z-10">
             <div className="relative w-full">
               <svg
                 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9E1A59]/60"
@@ -168,13 +163,13 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* Logo (center) */}
-          <div className="flex-1 flex justify-center">
+          {/* Logo (center - mathematically centered at exact 50%) */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-auto z-10">
             <Logo size="lg" variant="dark" />
           </div>
 
           {/* Icons (right) */}
-          <div className="flex-1 flex items-center justify-end gap-1">
+          <div className="flex-1 flex items-center justify-end gap-1 z-10">
             {/* Mobile search toggle */}
             <button
               type="button"

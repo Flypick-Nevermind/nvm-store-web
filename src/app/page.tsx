@@ -48,7 +48,7 @@ export default function HomePage() {
     <PageShell>
       {/* ── Hero Banner (Mockup Y2K Berry Magenta) ──────────── */}
       <section
-        className="relative overflow-hidden bg-[#9E1A59] text-white pt-36 pb-14 md:pt-40 md:pb-20 px-4"
+        className="relative overflow-hidden bg-[#9E1A59] text-white py-12 md:py-16 px-4"
         aria-label="Hero banner"
       >
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

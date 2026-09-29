@@ -42,7 +42,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
   return (
     <PageShell>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-40 pb-24 md:pb-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"

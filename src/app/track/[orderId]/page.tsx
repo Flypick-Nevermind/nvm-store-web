@@ -21,7 +21,7 @@ export default async function TrackingPage({ params }: Props) {
 
   return (
     <PageShell>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-40 pb-12">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
         <div className="flex flex-col gap-1.5 mb-8">
           <h1 className="text-2xl sm:text-3xl font-display font-black text-[#1A1A1A]">
             Lacak Pesanan

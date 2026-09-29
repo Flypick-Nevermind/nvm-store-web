@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Badge } from '@/components/atoms/Badge';
 import { PageShell } from '@/components/layouts/PageShell';
 import { MOCK_PRODUCTS } from '@/lib/api/mockData';
@@ -72,22 +72,6 @@ export default function FlashSalePage() {
   const [activeSession, setActiveSession] = useState<SessionSlot>('active');
   const [addedProductId, setAddedProductId] = useState<string | null>(null);
 
-  // Dynamic ticking countdown timer (e.g. 6h 48m 22s remaining in session)
-  const [secondsRemaining, setSecondsRemaining] = useState(24522);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setSecondsRemaining((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const hours = Math.floor(secondsRemaining / 3600);
-  const minutes = Math.floor((secondsRemaining % 3600) / 60);
-  const seconds = secondsRemaining % 60;
-
-  const pad = (n: number) => n.toString().padStart(2, '0');
-
   const addItem = useCartStore((s) => s.addItem);
 
   const handleQuickAdd = (e: React.MouseEvent, product: Product, dealPrice: number) => {
@@ -117,73 +101,10 @@ export default function FlashSalePage() {
 
   return (
     <PageShell>
-      {/* ── Breadcrumb Hero Header ──────────────────────────── */}
-      <section className="bg-[#FFF8E1] pt-40 pb-12 px-4 text-center border-b border-[#E8D5C0]">
-        <div className="max-w-7xl mx-auto">
-          {/* Breadcrumb */}
-          <nav
-            className="flex items-center justify-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#999] mb-4"
-            aria-label="Breadcrumb"
-          >
-            <Link href="/" className="hover:text-[#9E1A59] transition-colors">
-              HOME
-            </Link>
-            <span>/</span>
-            <span className="text-[#1A1A1A]">FLASH SALE</span>
-          </nav>
-
-          {/* Flash Sale Tag */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#9E1A59] text-white text-[11px] font-black tracking-widest uppercase mb-3 shadow-xs">
-            <span>⚡</span> LIMITED TIME DROP • UP TO 30% OFF
-          </div>
-
-          <h1 className="text-5xl sm:text-6xl font-display font-black text-[#1A1A1A] tracking-tight">
-            Flash Sale
-          </h1>
-          <p className="mt-3 text-sm text-[#777] max-w-xl mx-auto font-medium leading-relaxed">
-            Promo harga spesial jastip tas viral pilihan dengan stok sangat terbatas. Harga akan
-            kembali normal setelah sesi timer berakhir!
-          </p>
-
-          {/* Live Countdown Clock */}
-          <div className="mt-8 inline-flex flex-col sm:flex-row items-center gap-3 bg-white px-6 py-4 rounded-3xl border border-[#E8D5C0] shadow-sm">
-            <span className="text-xs font-black text-[#9E1A59] uppercase tracking-widest flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-              BERAKHIR DALAM:
-            </span>
-
-            <div className="flex items-center gap-2">
-              <div className="flex flex-col items-center">
-                <span className="w-12 h-11 bg-[#1A1A1A] text-[#FDFD96] rounded-xl flex items-center justify-center text-xl font-display font-black shadow-inner">
-                  {pad(hours)}
-                </span>
-                <span className="text-[9px] font-bold text-[#888] uppercase mt-1">Jam</span>
-              </div>
-              <span className="text-xl font-black text-[#1A1A1A] -translate-y-2">:</span>
-
-              <div className="flex flex-col items-center">
-                <span className="w-12 h-11 bg-[#1A1A1A] text-[#FDFD96] rounded-xl flex items-center justify-center text-xl font-display font-black shadow-inner">
-                  {pad(minutes)}
-                </span>
-                <span className="text-[9px] font-bold text-[#888] uppercase mt-1">Menit</span>
-              </div>
-              <span className="text-xl font-black text-[#1A1A1A] -translate-y-2">:</span>
-
-              <div className="flex flex-col items-center">
-                <span className="w-12 h-11 bg-[#9E1A59] text-white rounded-xl flex items-center justify-center text-xl font-display font-black shadow-inner">
-                  {pad(seconds)}
-                </span>
-                <span className="text-[9px] font-bold text-[#888] uppercase mt-1">Detik</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ── Flash Sale Time Session Tabs ────────────────────── */}
-      <section className="bg-white border-b border-[#E8D5C0] sticky top-[7rem] lg:top-[11.25rem] z-30 shadow-xs">
-        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-          <div className="w-full max-w-3xl mx-auto grid grid-cols-3 gap-1.5 sm:gap-3 py-2.5 sm:py-3">
+      <section className="bg-[#FFF8E1] border-b border-[#E8D5C0] sticky top-[calc(7rem-1px)] lg:top-[calc(11.25rem-1px)] z-30 shadow-xs py-4 sm:py-5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-4xl mx-auto grid grid-cols-3 gap-2.5 sm:gap-4">
             {[
               { id: 'active', label: '12:00 - 18:00', status: 'Sedang Berlangsung', icon: '⚡' },
               { id: 'upcoming-1', label: '18:00 - 21:00', status: 'Segera Hadir', icon: '⏰' },
@@ -196,20 +117,20 @@ export default function FlashSalePage() {
                   type="button"
                   onClick={() => setActiveSession(tab.id as SessionSlot)}
                   className={[
-                    'w-full flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 px-1.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl transition-all cursor-pointer border text-center sm:text-left min-w-0',
+                    'w-full flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 px-3 sm:px-5 py-3 sm:py-3.5 rounded-2xl transition-all cursor-pointer border text-center sm:text-left min-w-0 shadow-2xs',
                     isSelected
                       ? 'bg-[#9E1A59] text-white border-[#9E1A59] shadow-sm ring-2 ring-[#9E1A59]/20'
                       : 'bg-[#FFF8E1] text-[#666] border-[#E8D5C0] hover:text-[#9E1A59] hover:bg-white',
                   ].join(' ')}
                 >
-                  <span className="text-sm sm:text-base shrink-0">{tab.icon}</span>
+                  <span className="text-base sm:text-lg shrink-0">{tab.icon}</span>
                   <div className="flex flex-col min-w-0 overflow-hidden">
-                    <span className="text-[10px] sm:text-xs font-bold leading-tight tracking-tight sm:tracking-wide truncate">
+                    <span className="text-xs sm:text-sm font-bold leading-tight tracking-tight sm:tracking-wide truncate">
                       {tab.label}
                     </span>
                     <span
                       className={[
-                        'text-[8.5px] sm:text-[10px] font-medium leading-none mt-0.5 truncate',
+                        'text-[10px] sm:text-xs font-semibold leading-none mt-1 truncate',
                         isSelected ? 'text-[#FDFD96]' : 'text-[#888]',
                       ].join(' ')}
                     >

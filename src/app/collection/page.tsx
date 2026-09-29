@@ -104,42 +104,6 @@ export default function CollectionPage() {
 
   return (
     <PageShell>
-      {/* ── Breadcrumb Header ───────────────────────────────── */}
-      <section className="bg-[#FFF8E1] pt-40 pb-10 px-4 text-center border-b border-[#E8D5C0]">
-        <div className="max-w-7xl mx-auto">
-          <nav
-            className="flex items-center justify-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#999] mb-4"
-            aria-label="Breadcrumb"
-          >
-            <Link href="/" className="hover:text-[#9E1A59] transition-colors">
-              HOME
-            </Link>
-            <span>/</span>
-            {activeCollection ? (
-              <>
-                <button
-                  type="button"
-                  onClick={() => setActiveCollection(null)}
-                  className="hover:text-[#9E1A59] transition-colors cursor-pointer"
-                >
-                  COLLECTION
-                </button>
-                <span>/</span>
-                <span className="text-[#1A1A1A]">{activeCollection.name.toUpperCase()}</span>
-              </>
-            ) : (
-              <span className="text-[#1A1A1A]">COLLECTION</span>
-            )}
-          </nav>
-          <h1 className="text-5xl sm:text-6xl font-display font-black text-[#1A1A1A] tracking-tight">
-            {activeCollection ? activeCollection.name : 'Collections'}
-          </h1>
-          {activeCollection && (
-            <p className="mt-2 text-sm text-[#888] font-medium">{activeCollection.subtitle}</p>
-          )}
-        </div>
-      </section>
-
       <AnimatePresence mode="wait">
         {/* ── Collection Grid ──────────────────────────────── */}
         {!activeCollection && (
@@ -150,7 +114,13 @@ export default function CollectionPage() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+              {/* Sleek Minimalist Toolbar */}
+              <div className="flex items-center justify-between py-3.5 mb-8 border-b border-[#E8D5C0]/80">
+                <p className="text-xs font-bold text-[#8A7880] uppercase tracking-widest">
+                  {COLLECTIONS.length} Collections
+                </p>
+              </div>
               {/* Featured Collection — Full width hero card */}
               {featured && (
                 <motion.button
@@ -261,26 +231,9 @@ export default function CollectionPage() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {/* Collection hero strip */}
-            <div className="relative w-full overflow-hidden" style={{ height: '200px' }}>
-              <Image
-                src={activeCollection.coverImage}
-                alt={activeCollection.name}
-                fill
-                sizes="100vw"
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-black/50" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <p className="text-white/80 text-sm font-medium italic">
-                  {activeCollection.description}
-                </p>
-              </div>
-            </div>
-
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-              <div className="flex items-center justify-between mb-6">
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+              {/* Sleek Minimalist Toolbar */}
+              <div className="flex items-center justify-between py-3 mb-6 border-b border-[#E8D5C0]/80">
                 <button
                   type="button"
                   onClick={() => setActiveCollection(null)}
@@ -289,10 +242,12 @@ export default function CollectionPage() {
                   <svg className="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                   </svg>
-                  All Collections
+                  <span>Semua Koleksi</span>
+                  <span className="text-[#888] font-normal">/</span>
+                  <span className="text-[#1A1A1A]">{activeCollection.name}</span>
                 </button>
-                <p className="text-xs text-[#9E1A59] font-semibold">
-                  {displayProducts.length} products
+                <p className="text-xs font-bold text-[#8A7880] uppercase tracking-widest">
+                  {displayProducts.length} Products
                 </p>
               </div>
 

@@ -36,45 +36,11 @@ export default function SupportPage() {
 
   return (
     <PageShell>
-      {/* ── Breadcrumb Hero Header ──────────────────────────── */}
-      <section className="bg-[#FFF8E1] pt-40 pb-12 px-4 text-center border-b border-[#E8D5C0]">
-        <div className="max-w-7xl mx-auto">
-          {/* Breadcrumb */}
-          <nav
-            className="flex items-center justify-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#999] mb-4"
-            aria-label="Breadcrumb"
-          >
-            <Link href="/" className="hover:text-[#9E1A59] transition-colors">
-              HOME
-            </Link>
-            <span>/</span>
-            <span className="text-[#1A1A1A]">SUPPORT & INFO</span>
-            <span>/</span>
-            <span className="text-[#9E1A59]">
-              {TOPICS.find((t) => t.id === activeTopic)?.title.toUpperCase()}
-            </span>
-          </nav>
-
-          {/* Tag */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[11px] font-black tracking-widest uppercase mb-3 border border-[#9E1A59]/20">
-            <span>💌</span> PUSAT BANTUAN & INFORMASI
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl font-display font-black text-[#1A1A1A] tracking-tight">
-            Customer Support
-          </h1>
-          <p className="mt-3 text-sm text-[#777] max-w-xl mx-auto font-medium leading-relaxed">
-            Semua yang perlu kamu ketahui tentang cara belanja, pengiriman jastip,
-            hingga jaminan kualitas di NEVERMIND.
-          </p>
-        </div>
-      </section>
-
       {/* ── Main Layout: Sidebar Tabs + Content ─────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Navigation Sidebar */}
-          <div className="lg:col-span-4 bg-white rounded-3xl p-5 border border-[#E8D5C0] shadow-xs sticky top-[calc(var(--navbar-height,9rem)+1rem)]">
+          <div className="lg:col-span-4 bg-white rounded-3xl p-5 border border-[#E8D5C0] shadow-xs sticky top-[calc(7rem+1.5rem)] lg:top-[calc(11.25rem+1.5rem)]">
             <p className="text-xs font-bold uppercase tracking-widest text-[#9E1A59] mb-4 px-2">
               Pilih Topik Bantuan
             </p>

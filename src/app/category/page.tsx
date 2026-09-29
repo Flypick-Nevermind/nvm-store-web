@@ -87,51 +87,21 @@ export default function CategoryPage() {
 
   return (
     <PageShell>
-      {/* ── Breadcrumb Hero Header ──────────────────────────── */}
-      <section className="bg-[#FFF8E1] pt-40 pb-10 px-4 text-center border-b border-[#E8D5C0]">
-        <div className="max-w-7xl mx-auto">
-          <nav
-            className="flex items-center justify-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#999] mb-4"
-            aria-label="Breadcrumb"
-          >
-            <Link href="/" className="hover:text-[#9E1A59] transition-colors">
-              HOME
-            </Link>
-            <span>/</span>
-            {activeCategory ? (
-              <>
-                <button
-                  type="button"
-                  onClick={() => setActiveCategory(null)}
-                  className="hover:text-[#9E1A59] transition-colors cursor-pointer"
-                >
-                  CATEGORY
-                </button>
-                <span>/</span>
-                <span className="text-[#1A1A1A]">{activeCategory.name.toUpperCase()}</span>
-              </>
-            ) : (
-              <span className="text-[#1A1A1A]">CATEGORY</span>
-            )}
-          </nav>
-
-          <h1 className="text-5xl sm:text-6xl font-display font-black text-[#1A1A1A] tracking-tight">
-            {activeCategory ? activeCategory.name : 'Category'}
-          </h1>
-          {activeCategory && (
-            <p className="mt-2 text-sm text-[#888]">{activeCategory.description}</p>
-          )}
-        </div>
-      </section>
-
       {/* ── Category Cards Grid ─────────────────────────────── */}
       {!activeCategory && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" aria-label="Kategori produk">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10" aria-label="Kategori produk">
+          {/* Sleek Minimalist Toolbar */}
+          <div className="flex items-center justify-between py-3.5 mb-8 border-b border-[#E8D5C0]/80">
+            <p className="text-xs font-bold text-[#8A7880] uppercase tracking-widest">
+              {BAG_CATEGORIES.length} Categories
+            </p>
+          </div>
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 md:grid-cols-3 gap-0"
+            className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
           >
             {BAG_CATEGORIES.map((cat, i) => (
               <motion.button
@@ -141,7 +111,7 @@ export default function CategoryPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.07 }}
-                className="relative group overflow-hidden cursor-pointer text-left aspect-[3/4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59]"
+                className="relative group overflow-hidden cursor-pointer text-left aspect-[3/4] rounded-2xl border border-[#E8D5C0]/60 shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59]"
                 aria-label={`Lihat kategori ${cat.name}`}
               >
                 {/* Background Image */}
@@ -154,20 +124,20 @@ export default function CategoryPage() {
                 />
 
                 {/* Dark overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-opacity duration-300 group-hover:from-black/80" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent transition-opacity duration-300 group-hover:from-black/85" />
 
                 {/* Brand tint overlay on hover */}
                 <div className="absolute inset-0 bg-[#9E1A59]/0 group-hover:bg-[#9E1A59]/15 transition-all duration-300" />
 
                 {/* Text Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 text-white">
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 text-white">
                   <p className="text-[10px] font-bold tracking-widest uppercase text-white/70 mb-1 group-hover:text-[#FDFD96] transition-colors">
                     NEVERMIND
                   </p>
-                  <h2 className="text-xl sm:text-2xl font-display font-black leading-tight tracking-tight">
+                  <h2 className="text-lg sm:text-2xl font-display font-black leading-tight tracking-tight">
                     {cat.name}
                   </h2>
-                  <p className="text-xs text-white/70 mt-1 font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
+                  <p className="text-xs text-white/75 mt-1 font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0 line-clamp-1">
                     {cat.description} →
                   </p>
                 </div>
@@ -179,9 +149,9 @@ export default function CategoryPage() {
 
       {/* ── Products in Selected Category ───────────────────── */}
       {activeCategory && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" aria-label={`Produk ${activeCategory.name}`}>
-          {/* Back + Count */}
-          <div className="flex items-center justify-between mb-6">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6" aria-label={`Produk ${activeCategory.name}`}>
+          {/* Sleek Minimalist Toolbar */}
+          <div className="flex items-center justify-between py-3 mb-6 border-b border-[#E8D5C0]/80">
             <button
               type="button"
               onClick={() => setActiveCategory(null)}
@@ -196,11 +166,14 @@ export default function CategoryPage() {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
-              All Categories
+              <span>Semua Kategori</span>
+              <span className="text-[#888] font-normal">/</span>
+              <span className="text-[#1A1A1A]">{activeCategory.name}</span>
             </button>
-            <p className="text-xs text-[#9E1A59] font-semibold">
-              {displayProducts.length} products
-            </p>
+
+            <span className="text-xs font-bold text-[#8A7880] uppercase tracking-widest">
+              {displayProducts.length} Products
+            </span>
           </div>
 
           {/* Product Grid */}

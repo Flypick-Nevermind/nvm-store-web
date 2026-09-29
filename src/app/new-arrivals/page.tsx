@@ -11,12 +11,9 @@ import { MOCK_PRODUCTS } from '@/lib/api/mockData';
 import { useCartStore } from '@/store/cartStore';
 import type { Product, ProductType } from '@/types/api';
 
-type StockFilterType = 'all' | 'ready-stock' | 'pre-order' | 'sold-out';
 type SortByType = 'newest' | 'price-asc' | 'price-desc';
 
 export default function NewArrivalsPage() {
-  const [stockFilter, setStockFilter] = useState<StockFilterType>('all');
-  const [trendFilter, setTrendFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<SortByType>('newest');
   const [addedProductId, setAddedProductId] = useState<string | null>(null);
 
@@ -52,14 +49,7 @@ export default function NewArrivalsPage() {
 
   // Filtered products list
   const filteredProducts = useMemo(() => {
-    let list = sortedNewArrivals.filter((product) => {
-      const matchStock = stockFilter === 'all' || product.stock_type === stockFilter;
-      const matchTrend =
-        trendFilter === 'all' ||
-        product.category === trendFilter ||
-        product.tags.includes(trendFilter);
-      return matchStock && matchTrend;
-    });
+    let list = [...sortedNewArrivals];
 
     if (sortBy === 'price-asc') {
       list = [...list].sort((a, b) => a.price_total - b.price_total);
@@ -72,50 +62,10 @@ export default function NewArrivalsPage() {
     }
 
     return list;
-  }, [sortedNewArrivals, stockFilter, trendFilter, sortBy]);
+  }, [sortedNewArrivals, sortBy]);
 
   return (
     <PageShell>
-      {/* ── Breadcrumb Hero Header ──────────────────────────── */}
-      <section className="bg-[#FFF8E1] pt-40 pb-12 px-4 text-center border-b border-[#E8D5C0]">
-        <div className="max-w-7xl mx-auto">
-          {/* Breadcrumb */}
-          <nav
-            className="flex items-center justify-center gap-2 text-[11px] font-semibold tracking-widest uppercase text-[#999] mb-4"
-            aria-label="Breadcrumb"
-          >
-            <Link href="/" className="hover:text-[#9E1A59] transition-colors">
-              HOME
-            </Link>
-            <span>/</span>
-            <span className="text-[#1A1A1A]">NEW ARRIVALS</span>
-          </nav>
-
-          {/* New Drop Season Tag */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[11px] font-black tracking-widest uppercase mb-3 border border-[#9E1A59]/20">
-            <span>✨</span> FRESH DROP • SPRING / SUMMER 2026
-          </div>
-
-          <h1 className="text-5xl sm:text-6xl font-display font-black text-[#1A1A1A] tracking-tight">
-            New Arrivals
-          </h1>
-          <p className="mt-3 text-sm text-[#777] max-w-xl mx-auto font-medium leading-relaxed">
-            Koleksi tas paling fresh yang baru mendarat langsung dari Guangzhou & Shanghai.
-            Desain orisinal, kuota terbatas, dan siap bikin look-mu standout tiap hari.
-          </p>
-
-          {/* Quick Badges Counter */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <span className="px-3.5 py-1.5 rounded-full bg-white border border-[#E8D5C0] text-xs font-bold text-[#1A1A1A]">
-              📦 Batch Terkini: <span className="text-[#9E1A59]">Drop #04 (September 2026)</span>
-            </span>
-            <span className="px-3.5 py-1.5 rounded-full bg-white border border-[#E8D5C0] text-xs font-bold text-[#1A1A1A]">
-              ✈️ 100% Curated Cross-Border Jastip
-            </span>
-          </div>
-        </div>
-      </section>
-
       {/* ── Spotlight / New Drop Hero Feature ───────────────── */}
       {heroDrop && (
         <section className="bg-white py-12 px-4 sm:px-6 lg:px-8 border-b border-[#E8D5C0]">
@@ -214,65 +164,20 @@ export default function NewArrivalsPage() {
         </section>
       )}
 
-      {/* ── Sticky Filter & Sort Controls ───────────────────── */}
-      <section className="bg-[#FFF8E1] border-b border-[#E8D5C0] sticky top-[7rem] lg:top-[11.25rem] z-30 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          {/* Trend Style Pills */}
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5 flex-1">
-            {[
-              { id: 'all', label: 'Semua Koleksi Baru' },
-              { id: 'y2k', label: 'Y2K & Chrome' },
-              { id: 'bow', label: 'Coquette Bow' },
-              { id: 'pastel', label: 'Pastel Hues' },
-              { id: 'tote', label: 'Everyday Tote' },
-            ].map((trend) => (
-              <button
-                key={trend.id}
-                type="button"
-                onClick={() => setTrendFilter(trend.id)}
-                className={[
-                  'shrink-0 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase transition-all cursor-pointer border',
-                  trendFilter === trend.id
-                    ? 'bg-[#9E1A59] text-white border-[#9E1A59] shadow-sm'
-                    : 'bg-white text-[#888] border-[#E8D5C0] hover:text-[#9E1A59] hover:border-[#9E1A59] hover:bg-[#FFF8E1]',
-                ].join(' ')}
-              >
-                {trend.label}
-              </button>
-            ))}
-          </div>
+      {/* ── New Arrivals Product Grid ───────────────────────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" aria-label="Koleksi New Arrivals">
+        {/* Sleek Minimalist Toolbar */}
+        <div className="flex items-center justify-between py-3 mb-6 border-b border-[#E8D5C0]/80">
+          <p className="text-xs font-bold text-[#8A7880] uppercase tracking-widest">
+            {filteredProducts.length} New Arrivals
+          </p>
 
-          {/* Right: Stock Filter + Sort Dropdown */}
-          <div className="flex items-center gap-2 shrink-0">
-            {/* Stock filter pills */}
-            <div className="flex items-center gap-0.5 bg-white rounded-full p-1 border border-[#E8D5C0]">
-              {[
-                { id: 'all', label: 'Semua' },
-                { id: 'ready-stock', label: 'Ready Stock' },
-                { id: 'pre-order', label: 'Pre-Order' },
-                { id: 'sold-out', label: 'Sold Out' },
-              ].map((stock) => (
-                <button
-                  key={stock.id}
-                  type="button"
-                  onClick={() => setStockFilter(stock.id as StockFilterType)}
-                  className={[
-                    'px-3.5 py-1.5 rounded-full text-[11px] font-bold tracking-wide transition-all cursor-pointer',
-                    stockFilter === stock.id
-                      ? 'bg-[#9E1A59] text-white shadow-sm'
-                      : 'text-[#888] hover:text-[#9E1A59] hover:bg-[#FFF8E1]',
-                  ].join(' ')}
-                >
-                  {stock.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Sort Dropdown */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-medium text-[#888] hidden sm:inline">Urutkan:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortByType)}
-              className="pl-4 pr-8 py-2 text-[11px] font-bold rounded-full border border-[#E8D5C0] bg-white text-[#9E1A59] focus:outline-none focus:border-[#9E1A59] focus:ring-1 focus:ring-[#9E1A59]/20 cursor-pointer appearance-none transition-all"
+              className="pl-3 pr-8 py-1.5 text-xs font-semibold rounded-full border border-[#E8D5C0] bg-white text-[#1A1A1A] hover:border-[#9E1A59] focus:outline-none focus:border-[#9E1A59] transition-all cursor-pointer shadow-xs appearance-none"
               style={{
                 backgroundImage:
                   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239E1A59' stroke-width='2.5'%3E%3Cpath d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\")",
@@ -281,25 +186,16 @@ export default function NewArrivalsPage() {
               }}
               aria-label="Urutkan produk"
             >
-              <option value="newest">Sort: Rilis Terbaru</option>
+              <option value="newest">Rilis Terbaru</option>
               <option value="price-asc">Harga: Low → High</option>
               <option value="price-desc">Harga: High → Low</option>
             </select>
           </div>
         </div>
-      </section>
-
-      {/* ── New Arrivals Product Grid ───────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" aria-label="Koleksi New Arrivals">
-        <div className="flex items-center justify-between mb-6">
-          <p className="text-xs text-[#9E1A59] font-bold tracking-wide">
-            Menampilkan {filteredProducts.length} produk baru
-          </p>
-        </div>
 
         {filteredProducts.length > 0 ? (
           <motion.div
-            key={`${stockFilter}-${trendFilter}-${sortBy}`}
+            key={sortBy}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
@@ -433,14 +329,10 @@ export default function NewArrivalsPage() {
             </p>
             <button
               type="button"
-              onClick={() => {
-                setStockFilter('all');
-                setTrendFilter('all');
-                setSortBy('newest');
-              }}
+              onClick={() => setSortBy('newest')}
               className="mt-2 px-5 py-2 rounded-full bg-[#9E1A59] text-white text-xs font-bold tracking-wide hover:bg-[#7A1244] transition-colors cursor-pointer"
             >
-              Reset Filter
+              Reset Urutan
             </button>
           </div>
         )}
