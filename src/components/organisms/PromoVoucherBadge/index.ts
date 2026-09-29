@@ -1,0 +1,1 @@
+export { PromoVoucherBadge } from './PromoVoucherBadge';

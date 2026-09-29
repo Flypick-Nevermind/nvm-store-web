@@ -279,10 +279,46 @@ export default function CheckoutPage() {
   const createOrder = useCreateOrder();
 
   const [mounted, setMounted] = useState(false);
+  const [voucherInput, setVoucherInput] = useState('');
+  const [appliedVoucher, setAppliedVoucher] = useState<string | null>(null);
+  const [voucherError, setVoucherError] = useState<string | null>(null);
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
+    if (typeof window !== 'undefined') {
+      const savedVoucher = sessionStorage.getItem('nvm_applied_voucher');
+      if (savedVoucher && savedVoucher.toUpperCase() === 'NVM5') {
+        setAppliedVoucher('NVM5');
+      }
+    }
   }, []);
+
+  const isVoucher5 = appliedVoucher?.toUpperCase() === 'NVM5';
+  const discountAmount = isVoucher5 ? Math.round(totalPrice * 0.05) : 0;
+  const finalTotal = Math.max(0, totalPrice - discountAmount);
+
+  const handleApplyVoucher = () => {
+    const code = voucherInput.trim().toUpperCase();
+    if (!code) return;
+    if (code === 'NVM5') {
+      setAppliedVoucher('NVM5');
+      setVoucherError(null);
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('nvm_applied_voucher', 'NVM5');
+      }
+    } else {
+      setVoucherError('Kode voucher tidak valid atau sudah kedaluwarsa.');
+    }
+  };
+
+  const handleRemoveVoucher = () => {
+    setAppliedVoucher(null);
+    setVoucherError(null);
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('nvm_applied_voucher');
+    }
+  };
 
   useEffect(() => {
     if (mounted && !isAuthenticated) {
@@ -329,7 +365,7 @@ export default function CheckoutPage() {
           type: i.type,
         })),
         agreed_to_terms: true,
-        total_amount: totalPrice,
+        total_amount: finalTotal,
       });
 
       const orderId = result.data.order_id;
@@ -342,7 +378,9 @@ export default function CheckoutPage() {
         orderId,
         buyerName: buyerData.full_name,
         items: items.map((i) => `${i.name} (x${i.quantity})`).join(', '),
-        totalAmount: formatIDR(totalPrice),
+        totalAmount: formatIDR(finalTotal),
+        voucherCode: appliedVoucher || undefined,
+        discountAmount: discountAmount > 0 ? formatIDR(discountAmount) : undefined,
       });
 
       router.push(`/checkout/success?orderId=${orderId}&wa=${encodeURIComponent(waUrl)}`);
@@ -535,9 +573,90 @@ export default function CheckoutPage() {
                 })}
               </div>
 
-              <div className="border-t border-[#E8D5C0] pt-3 mt-1 flex justify-between items-center">
-                <span className="text-base font-bold text-[#1A1A1A]">Total Pembayaran</span>
-                <span className="text-lg font-black text-[#9E1A59]">{formatIDR(totalPrice)}</span>
+              {/* Voucher Promo Section */}
+              <div className="pt-3 border-t border-[#E8D5C0]">
+                {appliedVoucher ? (
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-[#FFF0F5] border border-[#F48FB1]/50">
+                    <div className="flex items-center gap-2">
+                      <span className="text-base">🎟️</span>
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs font-black font-mono text-[#9E1A59]">
+                            {appliedVoucher}
+                          </span>
+                          <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-[#9E1A59] text-white">
+                            -5%
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-[#25D366] font-bold">Voucher hemat diterapkan!</p>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleRemoveVoucher}
+                      className="text-[11px] font-bold text-[#888] hover:text-[#9E1A59] hover:underline cursor-pointer"
+                    >
+                      Hapus
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-1.5">
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={voucherInput}
+                        onChange={(e) => {
+                          setVoucherInput(e.target.value.toUpperCase());
+                          setVoucherError(null);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleApplyVoucher();
+                          }
+                        }}
+                        placeholder="Kode promo (cth: NVM5)"
+                        className="flex-1 px-3 py-1.5 text-xs font-mono font-bold bg-[#FAF6F0] rounded-xl border border-[#E8D5C0] focus:border-[#9E1A59] focus:outline-none uppercase placeholder:font-sans placeholder:normal-case placeholder:font-normal placeholder:text-[#999]"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleApplyVoucher}
+                        className="px-3.5 py-1.5 text-xs font-bold bg-[#9E1A59] text-white rounded-xl hover:bg-[#7A1244] active:scale-95 transition-all cursor-pointer shadow-xs"
+                      >
+                        Pakai
+                      </button>
+                    </div>
+                    {voucherError ? (
+                      <p className="text-[10px] text-red-500 font-medium pl-1">{voucherError}</p>
+                    ) : (
+                      <p className="text-[10px] text-[#888] pl-1">
+                        Punya voucher? Masukkan kode <span className="font-bold text-[#9E1A59]">NVM5</span> untuk diskon 5%.
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Price Calculation Breakdown */}
+              <div className="border-t border-[#E8D5C0] pt-3 flex flex-col gap-1.5 text-xs">
+                <div className="flex justify-between items-center text-[#666]">
+                  <span>Subtotal Produk</span>
+                  <span className="font-semibold text-[#1A1A1A]">{formatIDR(totalPrice)}</span>
+                </div>
+
+                {discountAmount > 0 && (
+                  <div className="flex justify-between items-center text-[#25D366] font-bold">
+                    <span className="flex items-center gap-1">
+                      <span>🏷️ Diskon Promo ({appliedVoucher})</span>
+                    </span>
+                    <span>- {formatIDR(discountAmount)}</span>
+                  </div>
+                )}
+
+                <div className="flex justify-between items-center pt-2 border-t border-[#E8D5C0]/60">
+                  <span className="text-base font-bold text-[#1A1A1A]">Total Pembayaran</span>
+                  <span className="text-lg font-black text-[#9E1A59]">{formatIDR(finalTotal)}</span>
+                </div>
               </div>
             </div>
 

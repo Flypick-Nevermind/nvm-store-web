@@ -27,15 +27,33 @@ export const buildWhatsAppRedirectUrl = (params: {
   buyerName: string;
   items: string;
   totalAmount: string;
+  voucherCode?: string;
+  discountAmount?: string;
 }) => {
+  const voucherLine =
+    params.voucherCode && params.discountAmount
+      ? `🏷️ *Voucher:* ${params.voucherCode} (-${params.discountAmount})\n`
+      : '';
+
   const msg = encodeURIComponent(
     `Halo NEVERMIND! 👋\n\n` +
       `Saya sudah melakukan transfer untuk pesanan berikut:\n\n` +
       `🧾 *Order ID:* ${params.orderId}\n` +
       `👤 *Nama:* ${params.buyerName}\n` +
       `🛍️ *Item:* ${params.items}\n` +
+      voucherLine +
       `💰 *Total:* ${params.totalAmount}\n\n` +
       `Bukti transfer sudah saya upload. Mohon dikonfirmasi ya! 🙏`
+  );
+  return `https://wa.me/${params.whatsappNumber}?text=${msg}`;
+};
+
+// Voucher WA claim template
+export const buildVoucherWhatsAppUrl = (params: { whatsappNumber: string; voucherCode: string }) => {
+  const msg = encodeURIComponent(
+    `Halo NEVERMIND! 👋\n\n` +
+      `Saya ingin klaim promo voucher diskon 5% dengan kode *${params.voucherCode}* untuk belanja tas original.\n\n` +
+      `Bisa dibantu prosesnya min? Terima kasih! 🙏`
   );
   return `https://wa.me/${params.whatsappNumber}?text=${msg}`;
 };

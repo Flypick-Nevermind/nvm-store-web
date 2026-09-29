@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import { AuthPromptModal } from '@/components/organisms/AuthPromptModal';
+import { PromoVoucherBadge } from '@/components/organisms/PromoVoucherBadge';
 import { RequestBagModal } from '@/components/organisms/RequestBagModal';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -23,6 +24,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       {children}
       <AuthPromptModal />
       <RequestBagModal />
+      <PromoVoucherBadge />
     </QueryClientProvider>
   );
 }
