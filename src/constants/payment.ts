@@ -50,3 +50,31 @@ export const buildSupportWhatsAppUrl = (params: { whatsappNumber: string; orderI
   );
   return `https://wa.me/${params.whatsappNumber}?text=${msg}`;
 };
+
+// Request a Bag WA template
+export const buildRequestBagWhatsAppUrl = (params: {
+  whatsappNumber: string;
+  bagName?: string;
+  referenceUrl?: string;
+  budget?: string;
+  notes?: string;
+}) => {
+  let text = `Halo Admin NEVERMIND! ✨\n\nSaya ingin request jastip tas yang belum ada di website:`;
+
+  if (params.bagName?.trim()) {
+    text += `\n\n👜 *Nama/Model Tas:* ${params.bagName.trim()}`;
+  }
+  if (params.referenceUrl?.trim()) {
+    text += `\n🔗 *Link/Foto Referensi:* ${params.referenceUrl.trim()}`;
+  }
+  if (params.budget?.trim()) {
+    text += `\n💰 *Estimasi Budget:* ${params.budget.trim()}`;
+  }
+  if (params.notes?.trim()) {
+    text += `\n📝 *Catatan:* ${params.notes.trim()}`;
+  }
+
+  text += `\n\nBisa tolong dibantu carikan dari supplier China? Terima kasih banyak! ♡`;
+
+  return `https://wa.me/${params.whatsappNumber}?text=${encodeURIComponent(text)}`;
+};

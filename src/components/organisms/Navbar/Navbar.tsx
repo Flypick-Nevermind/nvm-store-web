@@ -8,6 +8,7 @@ import { Logo } from '@/components/atoms/Logo';
 import { useAuthModalStore } from '@/store/authModalStore';
 import { useAuthStore } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
+import { useRequestBagModalStore } from '@/store/requestBagModalStore';
 
 const SUPPORT_ITEMS = [
   { label: 'FAQs', href: '/support/faqs' },
@@ -35,6 +36,7 @@ export function Navbar() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const logout = useAuthStore((s) => s.logout);
   const openAuthModal = useAuthModalStore((s) => s.openModal);
+  const openRequestBagModal = useRequestBagModalStore((s) => s.openModal);
 
   const [scrolled, setScrolled] = useState(false);
   const [lastCount, setLastCount] = useState(totalItems);
@@ -123,8 +125,8 @@ export function Navbar() {
       ].join(' ')}
     >
       {/* ── Layer 1: Announcement Bar ──────────────────────── */}
-      <div className="bg-[#9E1A59] text-white text-[11px] font-semibold tracking-wide py-2 px-4 flex items-center justify-center">
-        <span>
+      <div className="bg-[#9E1A59] text-white text-[11px] font-semibold tracking-wide py-2 px-4 flex items-center justify-between sm:justify-center relative">
+        <span className="truncate">
           FREE SHIPPING FOR NEW MEMBERS! —{' '}
           <Link
             href="/login"
@@ -133,6 +135,14 @@ export function Navbar() {
             SIGN UP NOW →
           </Link>
         </span>
+        <button
+          type="button"
+          onClick={() => openRequestBagModal()}
+          className="hidden md:inline-flex items-center gap-1.5 ml-4 px-2.5 py-0.5 rounded-full bg-white/15 hover:bg-white/25 text-[#FDFD96] text-[10px] font-bold tracking-wider uppercase transition-colors cursor-pointer border border-white/20 shrink-0"
+        >
+          <span>✨</span>
+          <span>Request a Bag</span>
+        </button>
       </div>
 
       {/* ── Layer 2: Logo + Search + Icons ─────────────────── */}
@@ -459,6 +469,18 @@ export function Navbar() {
                 )}
               </AnimatePresence>
             </li>
+
+            {/* Request a Bag Action Button */}
+            <li className="ml-3">
+              <button
+                type="button"
+                onClick={() => openRequestBagModal()}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#9E1A59]/10 hover:bg-[#9E1A59] text-[#9E1A59] hover:text-white border border-[#9E1A59]/30 text-[10px] font-black tracking-wider uppercase transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-xs group"
+              >
+                <span className="text-xs group-hover:scale-115 transition-transform">✨</span>
+                <span>REQUEST BAG</span>
+              </button>
+            </li>
           </ul>
         </div>
       </nav>
@@ -492,6 +514,24 @@ export function Navbar() {
 
               {/* Support section in mobile */}
               <div className="mt-2 border-t border-[#E8D5C0] pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    openRequestBagModal();
+                  }}
+                  className="mb-3 w-full p-3.5 rounded-2xl bg-gradient-to-r from-[#9E1A59] to-[#C23070] text-white flex items-center justify-between text-left shadow-sm cursor-pointer"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-xl">✨</span>
+                    <div>
+                      <p className="text-xs font-black tracking-wide">Request a Bag</p>
+                      <p className="text-[10px] text-white/80">Cari tas impian dari China via WA</p>
+                    </div>
+                  </div>
+                  <span className="text-xs font-bold text-[#FDFD96]">➔</span>
+                </button>
+
                 <p className="px-4 py-1.5 text-[10px] font-black tracking-widest uppercase text-[#999]">
                   SUPPORT
                 </p>
