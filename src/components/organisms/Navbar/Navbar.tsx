@@ -1,16 +1,30 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Logo } from '@/components/atoms/Logo';
 import { WishlistDrawer } from '@/components/organisms/WishlistDrawer';
+import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { formatIDR } from '@/lib/utils';
 import { useAuthModalStore } from '@/store/authModalStore';
 import { useAuthStore } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
 import { useRequestBagModalStore } from '@/store/requestBagModalStore';
 import { useWishlistStore } from '@/store/wishlistStore';
+
+function SearchQuerySync({ onSync }: { onSync: (q: string) => void }) {
+  const searchParams = useSearchParams();
+  const q = searchParams.get('q') || '';
+
+  useEffect(() => {
+    onSync(q);
+  }, [q, onSync]);
+
+  return null;
+}
 
 const SUPPORT_ITEMS = [
   { label: 'FAQs', href: '/support/faqs' },
@@ -32,6 +46,7 @@ const NAV_LINKS = [
 ];
 
 export function Navbar() {
+  const router = useRouter();
   const pathname = usePathname();
   const totalItems = useCartStore((s) => s.totalItems());
   const user = useAuthStore((s) => s.user);
@@ -49,6 +64,33 @@ export function Navbar() {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const desktopSearchRef = useRef<HTMLDivElement>(null);
+
+  const liveSearchResults = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (q.length < 2) return [];
+    return MOCK_PRODUCTS.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        p.tags.some((t) => t.toLowerCase().includes(q)) ||
+        p.category.toLowerCase().includes(q)
+    ).slice(0, 4);
+  }, [searchQuery]);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const q = searchQuery.trim();
+    setIsSearchFocused(false);
+    setIsMobileSearchOpen(false);
+    if (!q) {
+      router.push('/products');
+      return;
+    }
+    router.push(`/products?q=${encodeURIComponent(q)}`);
+  };
 
   const wishlistCount = useWishlistStore((s) => s.items.length);
 
@@ -102,6 +144,17 @@ export function Navbar() {
     }
   }, [isAccountMenuOpen]);
 
+  // Close desktop search preview on outside click
+  useEffect(() => {
+    const handleOutside = (e: MouseEvent) => {
+      if (desktopSearchRef.current && !desktopSearchRef.current.contains(e.target as Node)) {
+        setIsSearchFocused(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, []);
+
   // Close menus on route change
   useEffect(() => {
     if (pathname) {
@@ -113,6 +166,8 @@ export function Navbar() {
       setIsMobileMenuOpen(false);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsMobileSearchOpen(false);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsSearchFocused(false);
     }
   }, [pathname]);
 
@@ -132,6 +187,10 @@ export function Navbar() {
         scrolled ? 'shadow-md' : 'shadow-sm',
       ].join(' ')}
     >
+      <Suspense fallback={null}>
+        <SearchQuerySync onSync={setSearchQuery} />
+      </Suspense>
+
       {/* ── Layer 1: Announcement Bar ──────────────────────── */}
       <div className="bg-[#9E1A59] text-white text-[11px] font-semibold tracking-wide py-2 px-4 flex items-center justify-between sm:justify-center relative">
         <span className="truncate">
@@ -161,9 +220,12 @@ export function Navbar() {
             <Logo size="lg" variant="dark" />
           </div>
 
-          {/* Desktop: Search Bar di Kiri */}
-          <div className="hidden md:flex items-center gap-2 flex-1 max-w-[220px] lg:max-w-xs z-10">
-            <div className="relative w-full">
+          {/* Desktop: Search Bar di Kiri with Live Instant Preview */}
+          <div
+            ref={desktopSearchRef}
+            className="hidden md:flex items-center gap-2 flex-1 max-w-[220px] lg:max-w-xs z-20 relative"
+          >
+            <form onSubmit={handleSearchSubmit} className="relative w-full">
               <svg
                 className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9E1A59]/60 pointer-events-none"
                 fill="none"
@@ -178,12 +240,101 @@ export function Navbar() {
                 />
               </svg>
               <input
-                type="search"
-                placeholder="Search for products..."
-                className="w-full pl-10 pr-4 py-2 text-xs rounded-full border border-[#E8D5C0] bg-white text-[#1A1A1A] placeholder-[#C8A0B0] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15 transition-all"
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                placeholder="Cari tas, bow, tote, warna..."
+                className="w-full pl-9 pr-8 py-2 text-xs rounded-full border border-[#E8D5C0] bg-white text-[#1A1A1A] placeholder-[#C8A0B0] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15 transition-all shadow-xs"
                 aria-label="Search products"
               />
-            </div>
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 flex items-center justify-center text-xs text-[#888] hover:text-[#1A1A1A] cursor-pointer"
+                  aria-label="Hapus pencarian"
+                >
+                  ✕
+                </button>
+              )}
+            </form>
+
+            {/* Live Search Instant Preview Dropdown */}
+            <AnimatePresence>
+              {isSearchFocused && searchQuery.trim().length >= 2 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute left-0 top-full mt-2 w-80 rounded-2xl bg-white border border-[#E8D5C0] shadow-2xl p-3 z-50 flex flex-col gap-2"
+                >
+                  <div className="flex items-center justify-between pb-1.5 border-b border-[#E8D5C0]">
+                    <span className="text-[10px] font-bold text-[#888] uppercase tracking-wider">
+                      Saran Tas Y2K
+                    </span>
+                    <span className="text-[10px] text-[#9E1A59] font-semibold">
+                      {liveSearchResults.length} Ditemukan
+                    </span>
+                  </div>
+
+                  {liveSearchResults.length > 0 ? (
+                    <div className="flex flex-col gap-1">
+                      {liveSearchResults.map((prod) => (
+                        <Link
+                          key={prod.id}
+                          href={`/products/${prod.slug}`}
+                          onClick={() => {
+                            setIsSearchFocused(false);
+                            setSearchQuery('');
+                          }}
+                          className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-[#FFF8E1] transition-colors group"
+                        >
+                          <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-[#FFF8E1] border border-[#E8D5C0] shrink-0">
+                            <Image
+                              src={prod.images[0]}
+                              alt={prod.name}
+                              fill
+                              className="object-cover"
+                              sizes="40px"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-semibold text-[#1A1A1A] group-hover:text-[#9E1A59] truncate">
+                              {prod.name}
+                            </p>
+                            <p className="text-[11px] text-[#888]">{formatIDR(prod.price_total)}</p>
+                          </div>
+                          <span className="text-xs text-[#9E1A59] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                            ➔
+                          </span>
+                        </Link>
+                      ))}
+
+                      <button
+                        type="button"
+                        onClick={handleSearchSubmit}
+                        className="w-full text-center text-xs font-bold text-[#9E1A59] hover:underline pt-2 border-t border-[#E8D5C0] cursor-pointer mt-1"
+                      >
+                        Lihat semua hasil untuk &quot;{searchQuery}&quot; →
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="py-4 px-2 text-center text-xs text-[#888]">
+                      <p>Tidak ada tas dengan kata kunci &quot;{searchQuery}&quot;.</p>
+                      <button
+                        type="button"
+                        onClick={handleSearchSubmit}
+                        className="text-[11px] font-bold text-[#9E1A59] hover:underline mt-1 cursor-pointer block w-full text-center"
+                      >
+                        Buka halaman pencarian katalog →
+                      </button>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Desktop: Logo di Tengah (Exact 50% Center) */}
@@ -434,7 +585,7 @@ export function Navbar() {
               transition={{ duration: 0.2 }}
               className="md:hidden px-4 py-2.5 border-t border-[#E8D5C0] bg-[#FFF8E1]"
             >
-              <div className="relative w-full">
+              <form onSubmit={handleSearchSubmit} className="relative w-full">
                 <svg
                   className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9E1A59]/70 pointer-events-none"
                   fill="none"
@@ -449,19 +600,28 @@ export function Navbar() {
                   />
                 </svg>
                 <input
-                  type="search"
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Cari tas, brand, atau warna..."
-                  className="w-full pl-9 pr-8 py-2 text-xs rounded-full border border-[#E8D5C0] bg-white text-[#1A1A1A] placeholder-[#888] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15"
+                  className="w-full pl-9 pr-16 py-2 text-xs rounded-full border border-[#E8D5C0] bg-white text-[#1A1A1A] placeholder-[#888] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15"
                   aria-label="Cari produk"
                 />
                 <button
+                  type="submit"
+                  className="absolute right-7 top-1/2 -translate-y-1/2 text-xs font-bold text-[#9E1A59] px-1 hover:underline cursor-pointer"
+                >
+                  Cari
+                </button>
+                <button
                   type="button"
                   onClick={() => setIsMobileSearchOpen(false)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#888] hover:text-[#1A1A1A] p-1"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-[#888] hover:text-[#1A1A1A] p-1 cursor-pointer"
+                  aria-label="Tutup pencarian"
                 >
                   ✕
                 </button>
-              </div>
+              </form>
             </motion.div>
           )}
         </AnimatePresence>
