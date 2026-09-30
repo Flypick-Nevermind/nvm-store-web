@@ -2,36 +2,22 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import { useState } from 'react';
 import { PageShell } from '@/components/layouts/PageShell';
-import { CategoryPill } from '@/components/molecules/CategoryPill';
 import { ProductCard } from '@/components/molecules/ProductCard';
-import type { CategoryId, StockFilter } from '@/constants/categories';
-import { CATEGORIES, STOCK_FILTERS } from '@/constants/categories';
 import { BRAND } from '@/constants/brand';
 import { MOCK_PRODUCTS } from '@/lib/api/mockData';
 import { useRequestBagModalStore } from '@/store/requestBagModalStore';
 
 export default function HomePage() {
   const openRequestBagModal = useRequestBagModalStore((s) => s.openModal);
-  const [activeCategory, setActiveCategory] = useState<CategoryId>('all');
-  const [activeStock, setActiveStock] = useState<StockFilter>('all');
   const [emailSubscribed, setEmailSubscribed] = useState(false);
   const [emailInput, setEmailInput] = useState('');
 
-  const filtered = useMemo(() => {
-    return MOCK_PRODUCTS.filter((p) => {
-      const catMatch =
-        activeCategory === 'all' ||
-        p.category === activeCategory ||
-        p.tags.includes(activeCategory);
-      const stockMatch = activeStock === 'all' || p.stock_type === activeStock;
-      return catMatch && stockMatch;
-    });
-  }, [activeCategory, activeStock]);
+  const products = MOCK_PRODUCTS;
 
-  const handleHeroCategoryClick = (catId: CategoryId) => {
-    setActiveCategory(catId);
+  const handleHeroCategoryClick = () => {
     const catalogEl = document.getElementById('catalog-section');
     if (catalogEl) {
       catalogEl.scrollIntoView({ behavior: 'smooth' });
@@ -176,7 +162,7 @@ export default function HomePage() {
           <div className="pt-10 md:pt-14 flex items-center justify-center sm:justify-start gap-2.5 sm:gap-3.5 flex-wrap">
             <button
               type="button"
-              onClick={() => handleHeroCategoryClick('trending-now')}
+              onClick={handleHeroCategoryClick}
               className="px-4 sm:px-5 py-2 rounded-full border border-white/60 bg-white/10 hover:bg-white/20 text-white text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2 backdrop-blur-xs transition-all cursor-pointer shadow-2xs"
             >
               <span aria-hidden="true">🌐</span>
@@ -184,7 +170,7 @@ export default function HomePage() {
             </button>
             <button
               type="button"
-              onClick={() => handleHeroCategoryClick('y2k-core')}
+              onClick={handleHeroCategoryClick}
               className="px-4 sm:px-5 py-2 rounded-full border border-white/60 bg-white/10 hover:bg-white/20 text-white text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2 backdrop-blur-xs transition-all cursor-pointer shadow-2xs"
             >
               <span aria-hidden="true">⭐️</span>
@@ -192,7 +178,7 @@ export default function HomePage() {
             </button>
             <button
               type="button"
-              onClick={() => handleHeroCategoryClick('just-dropped')}
+              onClick={handleHeroCategoryClick}
               className="px-4 sm:px-5 py-2 rounded-full border border-white/60 bg-white/10 hover:bg-white/20 text-white text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2 backdrop-blur-xs transition-all cursor-pointer shadow-2xs"
             >
               <span aria-hidden="true">🤍</span>
@@ -200,7 +186,7 @@ export default function HomePage() {
             </button>
             <button
               type="button"
-              onClick={() => handleHeroCategoryClick('cute-finds')}
+              onClick={handleHeroCategoryClick}
               className="px-4 sm:px-5 py-2 rounded-full border border-white/60 bg-white/10 hover:bg-white/20 text-white text-xs font-bold tracking-wider uppercase inline-flex items-center gap-2 backdrop-blur-xs transition-all cursor-pointer shadow-2xs"
             >
               <span aria-hidden="true">✈️</span>
@@ -217,7 +203,7 @@ export default function HomePage() {
         aria-label="Katalog produk"
       >
         {/* Section Header matching mockup "What's Hot ★" */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-2 border-b border-[#E8D5C0]">
+        <div className="flex items-center justify-between pb-2 border-b border-[#E8D5C0]">
           <div className="flex items-center gap-3">
             <h2 className="text-3xl sm:text-4xl font-display font-black text-[#9E1A59] tracking-tight">
               What&apos;s Hot <span className="text-[#9E1A59]">★</span>
@@ -227,93 +213,29 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Stock Filter Toggle */}
-          <div
-            className="flex items-center gap-1 bg-white rounded-xl p-1 border border-[#E8D5C0] shrink-0 self-start sm:self-auto shadow-2xs"
-            role="group"
-            aria-label="Filter stok"
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#E8D5C0] bg-white text-xs font-bold text-[#9E1A59] hover:bg-[#FFF0F5] transition-all shadow-2xs"
           >
-            {STOCK_FILTERS.map((f) => (
-              <button
-                key={f.id}
-                id={`stock-filter-${f.id}`}
-                onClick={() => setActiveStock(f.id)}
-                aria-pressed={activeStock === f.id}
-                className={[
-                  'px-3 sm:px-4 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59]/50',
-                  activeStock === f.id
-                    ? 'bg-[#9E1A59] text-white shadow-xs'
-                    : 'text-[#8A7880] hover:text-[#1A1A1A]',
-                ].join(' ')}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Category Pills Bar */}
-        <div
-          className="flex gap-2 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4 sm:mx-0 sm:px-0"
-          role="group"
-          aria-label="Filter kategori"
-        >
-          {CATEGORIES.map((cat) => (
-            <CategoryPill
-              key={cat.id}
-              category={cat}
-              isActive={activeCategory === cat.id}
-              onClick={setActiveCategory}
-            />
-          ))}
-        </div>
-
-        {/* Result count */}
-        <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold text-[#8A7880]">
-            Menampilkan <span className="text-[#1A1A1A] font-bold">{filtered.length}</span> koleksi
-            tas pilihan
-          </p>
+            <span>Lihat Semua</span>
+            <span>→</span>
+          </Link>
         </div>
 
         {/* Responsive Product Grid */}
-        {filtered.length > 0 ? (
-          <motion.div
-            layout
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5 lg:gap-6 items-stretch"
-          >
-            {filtered.map((product, idx) => (
-              <motion.div
-                key={product.id}
-                layout
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: idx * 0.04 }}
-                className="h-full flex flex-col"
-              >
-                <ProductCard product={product} />
-              </motion.div>
-            ))}
-          </motion.div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-20 gap-3 text-center bg-white rounded-3xl border border-[#E8D5C0] p-8">
-            <span className="text-5xl" aria-hidden="true">
-              🛍️
-            </span>
-            <p className="text-base font-bold text-[#1A1A1A]">Belum ada produk di kategori ini</p>
-            <p className="text-xs text-[#8A7880]">
-              Cari model tas tertentu yang belum ada di sini?
-            </p>
-            <button
-              type="button"
-              onClick={() => openRequestBagModal()}
-              className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#9E1A59] text-white text-xs font-bold hover:bg-[#7A1244] transition-all cursor-pointer shadow-xs"
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5 lg:gap-6 items-stretch">
+          {products.map((product, idx) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: idx * 0.04 }}
+              className="h-full flex flex-col"
             >
-              <span>✨ Request Tas via WhatsApp</span>
-            </button>
-          </div>
-        )}
+              <ProductCard product={product} />
+            </motion.div>
+          ))}
+        </div>
 
         {/* ── Request a Bag Feature Section ───────────────────── */}
         <section
