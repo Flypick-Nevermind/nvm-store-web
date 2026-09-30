@@ -6,8 +6,9 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query';
+import { BRAND } from '@/constants/brand';
+import { useOrdersStore } from '@/store/ordersStore';
 import type { CreateOrderDTO, CreateOrderResponse, OrderDetailResponse } from '@/types/api';
-import { mockCreateOrder, mockFetchOrder } from './mockData';
 
 // ─── Keys ─────────────────────────────────────────────────────────────────────
 
@@ -21,15 +22,20 @@ export const orderKeys = {
 export function useCreateOrder(): UseMutationResult<CreateOrderResponse, Error, CreateOrderDTO> {
   return useMutation({
     mutationFn: async (dto: CreateOrderDTO) => {
-      // TODO: Replace with real API call in Phase 2
-      // const res = await fetch('/api/v1/orders', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(dto),
-      // });
-      // if (!res.ok) throw new Error('Order creation failed');
-      // return res.json();
-      return mockCreateOrder(dto) as Promise<CreateOrderResponse>;
+      // Simulate network latency
+      await new Promise((r) => setTimeout(r, 700));
+
+      const created = useOrdersStore.getState().addOrder(dto);
+
+      return {
+        success: true,
+        data: {
+          order_id: created.order_id,
+          created_at: created.created_at,
+          status: created.status,
+          whatsapp_redirect_url: `https://wa.me/${BRAND.whatsappNumber}?text=Halo+NEVERMIND!+Order+${created.order_id}`,
+        },
+      };
     },
   });
 }
@@ -43,14 +49,21 @@ export function useOrderDetail(
   return useQuery({
     queryKey: orderKeys.detail(orderId),
     queryFn: async () => {
-      // TODO: Replace with real API call in Phase 2
-      // const res = await fetch(`/api/v1/orders/${orderId}`);
-      // if (!res.ok) throw new Error('Order not found');
-      // return res.json();
-      return mockFetchOrder(orderId);
+      // Simulate network latency
+      await new Promise((r) => setTimeout(r, 300));
+
+      const found = useOrdersStore.getState().getOrder(orderId);
+      if (!found) {
+        throw new Error('Order tidak ditemukan');
+      }
+
+      return {
+        success: true,
+        data: found,
+      };
     },
     enabled: enabled && !!orderId,
-    staleTime: 30_000, // 30s
-    retry: 2,
+    staleTime: 30_000,
+    retry: 1,
   });
 }

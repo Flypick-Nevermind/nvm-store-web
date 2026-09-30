@@ -7,6 +7,8 @@ import { Button } from '@/components/atoms/Button';
 import { Input } from '@/components/atoms/Input';
 import { PageShell } from '@/components/layouts/PageShell';
 import { type OrderLookupData, orderLookupSchema } from '@/lib/schemas/checkout.schema';
+import { useOrdersStore } from '@/store/ordersStore';
+import { formatIDR } from '@/lib/utils';
 
 export default function TrackIndexPage() {
   const router = useRouter();
@@ -65,17 +67,53 @@ export default function TrackIndexPage() {
           </Button>
         </form>
 
-        {/* Demo shortcut */}
-        <div className="rounded-2xl bg-[#FDFD96]/30 border border-[#FDFD96] p-4">
-          <p className="text-xs text-[#5C5C00] font-medium mb-2">✨ Demo — Coba contoh order:</p>
-          <button
-            onClick={() => router.push('/track/NVM20260915ABC123')}
-            className="text-xs font-mono text-[#9E1A59] underline underline-offset-2 cursor-pointer"
-          >
-            /track/NVM20260915ABC123
-          </button>
-        </div>
+        {/* Recent orders from local storage */}
+        <RecentOrdersTracker onSelectOrder={(id) => router.push(`/track/${id}`)} />
       </div>
     </PageShell>
+  );
+}
+
+function RecentOrdersTracker({ onSelectOrder }: { onSelectOrder: (id: string) => void }) {
+  const orders = useOrdersStore((s) => s.orders);
+
+  if (!orders || orders.length === 0) return null;
+
+  return (
+    <div className="rounded-2xl bg-white border border-[#C8C8C8]/50 p-5 shadow-xs flex flex-col gap-3">
+      <div className="flex items-center justify-between border-b border-[#E8D5C0] pb-2">
+        <p className="text-xs font-bold text-[#888] uppercase tracking-wider">
+          Pesanan Tersimpan ({orders.length})
+        </p>
+        <span className="text-[11px] text-[#9E1A59] font-medium">Klik untuk melacak</span>
+      </div>
+      <div className="flex flex-col gap-2">
+        {orders.slice(0, 5).map((ord) => (
+          <button
+            key={ord.order_id}
+            type="button"
+            onClick={() => onSelectOrder(ord.order_id)}
+            className="flex items-center justify-between p-3 rounded-xl bg-[#FFF8E1]/50 hover:bg-[#FFF8E1] border border-[#E8D5C0]/60 transition-all text-left cursor-pointer group"
+          >
+            <div>
+              <p className="text-xs font-mono font-bold text-[#1A1A1A] group-hover:text-[#9E1A59]">
+                {ord.order_id}
+              </p>
+              <p className="text-[11px] text-[#888] mt-0.5">
+                {ord.buyer_name} · {ord.items.length} item
+              </p>
+            </div>
+            <div className="text-right">
+              <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F5] text-[#1A6B5C]">
+                Tahap {ord.current_stage}/5
+              </span>
+              <p className="text-[11px] font-bold text-[#1A1A1A] mt-0.5">
+                {formatIDR(ord.total_amount)}
+              </p>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }

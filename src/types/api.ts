@@ -73,7 +73,12 @@ export interface CreateOrderDTO {
     quantity: number;
     unit_price: number;
     type: ProductType;
+    image?: string;
   }>;
+  payment_method?: string;
+  payment_proof_url?: string;
+  voucher_code?: string;
+  discount_amount?: number;
   agreed_to_terms: boolean;
   total_amount: number;
 }
@@ -93,8 +98,19 @@ export interface OrderDetailResponse {
   data: {
     order_id: string;
     buyer_name: string;
+    whatsapp_number?: string;
     items: OrderItem[];
     total_amount: number;
+    payment_method?: string;
+    payment_proof_url?: string;
+    address?: {
+      street: string;
+      district: string;
+      city: string;
+      postal_code: string;
+    };
+    voucher_code?: string;
+    discount_amount?: number;
     status: OrderStatus;
     current_stage: 1 | 2 | 3 | 4 | 5;
     tracking_number?: string;
