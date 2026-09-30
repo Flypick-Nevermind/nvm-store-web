@@ -263,20 +263,20 @@ export function Navbar() {
                       </div>
                       <div className="flex flex-col gap-0.5">
                         <Link
+                          href="/orders"
+                          onClick={() => setIsAccountMenuOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1A1A] hover:bg-[#9E1A59]/8 hover:text-[#9E1A59] transition-colors"
+                        >
+                          <span>🛍️</span>
+                          <span>Riwayat Pembelian</span>
+                        </Link>
+                        <Link
                           href="/track"
                           onClick={() => setIsAccountMenuOpen(false)}
                           className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1A1A] hover:bg-[#9E1A59]/8 hover:text-[#9E1A59] transition-colors"
                         >
                           <span>📦</span>
                           <span>Lacak Pesanan Saya</span>
-                        </Link>
-                        <Link
-                          href="/"
-                          onClick={() => setIsAccountMenuOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1A1A] hover:bg-[#9E1A59]/8 hover:text-[#9E1A59] transition-colors"
-                        >
-                          <span>🛍️</span>
-                          <span>Katalog Koleksi Tas</span>
                         </Link>
                       </div>
                       <div className="border-t border-[#E8D5C0] pt-2">
@@ -602,6 +602,19 @@ export function Navbar() {
                   {mounted && wishlistCount > 0 ? `${wishlistCount} Tersimpan` : 'Koleksi Favorit'}
                 </span>
               </button>
+
+              {/* Purchase History in mobile drawer */}
+              <Link
+                href="/orders"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full px-4 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-colors text-[#1A1A1A] hover:bg-[#FFF8E1] hover:text-[#9E1A59] flex items-center justify-between"
+              >
+                <span className="flex items-center gap-2">
+                  <span>🛍️</span>
+                  <span>RIWAYAT PESANAN</span>
+                </span>
+                <span className="text-[10px] font-semibold text-[#888]">Lihat Semua</span>
+              </Link>
 
               {/* Support section in mobile */}
               <div className="mt-2 border-t border-[#E8D5C0] pt-2">

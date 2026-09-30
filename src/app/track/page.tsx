@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/atoms/Button';
@@ -85,7 +86,12 @@ function RecentOrdersTracker({ onSelectOrder }: { onSelectOrder: (id: string) =>
         <p className="text-xs font-bold text-[#888] uppercase tracking-wider">
           Pesanan Tersimpan ({orders.length})
         </p>
-        <span className="text-[11px] text-[#9E1A59] font-medium">Klik untuk melacak</span>
+        <Link
+          href="/orders"
+          className="text-[11px] text-[#9E1A59] font-bold hover:underline"
+        >
+          Lihat Semua Riwayat →
+        </Link>
       </div>
       <div className="flex flex-col gap-2">
         {orders.slice(0, 5).map((ord) => (

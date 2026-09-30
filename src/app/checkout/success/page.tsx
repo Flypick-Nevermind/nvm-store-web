@@ -100,7 +100,15 @@ function SuccessContent() {
               Lacak Pesananku →
             </Button>
           )}
-          <Button variant="outline" size="md" fullWidth onClick={() => router.push('/')}>
+          <Button
+            variant="outline"
+            size="md"
+            fullWidth
+            onClick={() => router.push('/orders')}
+          >
+            🛍️ Lihat Riwayat Pembelian
+          </Button>
+          <Button variant="ghost" size="sm" fullWidth onClick={() => router.push('/')}>
             Kembali ke Katalog
           </Button>
         </motion.div>
