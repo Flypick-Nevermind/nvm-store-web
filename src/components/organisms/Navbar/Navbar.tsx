@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Logo } from '@/components/atoms/Logo';
+import { WishlistDrawer } from '@/components/organisms/WishlistDrawer';
 import { useAuthModalStore } from '@/store/authModalStore';
 import { useAuthStore } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
 import { useRequestBagModalStore } from '@/store/requestBagModalStore';
+import { useWishlistStore } from '@/store/wishlistStore';
 
 const SUPPORT_ITEMS = [
   { label: 'FAQs', href: '/support/faqs' },
@@ -45,7 +47,10 @@ export function Navbar() {
   const [isSupportOpen, setIsSupportOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  const wishlistCount = useWishlistStore((s) => s.items.length);
 
   const supportRef = useRef<HTMLLIElement>(null);
 
@@ -317,14 +322,15 @@ export function Navbar() {
             {/* Wishlist */}
             <button
               type="button"
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF0F5] hover:text-[#9E1A59] transition-colors"
-              aria-label="Wishlist"
+              onClick={() => setIsWishlistOpen(true)}
+              className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-[#1A1A1A] hover:bg-[#FFF0F5] hover:text-[#9E1A59] transition-colors cursor-pointer"
+              aria-label={mounted ? `Wishlist (${wishlistCount} item)` : 'Wishlist'}
             >
               <svg
-                className="w-4.5 h-4.5 sm:w-5 sm:h-5"
-                fill="none"
+                className="w-4.5 h-4.5 sm:w-5 sm:h-5 transition-transform active:scale-90"
+                fill={mounted && wishlistCount > 0 ? '#9E1A59' : 'none'}
                 viewBox="0 0 24 24"
-                stroke="currentColor"
+                stroke={mounted && wishlistCount > 0 ? '#9E1A59' : 'currentColor'}
                 strokeWidth={2}
               >
                 <path
@@ -333,6 +339,22 @@ export function Navbar() {
                   d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                 />
               </svg>
+
+              {/* Dynamic Wishlist Badge */}
+              <AnimatePresence>
+                {mounted && wishlistCount > 0 && (
+                  <motion.span
+                    key="wishlist-badge"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full text-[9px] font-bold flex items-center justify-center leading-none bg-[#9E1A59] text-white"
+                    aria-hidden="true"
+                  >
+                    {wishlistCount > 99 ? '99+' : wishlistCount}
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </button>
 
             {/* Cart */}
@@ -564,17 +586,22 @@ export function Navbar() {
               ))}
 
               {/* Wishlist in mobile drawer */}
-              <Link
-                href="/products"
-                className="px-4 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-colors text-[#1A1A1A] hover:bg-[#FFF8E1] hover:text-[#9E1A59] flex items-center justify-between"
-                onClick={() => setIsMobileMenuOpen(false)}
+              <button
+                type="button"
+                className="w-full px-4 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-colors text-[#1A1A1A] hover:bg-[#FFF8E1] hover:text-[#9E1A59] flex items-center justify-between cursor-pointer"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsWishlistOpen(true);
+                }}
               >
                 <span className="flex items-center gap-2">
-                  <span>🤍</span>
+                  <span className="text-[#9E1A59]">♡</span>
                   <span>WISHLIST SAYA</span>
                 </span>
-                <span className="text-[10px] font-semibold text-[#888]">Koleksi Favorit</span>
-              </Link>
+                <span className="text-[10px] font-semibold text-[#888]">
+                  {mounted && wishlistCount > 0 ? `${wishlistCount} Tersimpan` : 'Koleksi Favorit'}
+                </span>
+              </button>
 
               {/* Support section in mobile */}
               <div className="mt-2 border-t border-[#E8D5C0] pt-2">
@@ -614,6 +641,9 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Wishlist Slide-Over Drawer */}
+      <WishlistDrawer isOpen={isWishlistOpen} onClose={() => setIsWishlistOpen(false)} />
     </header>
   );
 }
