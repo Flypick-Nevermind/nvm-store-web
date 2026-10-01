@@ -6,18 +6,33 @@ interface RequestOptions extends RequestInit {
   token?: string | null;
 }
 
+function getStoredToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem('nvm-auth');
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed?.state?.token || null;
+  } catch {
+    return null;
+  }
+}
+
 export async function apiClient<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
   const { token, headers = {}, ...rest } = options;
 
   const url = endpoint.startsWith('http') ? endpoint : `${BASE_URL}${endpoint}`;
+
+  // Automatically inject token from localStorage if not explicitly passed
+  const activeToken = token === undefined ? getStoredToken() : token;
 
   const requestHeaders: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(headers as Record<string, string>),
   };
 
-  if (token) {
-    requestHeaders['Authorization'] = `Bearer ${token}`;
+  if (activeToken) {
+    requestHeaders['Authorization'] = `Bearer ${activeToken}`;
   }
 
   let response: Response;
