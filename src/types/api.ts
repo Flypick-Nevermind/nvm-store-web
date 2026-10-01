@@ -112,9 +112,10 @@ export interface OrderDetailResponse {
     voucher_code?: string;
     discount_amount?: number;
     status: OrderStatus;
-    current_stage: 1 | 2 | 3 | 4 | 5;
+    current_stage: 1 | 2 | 3 | 4 | 5 | 6;
     tracking_number?: string;
     qc_passed: boolean;
+    received_at?: string;
     eta_range: { from: string; to: string };
     created_at: string;
     updated_at: string;

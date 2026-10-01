@@ -12,7 +12,12 @@ interface OrdersStore {
   orders: OrderRecord[];
   addOrder: (dto: CreateOrderDTO) => OrderRecord;
   getOrder: (orderId: string) => OrderRecord | undefined;
-  updateOrderStage: (orderId: string, stage: 1 | 2 | 3 | 4 | 5, trackingNumber?: string) => void;
+  updateOrderStage: (
+    orderId: string,
+    stage: 1 | 2 | 3 | 4 | 5 | 6,
+    trackingNumber?: string
+  ) => void;
+  confirmOrderDelivered: (orderId: string) => void;
   getUserOrders: (whatsappNumber?: string) => OrderRecord[];
 }
 
@@ -79,7 +84,8 @@ export const useOrdersStore = create<OrdersStore>()(
         const orderItems: OrderItem[] = dto.items.map((i) => ({
           product_id: i.product_id,
           name: i.name,
-          image: i.image || 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&q=80',
+          image:
+            i.image || 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&q=80',
           quantity: i.quantity,
           unit_price: i.unit_price,
           type: i.type,
@@ -135,6 +141,7 @@ export const useOrdersStore = create<OrdersStore>()(
           3: 'qc_passed',
           4: 'customs_cleared',
           5: 'out_for_delivery',
+          6: 'delivered',
         };
 
         const cleanId = orderId.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -150,7 +157,8 @@ export const useOrdersStore = create<OrdersStore>()(
               current_stage: stage,
               status: stageStatusMap[stage] || 'payment_confirmed',
               qc_passed: stage >= 3,
-              tracking_number: trackingNumber || (stage === 5 ? 'SPXID0294829104' : undefined),
+              tracking_number: trackingNumber || (stage >= 5 ? 'SPXID0294829104' : undefined),
+              received_at: stage === 6 ? new Date().toISOString() : undefined,
               updated_at: new Date().toISOString(),
             };
             return { orders: [newRecord, ...state.orders] };
@@ -165,9 +173,10 @@ export const useOrdersStore = create<OrdersStore>()(
                   status: stageStatusMap[stage] || o.status,
                   qc_passed: stage >= 3,
                   tracking_number:
-                    stage === 5
+                    stage >= 5
                       ? trackingNumber || o.tracking_number || 'SPXID0294829104'
                       : undefined,
+                  received_at: stage === 6 ? o.received_at || new Date().toISOString() : undefined,
                   updated_at: new Date().toISOString(),
                 };
               }
@@ -175,6 +184,25 @@ export const useOrdersStore = create<OrdersStore>()(
             }),
           };
         });
+      },
+
+      confirmOrderDelivered: (orderId) => {
+        const cleanId = orderId.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+        const now = new Date().toISOString();
+        set((state) => ({
+          orders: state.orders.map((o) => {
+            if (o.order_id.trim().toUpperCase().replace(/[^A-Z0-9]/g, '') === cleanId) {
+              return {
+                ...o,
+                current_stage: 6,
+                status: 'delivered',
+                received_at: now,
+                updated_at: now,
+              };
+            }
+            return o;
+          }),
+        }));
       },
 
       getUserOrders: (whatsappNumber) => {

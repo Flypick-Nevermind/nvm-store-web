@@ -20,6 +20,8 @@ export default function OrdersHistoryPage() {
     copiedId,
     handleCopyOrderId,
     reorderSuccessId,
+    deliveredSuccessId,
+    handleConfirmDelivered,
     handleReorder,
   } = useOrderHistory();
 
@@ -137,6 +139,14 @@ export default function OrdersHistoryPage() {
           </div>
         )}
 
+        {/* Global Toast for Delivered Confirmation */}
+        {deliveredSuccessId && (
+          <div className="rounded-2xl bg-[#D8FFF7] border border-[#9DDED1] p-3.5 flex items-center justify-between text-xs text-[#1A6B5C] font-semibold animate-in fade-in duration-200">
+            <span>🎉 Pesanan #{deliveredSuccessId} telah selesai dikonfirmasi! Terima kasih atas pembelianmu.</span>
+            <span className="font-bold">Status: Selesai</span>
+          </div>
+        )}
+
         {/* Orders List */}
         {filteredOrders.length === 0 ? (
           <div className="rounded-3xl bg-white border border-[#C8C8C8]/50 p-8 sm:p-12 flex flex-col items-center justify-center text-center gap-4 shadow-xs">
@@ -165,6 +175,7 @@ export default function OrdersHistoryPage() {
                 onCopyOrderId={handleCopyOrderId}
                 onReorder={handleReorder}
                 onTrack={(orderId) => router.push(`/track/${orderId}`)}
+                onConfirmDelivered={handleConfirmDelivered}
               />
             ))}
           </div>

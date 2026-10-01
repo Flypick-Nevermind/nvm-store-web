@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { Badge } from '@/components/atoms/Badge';
 import { Button } from '@/components/atoms/Button';
 import { BRAND } from '@/constants/brand';
@@ -15,7 +16,8 @@ const STAGE_CONFIG: Record<
   2: { label: 'Dipesan ke Supplier China', badgeVariant: 'silver', icon: '🏭' },
   3: { label: 'Warehouse China & Lolos QC', badgeVariant: 'aqua', icon: '🔍' },
   4: { label: 'Penerbangan & Bea Cukai', badgeVariant: 'silver', icon: '✈️' },
-  5: { label: 'Tiba & Kurir Lokal', badgeVariant: 'aqua', icon: '🚚' },
+  5: { label: 'Kurir Lokal Mengantar', badgeVariant: 'yellow', icon: '🚚' },
+  6: { label: 'Paket Telah Diterima', badgeVariant: 'aqua', icon: '🎉' },
 };
 
 const PAYMENT_LABELS: Record<string, string> = {
@@ -30,6 +32,7 @@ interface OrderHistoryCardProps {
   onCopyOrderId: (id: string) => void;
   onReorder: (order: OrderRecord) => void;
   onTrack: (orderId: string) => void;
+  onConfirmDelivered?: (orderId: string) => void;
 }
 
 export function OrderHistoryCard({
@@ -38,6 +41,7 @@ export function OrderHistoryCard({
   onCopyOrderId,
   onReorder,
   onTrack,
+  onConfirmDelivered,
 }: OrderHistoryCardProps) {
   const stageInfo = STAGE_CONFIG[order.current_stage] || {
     label: `Tahap ${order.current_stage}`,
@@ -50,6 +54,20 @@ export function OrderHistoryCard({
     month: 'short',
     year: 'numeric',
   });
+
+  const receivedDate = order.received_at
+    ? new Date(order.received_at).toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    : null;
+
+  const firstProductSlug =
+    order.items[0]?.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') ||
+    order.items[0]?.product_id;
 
   return (
     <div className="rounded-3xl bg-white border border-[#C8C8C8]/50 p-5 sm:p-6 shadow-xs flex flex-col gap-4 hover:border-[#9E1A59]/40 transition-colors">
@@ -81,6 +99,11 @@ export function OrderHistoryCard({
           {order.qc_passed && (
             <span className="hidden sm:inline-block text-[11px] px-2 py-0.5 rounded-full bg-[#D8FFF7] text-[#1A6B5C] font-bold border border-[#9DDED1]">
               QC Passed
+            </span>
+          )}
+          {order.tracking_number && (
+            <span className="hidden md:inline-block font-mono text-[10px] px-2 py-0.5 rounded-full bg-[#FFF8E1] text-[#9E1A59] font-bold border border-[#E8D5C0]">
+              Resi: {order.tracking_number}
             </span>
           )}
         </div>
@@ -121,6 +144,25 @@ export function OrderHistoryCard({
         ))}
       </div>
 
+      {/* Completed delivery notification */}
+      {order.current_stage === 6 && (
+        <div className="p-3 rounded-2xl bg-[#D8FFF7]/70 border border-[#9DDED1] flex items-center justify-between text-xs text-[#1A6B5C]">
+          <div className="flex items-center gap-2">
+            <span className="text-base">🎉</span>
+            <div>
+              <p className="font-bold">Paket telah diterima dengan sukses!</p>
+              {receivedDate && <p className="text-[11px] text-[#11493E]">Tiba pada: {receivedDate}</p>}
+            </div>
+          </div>
+          <Link
+            href={`/products/${firstProductSlug}`}
+            className="px-2.5 py-1 rounded-xl bg-white border border-[#9DDED1] hover:bg-[#D8FFF7] font-bold text-[11px] text-[#1A6B5C] transition-colors whitespace-nowrap"
+          >
+            Beri Ulasan ⭐
+          </Link>
+        </div>
+      )}
+
       {/* Bottom Bar: Total, Payment Method & Action Buttons */}
       <div className="pt-3 border-t border-[#E8D5C0] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -153,6 +195,18 @@ export function OrderHistoryCard({
           >
             💬 Bantuan
           </a>
+
+          {/* Confirm Delivered Button (when at stage 5) */}
+          {order.current_stage === 5 && onConfirmDelivered && (
+            <button
+              type="button"
+              onClick={() => onConfirmDelivered(order.order_id)}
+              className="px-3.5 py-2 rounded-xl bg-[#1A6B5C] hover:bg-[#11493E] text-white text-xs font-bold transition-all shadow-xs cursor-pointer flex items-center gap-1.5"
+            >
+              <span>✓</span>
+              <span>Konfirmasi Diterima</span>
+            </button>
+          )}
 
           {/* Reorder Button */}
           <button

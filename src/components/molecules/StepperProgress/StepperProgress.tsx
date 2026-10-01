@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { TRACKING_STAGES } from '@/constants/stages';
 
 interface StepperProgressProps {
-  currentStage: 1 | 2 | 3 | 4 | 5;
+  currentStage: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
 export function StepperProgress({ currentStage }: StepperProgressProps) {
@@ -12,7 +12,7 @@ export function StepperProgress({ currentStage }: StepperProgressProps) {
     <div className="w-full" aria-label="Status pengiriman">
       <ol className="relative flex flex-col gap-0">
         {TRACKING_STAGES.map((stage, idx) => {
-          const stageNum = stage.id as 1 | 2 | 3 | 4 | 5;
+          const stageNum = stage.id as 1 | 2 | 3 | 4 | 5 | 6;
           const isCompleted = stageNum < currentStage;
           const isActive = stageNum === currentStage;
           const isPending = stageNum > currentStage;

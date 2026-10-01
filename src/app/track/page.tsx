@@ -110,8 +110,8 @@ function RecentOrdersTracker({ onSelectOrder }: { onSelectOrder: (id: string) =>
               </p>
             </div>
             <div className="text-right">
-              <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#E8F8F5] text-[#1A6B5C]">
-                Tahap {ord.current_stage}/5
+              <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${ord.current_stage === 6 ? 'bg-[#D8FFF7] text-[#1A6B5C]' : 'bg-[#FFF8E1] text-[#9E1A59] border border-[#E8D5C0]'}`}>
+                {ord.current_stage === 6 ? 'Selesai 🎉' : `Tahap ${ord.current_stage}/6`}
               </span>
               <p className="text-[11px] font-bold text-[#1A1A1A] mt-0.5">
                 {formatIDR(ord.total_amount)}

@@ -9,6 +9,7 @@ export type OrderFilterTab = 'all' | 'processing' | 'completed';
 
 export function useOrderHistory() {
   const allOrders = useOrdersStore((s) => s.orders);
+  const confirmOrderDelivered = useOrdersStore((s) => s.confirmOrderDelivered);
   const user = useAuthStore((s) => s.user);
   const addItem = useCartStore((s) => s.addItem);
 
@@ -16,13 +17,14 @@ export function useOrderHistory() {
   const [searchQuery, setSearchQuery] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [reorderSuccessId, setReorderSuccessId] = useState<string | null>(null);
+  const [deliveredSuccessId, setDeliveredSuccessId] = useState<string | null>(null);
 
   // Filter orders by tab & search query
   const filteredOrders = useMemo(() => {
     return allOrders.filter((order) => {
-      // Tab filter
-      if (activeTab === 'processing' && order.current_stage >= 5) return false;
-      if (activeTab === 'completed' && order.current_stage < 5) return false;
+      // Tab filter: processing is stage 1-5, completed is stage 6
+      if (activeTab === 'processing' && order.current_stage >= 6) return false;
+      if (activeTab === 'completed' && order.current_stage < 6) return false;
 
       // Search filter
       if (searchQuery.trim()) {
@@ -38,8 +40,8 @@ export function useOrderHistory() {
   }, [allOrders, activeTab, searchQuery]);
 
   const counts = useMemo(() => {
-    const processing = allOrders.filter((o) => o.current_stage < 5).length;
-    const completed = allOrders.filter((o) => o.current_stage >= 5).length;
+    const processing = allOrders.filter((o) => o.current_stage < 6).length;
+    const completed = allOrders.filter((o) => o.current_stage >= 6).length;
     return { all: allOrders.length, processing, completed };
   }, [allOrders]);
 
@@ -47,6 +49,12 @@ export function useOrderHistory() {
     navigator.clipboard.writeText(orderId);
     setCopiedId(orderId);
     setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const handleConfirmDelivered = (orderId: string) => {
+    confirmOrderDelivered(orderId);
+    setDeliveredSuccessId(orderId);
+    setTimeout(() => setDeliveredSuccessId(null), 3500);
   };
 
   const handleReorder = (order: OrderRecord) => {
@@ -81,6 +89,8 @@ export function useOrderHistory() {
     copiedId,
     handleCopyOrderId,
     reorderSuccessId,
+    deliveredSuccessId,
+    handleConfirmDelivered,
     handleReorder,
   };
 }

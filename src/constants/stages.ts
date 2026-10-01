@@ -34,8 +34,14 @@ export const TRACKING_STAGES: TrackingStage[] = [
   },
   {
     id: 5,
-    title: 'Tiba di Indonesia & Kurir Lokal',
-    description: 'Barang sudah tiba di Indonesia dan diserahkan ke kurir ekspedisi lokal menuju alamatmu.',
+    title: 'Dalam Pengantaran Kurir Lokal',
+    description: 'Barang tiba di Indonesia dan sedang dalam perjalanan diantar oleh kurir ekspedisi ke alamatmu.',
     icon: '🚚',
+  },
+  {
+    id: 6,
+    title: 'Paket Telah Diterima (Selesai)',
+    description: 'Paket telah sampai di alamat tujuan dan diterima dengan baik oleh pembeli.',
+    icon: '🎉',
   },
 ] as const;
