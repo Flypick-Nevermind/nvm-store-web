@@ -2,6 +2,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { loginApi, registerApi, validateOtpApi } from '@/lib/api/auth';
 import type { AuthState, User } from '@/types/auth';
 
 const DEMO_USER: User = {
@@ -17,47 +18,51 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
+      token: null,
       isAuthenticated: false,
 
-      login: async ({ identifier }) => {
-        // Simulated network delay
-        await new Promise((r) => setTimeout(r, 400));
-
-        const isEmail = identifier.includes('@');
-        const user: User = {
-          id: `usr_${Date.now()}`,
-          name: isEmail ? identifier.split('@')[0] : 'Nevermind Bestie',
-          email: isEmail ? identifier : `${identifier}@mail.com`,
-          whatsapp_number: isEmail ? '081234567890' : identifier,
-          member_tier: 'VIP Club',
-          created_at: new Date().toISOString(),
-        };
-
-        set({ user, isAuthenticated: true });
-        return true;
+      login: async ({ identifier, password }) => {
+        try {
+          const res = await loginApi({ identifier, password });
+          set({ user: res.user, token: res.token, isAuthenticated: true });
+          return true;
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : 'Login gagal';
+          throw new Error(message);
+        }
       },
 
-      register: async ({ name, whatsapp_number, email }) => {
-        await new Promise((r) => setTimeout(r, 500));
-        const user: User = {
-          id: `usr_${Date.now()}`,
-          name,
-          email,
-          whatsapp_number,
-          member_tier: 'VIP Club',
-          created_at: new Date().toISOString(),
-        };
+      register: async ({ name, whatsapp_number, email, password }) => {
+        try {
+          const res = await registerApi({ name, whatsapp_number, email, password });
+          return { user_id: res.user_id };
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : 'Registrasi gagal';
+          throw new Error(message);
+        }
+      },
 
-        set({ user, isAuthenticated: true });
-        return true;
+      verifyOtp: async ({ user_id, auth_otp, email, password }) => {
+        try {
+          await validateOtpApi({ user_id, auth_otp });
+          // If password is provided, automatically log the user in!
+          if (password) {
+            const res = await loginApi({ identifier: email, password });
+            set({ user: res.user, token: res.token, isAuthenticated: true });
+          }
+          return true;
+        } catch (err: unknown) {
+          const message = err instanceof Error ? err.message : 'Verifikasi OTP gagal';
+          throw new Error(message);
+        }
       },
 
       loginDemo: () => {
-        set({ user: DEMO_USER, isAuthenticated: true });
+        set({ user: DEMO_USER, token: 'demo_jwt_token', isAuthenticated: true });
       },
 
       logout: () => {
-        set({ user: null, isAuthenticated: false });
+        set({ user: null, token: null, isAuthenticated: false });
       },
     }),
     {

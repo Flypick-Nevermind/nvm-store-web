@@ -44,7 +44,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                 ? 'border-red-400 focus:border-red-400 focus:ring-red-200'
                 : 'border-[#E8D5C0] hover:border-[#9E1A59]/50',
               leftAdornment ? 'pl-9' : '',
-              rightAdornment ? 'pr-9' : '',
+              rightAdornment ? 'pr-11' : '',
               className,
             ].join(' ')}
             aria-invalid={hasError}
@@ -53,7 +53,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           />
 
           {rightAdornment && (
-            <span className="absolute right-3 text-[#C8C8C8]">{rightAdornment}</span>
+            <span className="absolute right-3 flex items-center justify-center text-[#8A7880]">
+              {rightAdornment}
+            </span>
           )}
         </div>
 

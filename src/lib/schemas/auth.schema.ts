@@ -10,7 +10,7 @@ export const loginSchema = z.object({
       const isPhone = /^(08|62|\+62)[0-9]{8,13}$/.test(val.replace(/\s|-/g, ''));
       return isEmail || isPhone;
     }, 'Masukkan format email atau nomor WhatsApp yang valid (contoh: 08123456789 atau user@mail.com)'),
-  password: z.string().min(6, 'Password minimal 6 karakter'),
+  password: z.string().min(8, 'Password minimal 8 karakter'),
   remember_me: z.boolean().optional(),
 });
 
@@ -21,7 +21,7 @@ export const registerSchema = z.object({
     .min(9, 'Nomor WhatsApp tidak valid')
     .regex(/^(08|62|\+62)[0-9]{8,13}$/, 'Format nomor WhatsApp tidak valid (contoh: 08123456789)'),
   email: z.string().email('Format email tidak valid'),
-  password: z.string().min(6, 'Password minimal 6 karakter'),
+  password: z.string().min(8, 'Password minimal 8 karakter'),
   terms: z.literal(true, 'Kamu harus menyetujui Syarat & Ketentuan'),
 });
 

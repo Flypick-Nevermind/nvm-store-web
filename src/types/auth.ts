@@ -10,11 +10,18 @@ export interface User {
 
 export interface AuthState {
   user: User | null;
+  token: string | null;
   isAuthenticated: boolean;
   login: (credentials: { identifier: string; password?: string }) => Promise<boolean>;
   register: (data: {
     name: string;
     whatsapp_number: string;
+    email: string;
+    password?: string;
+  }) => Promise<{ user_id: string }>;
+  verifyOtp: (data: {
+    user_id: string;
+    auth_otp: string;
     email: string;
     password?: string;
   }) => Promise<boolean>;
