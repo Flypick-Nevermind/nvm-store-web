@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import { useAddressModalStore } from '@/store/addressModalStore';
 import type { User } from '@/types/auth';
 
 interface NavbarAccountMenuProps {
@@ -19,6 +20,7 @@ export function NavbarAccountMenu({
   onClose,
   onLogout,
 }: NavbarAccountMenuProps) {
+  const openAddressModal = useAddressModalStore((s) => s.openModal);
   return (
     <div className="relative" id="navbar-account-menu">
       <button
@@ -84,6 +86,17 @@ export function NavbarAccountMenu({
                 <span>📦</span>
                 <span>Lacak Pesanan Saya</span>
               </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  openAddressModal();
+                }}
+                className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-[#1A1A1A] hover:bg-[#9E1A59]/8 hover:text-[#9E1A59] transition-colors cursor-pointer text-left w-full"
+              >
+                <span>📍</span>
+                <span>Buku Alamat Saya</span>
+              </button>
             </div>
 
             {/* Logout button */}
