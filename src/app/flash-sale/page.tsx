@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Badge } from '@/components/atoms/Badge';
 import { PageShell } from '@/components/layouts/PageShell';
 import { MOCK_PRODUCTS } from '@/lib/api/mockData';
@@ -17,7 +17,6 @@ interface FlashSaleDeal {
   discountPercent: number;
   stockTotal: number;
   stockClaimed: number;
-  isMegaDeal?: boolean;
 }
 
 const FLASH_DEALS: Record<string, FlashSaleDeal> = {
@@ -27,7 +26,6 @@ const FLASH_DEALS: Record<string, FlashSaleDeal> = {
     discountPercent: 23,
     stockTotal: 25,
     stockClaimed: 22,
-    isMegaDeal: true,
   },
   'prod-001': {
     productId: 'prod-001',
@@ -92,13 +90,6 @@ export default function FlashSalePage() {
     setTimeout(() => setAddedProductId(null), 1500);
   };
 
-  // Find Mega Deal
-  const megaDealProduct = useMemo(() => {
-    return MOCK_PRODUCTS.find((p) => FLASH_DEALS[p.id]?.isMegaDeal);
-  }, []);
-
-  const megaDealMeta = megaDealProduct ? FLASH_DEALS[megaDealProduct.id] : null;
-
   return (
     <PageShell>
       {/* ── Flash Sale Time Session Tabs ────────────────────── */}
@@ -144,126 +135,40 @@ export default function FlashSalePage() {
         </div>
       </section>
 
-      {/* ── Mega Deal Highlight Section ─────────────────────── */}
-      {megaDealProduct && megaDealMeta && activeSession === 'active' && (
-        <section className="bg-[#9E1A59] py-12 px-4 sm:px-6 lg:px-8 border-b border-[#7A1244] relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl border-2 border-[#FDFD96] flex flex-col lg:flex-row items-center gap-8">
-              {/* Product Image */}
-              <div className="relative w-full lg:w-1/2 aspect-[4/3] rounded-2xl overflow-hidden bg-[#FAF0F3] shrink-0">
-                <Image
-                  src={megaDealProduct.images[0]}
-                  alt={megaDealProduct.name}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute top-3.5 left-3.5 flex items-center gap-2">
-                  <span className="px-3 py-1.5 rounded-full bg-[#9E1A59] text-white text-xs font-black tracking-wider uppercase shadow-md">
-                    ⚡ MEGA DEAL -{megaDealMeta.discountPercent}%
-                  </span>
-                  <Badge variant={megaDealProduct.stock_type === 'pre-order' ? 'yellow' : 'aqua'}>
-                    {megaDealProduct.stock_type === 'pre-order' ? '⏳ Pre-Order' : '✅ Ready Stock'}
-                  </Badge>
-                </div>
-              </div>
-
-              {/* Deal Details */}
-              <div className="flex flex-col flex-1 w-full">
-                <span className="text-[11px] font-black uppercase tracking-widest text-[#9E1A59] mb-1">
-                  ⭐ DEALS OF THE HOUR
-                </span>
-                <Link href={`/products/${megaDealProduct.slug}`}>
-                  <h2 className="text-2xl sm:text-3xl font-display font-black text-[#1A1A1A] hover:text-[#9E1A59] transition-colors leading-tight mb-2">
-                    {megaDealProduct.name}
-                  </h2>
-                </Link>
-
-                <p className="text-xs sm:text-sm text-[#666] leading-relaxed mb-6">
-                  {megaDealProduct.description}
-                </p>
-
-                {/* Price Display */}
-                <div className="flex items-baseline gap-3 mb-4">
-                  <span className="text-3xl sm:text-4xl font-black text-[#9E1A59]">
-                    {formatIDR(megaDealMeta.flashPrice)}
-                  </span>
-                  <span className="text-base sm:text-lg text-[#888] line-through font-semibold">
-                    {formatIDR(megaDealProduct.price_total)}
-                  </span>
-                  <span className="px-2 py-0.5 rounded-md bg-[#FDFD96] text-[#7A1244] text-xs font-black">
-                    HEMAT {formatIDR(megaDealProduct.price_total - megaDealMeta.flashPrice)}
-                  </span>
-                </div>
-
-                {/* Stock Progress Bar */}
-                <div className="mb-6">
-                  <div className="flex items-center justify-between text-xs font-bold mb-1.5">
-                    <span className="text-[#9E1A59]">
-                      🔥 Terjual {megaDealMeta.stockClaimed} dari {megaDealMeta.stockTotal} pcs
-                    </span>
-                    <span className="text-[#888]">
-                      Sisa {megaDealMeta.stockTotal - megaDealMeta.stockClaimed} pcs lagi!
-                    </span>
-                  </div>
-                  <div className="w-full h-3 rounded-full bg-[#FAF0F3] overflow-hidden p-0.5 border border-[#E8D5C0]">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-[#9E1A59] to-[#C23070] transition-all duration-500"
-                      style={{
-                        width: `${(megaDealMeta.stockClaimed / megaDealMeta.stockTotal) * 100}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* CTA Button */}
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={(e) => handleQuickAdd(e, megaDealProduct, megaDealMeta.flashPrice)}
-                    className={[
-                      'flex-1 py-3.5 px-6 rounded-2xl text-sm font-bold transition-all cursor-pointer shadow-md text-center',
-                      addedProductId === megaDealProduct.id
-                        ? 'bg-[#D8FFF7] text-[#1A6B5C] border border-[#9DDED1]'
-                        : 'bg-[#9E1A59] text-white hover:bg-[#7A1244]',
-                    ].join(' ')}
-                  >
-                    {addedProductId === megaDealProduct.id
-                      ? '✓ Berhasil Ditambahkan!'
-                      : '⚡ Beli Sekarang dengan Harga Flash'}
-                  </button>
-
-                  <Link
-                    href={`/products/${megaDealProduct.slug}`}
-                    className="px-5 py-3.5 rounded-2xl text-xs font-bold border border-[#E8D5C0] text-[#1A1A1A] hover:bg-[#FFF8E1] transition-colors"
-                  >
-                    Detail
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* ── Flash Deals Grid ────────────────────────────────── */}
       <section
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12"
         aria-label="Katalog flash sale"
       >
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-display font-black text-[#1A1A1A] tracking-tight">
-              {activeSession === 'active' ? 'Semua Promo Flash Sale' : 'Preview Sesi Mendatang'}
-            </h2>
-            <p className="text-xs text-[#888] mt-1">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[10px] sm:text-[11px] font-black tracking-widest uppercase border border-[#9E1A59]/20">
+                ⚡ LIMITED TIME OFFER
+              </span>
+              <span className="text-xs font-semibold text-[#888]">
+                {activeSession === 'active' ? '• Sesi Sedang Berlangsung' : '• Sesi Mendatang'}
+              </span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black text-[#1A1A1A] tracking-tight">
+              {activeSession === 'active' ? 'Koleksi Promo Flash Sale' : 'Preview Sesi Mendatang'}
+            </h1>
+            <p className="text-xs sm:text-sm text-[#666] mt-1.5 max-w-xl leading-relaxed">
               {activeSession === 'active'
-                ? 'Stok berkurang secara real-time. Checkout sebelum kehabisan!'
-                : 'Pasang pengingat agar tidak ketinggalan saat sesi dimulai.'}
+                ? 'Koleksi tas impor pilihan dengan potongan harga spesial. Kuota diskon terbatas dan berkurang secara real-time!'
+                : 'Pasang pengingat agar tidak ketinggalan saat sesi promo flash sale berikutnya dibuka.'}
             </p>
           </div>
+
+          {activeSession === 'active' && (
+            <div className="flex items-center gap-2 text-xs font-bold text-[#9E1A59] bg-[#FFF8E1] px-4 py-2.5 rounded-2xl border border-[#E8D5C0] self-start sm:self-auto shrink-0 shadow-2xs">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#9E1A59] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#9E1A59]"></span>
+              </span>
+              <span>Sesi Promo Aktif</span>
+            </div>
+          )}
         </div>
 
         {activeSession === 'active' ? (
