@@ -18,7 +18,6 @@ interface Collection {
   textColor: string;
   badge: string;
   tags: string[];
-  featured?: boolean;
 }
 
 const COLLECTIONS: Collection[] = [
@@ -33,7 +32,6 @@ const COLLECTIONS: Collection[] = [
     textColor: '#ffffff',
     badge: 'FEATURED DROP',
     tags: ['y2k', 'chrome', 'metalik'],
-    featured: true,
   },
   {
     id: 'mini-edit',
@@ -83,13 +81,22 @@ const COLLECTIONS: Collection[] = [
     badge: 'SEASONAL',
     tags: ['crossbody', 'jelly', 'aqua'],
   },
+  {
+    id: 'ribbon-romance',
+    name: 'Ribbon & Bows',
+    subtitle: 'Coquette Mood',
+    description:
+      'Aksen pita manis, siluet feminin, dan sentuhan lembut yang viral di kalangan pecinta gaya balletcore dan coquette.',
+    coverImage: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&q=80',
+    accentColor: '#FAF0F3',
+    textColor: '#1A1A1A',
+    badge: 'TRENDING',
+    tags: ['bow', 'ribbon', 'velvet'],
+  },
 ];
 
 export default function CollectionPage() {
   const [activeCollection, setActiveCollection] = useState<Collection | null>(null);
-
-  const featured = COLLECTIONS.find((c) => c.featured);
-  const rest = COLLECTIONS.filter((c) => !c.featured);
 
   const collectionProducts = activeCollection
     ? MOCK_PRODUCTS.filter((p) =>
@@ -114,104 +121,74 @@ export default function CollectionPage() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-              {/* Sleek Minimalist Toolbar */}
-              <div className="flex items-center justify-between py-3.5 mb-8 border-b border-[#E8D5C0]/80">
-                <p className="text-xs font-bold text-[#8A7880] uppercase tracking-widest">
-                  {COLLECTIONS.length} Collections
-                </p>
-              </div>
-              {/* Featured Collection — Full width hero card */}
-              {featured && (
-                <motion.button
-                  type="button"
-                  onClick={() => setActiveCollection(featured)}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="relative w-full rounded-3xl overflow-hidden cursor-pointer group mb-6 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59]"
-                  style={{ aspectRatio: '21/8' }}
-                  aria-label={`Lihat koleksi ${featured.name}`}
-                >
-                  <Image
-                    src={featured.coverImage}
-                    alt={featured.name}
-                    fill
-                    sizes="100vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    priority
-                  />
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
-
-                  {/* Content */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-12 text-white">
-                    <span className="inline-block mb-3 px-3 py-1 rounded-full bg-[#9E1A59] text-[10px] font-black tracking-widest uppercase self-start">
-                      {featured.badge}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+              {/* Header */}
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-6 mb-8 sm:mb-10 border-b border-[#E8D5C0]/80 gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[10px] sm:text-[11px] font-black tracking-widest uppercase border border-[#9E1A59]/20">
+                      ✨ THEMATIC DROPS
                     </span>
-                    <p className="text-xs font-bold tracking-widest uppercase text-white/60 mb-1">
-                      {featured.subtitle}
-                    </p>
-                    <h2 className="text-4xl sm:text-5xl font-display font-black tracking-tight mb-2">
-                      {featured.name}
-                    </h2>
-                    <p className="text-sm text-white/80 max-w-md mb-4 leading-relaxed">
-                      {featured.description}
-                    </p>
-                    <span className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-white/90 group-hover:gap-3 transition-all">
-                      EXPLORE COLLECTION
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
+                    <span className="text-xs font-semibold text-[#888]">
+                      • {COLLECTIONS.length} Curated Collections
                     </span>
                   </div>
-                </motion.button>
-              )}
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-black text-[#1A1A1A] tracking-tight">
+                    Koleksi Pilihan
+                  </h1>
+                  <p className="text-xs sm:text-sm text-[#666] mt-2 max-w-xl leading-relaxed">
+                    Eksplorasi tas impor kurasi NEVERMIND berdasarkan estetika tren viral, gaya personal, dan momen spesialmu.
+                  </p>
+                </div>
+              </div>
 
-              {/* Rest — 2-col then 3-col grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {rest.map((col, i) => (
+              {/* Collections Grid — 3 Column Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                {COLLECTIONS.map((col, i) => (
                   <motion.button
                     key={col.id}
                     type="button"
                     onClick={() => setActiveCollection(col)}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.1 + i * 0.07 }}
-                    className="relative rounded-2xl overflow-hidden cursor-pointer group text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59]"
-                    style={{ aspectRatio: '3/4' }}
+                    transition={{ duration: 0.4, delay: i * 0.06 }}
+                    className="relative rounded-3xl overflow-hidden cursor-pointer group text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9E1A59] shadow-md hover:shadow-xl transition-all duration-300"
+                    style={{ aspectRatio: '4/5' }}
                     aria-label={`Lihat koleksi ${col.name}`}
                   >
                     <Image
                       src={col.coverImage}
                       alt={col.name}
                       fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-108"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     {/* Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent group-hover:from-black/80 transition-all duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent group-hover:from-black/90 transition-all duration-300" />
 
                     {/* Content */}
-                    <div className="absolute inset-0 flex flex-col justify-between p-4 text-white">
+                    <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-7 text-white">
                       {/* Badge top-left */}
-                      <span className="self-start px-2.5 py-1 rounded-full bg-white/15 backdrop-blur-sm text-[10px] font-black tracking-widest uppercase border border-white/20">
+                      <span className="self-start px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-black tracking-widest uppercase border border-white/25 shadow-xs">
                         {col.badge}
                       </span>
 
                       {/* Name bottom */}
                       <div>
-                        <p className="text-[10px] font-bold tracking-widest uppercase text-white/60 mb-0.5">
+                        <p className="text-[11px] font-bold tracking-widest uppercase text-white/70 mb-1">
                           {col.subtitle}
                         </p>
-                        <h2 className="text-lg sm:text-xl font-display font-black tracking-tight leading-tight">
+                        <h2 className="text-2xl sm:text-3xl font-display font-black tracking-tight leading-tight">
                           {col.name}
                         </h2>
-                        <p className="text-[11px] text-white/70 mt-1.5 leading-snug opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0 line-clamp-2">
+                        <p className="text-xs text-white/80 mt-2 leading-relaxed line-clamp-2">
                           {col.description}
                         </p>
-                        <span className="inline-flex items-center gap-1 mt-2 text-[11px] font-bold tracking-widest text-white/80 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                          SHOP NOW →
+                        <span className="inline-flex items-center gap-2 mt-4 text-xs font-bold tracking-widest uppercase text-[#FDFD96] group-hover:gap-3 transition-all">
+                          EXPLORE COLLECTION
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                          </svg>
                         </span>
                       </div>
                     </div>
