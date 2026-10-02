@@ -2,9 +2,11 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { BRAND } from '@/constants/brand';
 import { buildRequestBagWhatsAppUrl } from '@/constants/payment';
 import { useRequestBagModalStore } from '@/store/requestBagModalStore';
+import { useAuthStore } from '@/store/authStore';
 
 const BUDGET_OPTIONS = [
   'Bebas / Rekomendasi Admin',
@@ -16,6 +18,7 @@ const BUDGET_OPTIONS = [
 
 export function RequestBagModal() {
   const { isOpen, initialBagName, closeModal } = useRequestBagModalStore();
+  const { user, isAuthenticated } = useAuthStore();
 
   const [bagName, setBagName] = useState('');
   const [referenceUrl, setReferenceUrl] = useState('');
@@ -32,12 +35,41 @@ export function RequestBagModal() {
   const handleSendToWhatsApp = (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!isAuthenticated || !user) {
+      return;
+    }
+
+    const customerName = user.name.trim();
+    const customerWhatsApp = user.whatsapp_number?.trim() || BRAND.whatsappNumber;
+
+    // Record request in localStorage for Admin Console
+    if (typeof window !== 'undefined') {
+      try {
+        const existing = JSON.parse(localStorage.getItem('nvm_admin_bag_requests') || '[]');
+        const newReq = {
+          request_id: `REQ-${Date.now().toString().slice(-4)}`,
+          customer_name: customerName,
+          customer_whatsapp: customerWhatsApp,
+          bag_name: bagName.trim() || 'Custom Bag Request',
+          reference_url: referenceUrl.trim() || undefined,
+          budget: budget !== BUDGET_OPTIONS[0] ? budget : undefined,
+          notes: notes.trim() || undefined,
+          status: 'pending',
+          created_at: new Date().toISOString(),
+        };
+        localStorage.setItem('nvm_admin_bag_requests', JSON.stringify([newReq, ...existing]));
+      } catch (err) {
+        console.warn('Failed to save to local admin requests:', err);
+      }
+    }
+
     const waUrl = buildRequestBagWhatsAppUrl({
       whatsappNumber: BRAND.whatsappNumber,
       bagName: bagName.trim() || undefined,
       referenceUrl: referenceUrl.trim() || undefined,
       budget: budget !== BUDGET_OPTIONS[0] ? budget : undefined,
       notes: notes.trim() || undefined,
+      customerName: user.name.trim(),
     });
 
     window.open(waUrl, '_blank', 'noopener,noreferrer');
@@ -45,9 +77,12 @@ export function RequestBagModal() {
   };
 
   const handleDirectChat = () => {
-    const directUrl = `https://wa.me/${BRAND.whatsappNumber}?text=${encodeURIComponent(
-      'Halo Admin NEVERMIND! ✨ Saya mau tanya dan request jastip tas yang belum ada di katalog website. Bisa dibantu? ♡'
-    )}`;
+    if (!isAuthenticated || !user) {
+      return;
+    }
+
+    const greeting = `Halo Admin NEVERMIND! ✨ Saya ${user.name.trim()}, mau tanya dan request jastip tas yang belum ada di katalog website. Bisa dibantu? ♡`;
+    const directUrl = `https://wa.me/${BRAND.whatsappNumber}?text=${encodeURIComponent(greeting)}`;
     window.open(directUrl, '_blank', 'noopener,noreferrer');
     closeModal();
   };
@@ -97,37 +132,90 @@ export function RequestBagModal() {
               </p>
             </div>
 
-            {/* Quick 3-Step Preview */}
-            <div className="grid grid-cols-3 gap-1.5 sm:gap-2 p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] mb-4 sm:mb-5 text-center">
-              <div className="flex flex-col items-center">
-                <span className="text-base sm:text-lg">📸</span>
-                <span className="text-[9px] sm:text-[10px] font-bold text-[#1A1A1A] mt-0.5 sm:mt-1">
-                  1. Kirim Foto/Link
-                </span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-base sm:text-lg">🔍</span>
-                <span className="text-[9px] sm:text-[10px] font-bold text-[#1A1A1A] mt-0.5 sm:mt-1">
-                  2. QC & Harga
-                </span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-base sm:text-lg">🚚</span>
-                <span className="text-[9px] sm:text-[10px] font-bold text-[#1A1A1A] mt-0.5 sm:mt-1">
-                  3. Jastip All-In
-                </span>
-              </div>
-            </div>
+            {!isAuthenticated || !user ? (
+              /* Login Gate */
+              <div className="flex flex-col items-center text-center py-6 px-1 space-y-4">
+                <div className="w-16 h-16 rounded-2xl bg-[#FFF0F5] border border-[#9E1A59]/20 flex items-center justify-center text-3xl shadow-inner">
+                  🔒
+                </div>
+                <div className="space-y-2 max-w-sm">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[10px] font-black tracking-widest uppercase">
+                    MEMBER EXCLUSIVE
+                  </span>
+                  <h4 className="text-lg font-display font-black text-[#1A1A1A]">
+                    Masuk Akun untuk Request Tas
+                  </h4>
+                  <p className="text-xs text-[#666] leading-relaxed">
+                    Fitur <strong>Request a Bag</strong> dan chat konsultasi jastip eksklusif untuk member NEVERMIND. Masuk atau daftar akun agar nomor WhatsApp kamu terverifikasi dan pesanan jastipmu bisa langsung diproses.
+                  </p>
+                </div>
 
-            {/* Form */}
-            <form onSubmit={handleSendToWhatsApp} className="flex flex-col gap-3 sm:gap-4">
-              {/* Bag Name / Description */}
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="req-bag-name" className="text-xs font-bold text-[#1A1A1A]">
-                  Nama / Model Tas yang Dicari <span className="text-red-500">*</span>
-                </label>
-                <input
-                  id="req-bag-name"
+                <div className="flex flex-col w-full gap-2.5 pt-3">
+                  <Link
+                    href="/login"
+                    onClick={closeModal}
+                    className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-[#9E1A59] to-[#C83272] hover:brightness-105 text-white text-xs font-bold tracking-wider uppercase shadow-md transition-all text-center"
+                  >
+                    Masuk / Buat Akun Baru
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={closeModal}
+                    className="w-full py-2 text-xs text-[#888] hover:text-[#1A1A1A] font-semibold cursor-pointer"
+                  >
+                    Nanti Saja
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Verified Account Card */}
+                <div className="flex items-center justify-between p-3 rounded-xl bg-[#FFF8E1] border border-[#E8D5C0] mb-4 text-xs">
+                  <div className="flex items-center gap-2.5">
+                    <span className="w-7 h-7 rounded-full bg-[#9E1A59] text-white flex items-center justify-center font-bold text-xs">
+                      {user.name.charAt(0).toUpperCase()}
+                    </span>
+                    <div className="text-left">
+                      <span className="font-bold text-[#1A1A1A] block">{user.name}</span>
+                      <span className="text-[11px] text-[#666]">{user.whatsapp_number}</span>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
+                    ✓ Akun Terverifikasi
+                  </span>
+                </div>
+
+                {/* Quick 3-Step Preview */}
+                <div className="grid grid-cols-3 gap-1.5 sm:gap-2 p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] mb-4 sm:mb-5 text-center">
+                  <div className="flex flex-col items-center">
+                    <span className="text-base sm:text-lg">📸</span>
+                    <span className="text-[9px] sm:text-[10px] font-bold text-[#1A1A1A] mt-0.5 sm:mt-1">
+                      1. Kirim Foto/Link
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-base sm:text-lg">🔍</span>
+                    <span className="text-[9px] sm:text-[10px] font-bold text-[#1A1A1A] mt-0.5 sm:mt-1">
+                      2. QC & Harga
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-base sm:text-lg">🚚</span>
+                    <span className="text-[9px] sm:text-[10px] font-bold text-[#1A1A1A] mt-0.5 sm:mt-1">
+                      3. Jastip All-In
+                    </span>
+                  </div>
+                </div>
+
+                {/* Form */}
+                <form onSubmit={handleSendToWhatsApp} className="flex flex-col gap-3 sm:gap-4">
+                  {/* Bag Name / Description */}
+                  <div className="flex flex-col gap-1.5">
+                    <label htmlFor="req-bag-name" className="text-xs font-bold text-[#1A1A1A]">
+                      Nama / Model Tas yang Dicari <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      id="req-bag-name"
                   type="text"
                   required
                   placeholder="Contoh: Jelly Mini Bag Y2K atau Shoulder Bag Silver"
@@ -210,8 +298,10 @@ export function RequestBagModal() {
                 </button>
               </div>
             </form>
-          </motion.div>
-        </div>
+          </>
+        )}
+      </motion.div>
+    </div>
       )}
     </AnimatePresence>
   );

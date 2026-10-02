@@ -76,8 +76,13 @@ export const buildRequestBagWhatsAppUrl = (params: {
   referenceUrl?: string;
   budget?: string;
   notes?: string;
+  customerName?: string;
 }) => {
-  let text = `Halo Admin NEVERMIND! ✨\n\nSaya ingin request jastip tas yang belum ada di website:`;
+  let text = `Halo Admin NEVERMIND! ✨`;
+  if (params.customerName?.trim()) {
+    text += ` Saya *${params.customerName.trim()}*,`;
+  }
+  text += `\n\nSaya ingin request jastip tas yang belum ada di website:`;
 
   if (params.bagName?.trim()) {
     text += `\n\n👜 *Nama/Model Tas:* ${params.bagName.trim()}`;
