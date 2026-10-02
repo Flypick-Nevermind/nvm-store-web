@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BRAND } from '@/constants/brand';
 import { buildVoucherWhatsAppUrl } from '@/constants/payment';
@@ -9,6 +10,7 @@ import { buildVoucherWhatsAppUrl } from '@/constants/payment';
 const VOUCHER_CODE = 'NVM5';
 
 export function PromoVoucherBadge() {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
@@ -50,7 +52,10 @@ export function PromoVoucherBadge() {
     sessionStorage.setItem('nvm_voucher_tab_closed', 'true');
   };
 
-  if (!mounted || !isVisible) return null;
+  // Hide badge completely on login/auth page
+  if (!mounted || !isVisible || pathname === '/login' || pathname?.startsWith('/login')) {
+    return null;
+  }
 
   const waClaimUrl = buildVoucherWhatsAppUrl({
     whatsappNumber: BRAND.whatsappNumber,
