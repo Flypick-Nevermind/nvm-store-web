@@ -13,7 +13,7 @@ export function Footer() {
           <div className="flex flex-col gap-3 sm:col-span-2 lg:col-span-1">
             <Logo size="lg" variant="dark" showTagline />
             <p className="text-sm text-[#7A6E72] leading-relaxed max-w-sm mt-1">
-              The first Gen Z jastip for China&apos;s trendiest bags. Curated cross-border fashion
+              The first Gen Z curated store for China&apos;s trendiest bags. Curated cross-border fashion
               langsung ke tanganmu — transparan, full QC fisik, tanpa drama.
             </p>
             {/* Social Icons row */}

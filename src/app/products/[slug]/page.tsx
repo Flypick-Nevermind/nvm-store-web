@@ -151,7 +151,7 @@ export default async function ProductDetailPage({ params }: Props) {
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#E8D5C0] text-[11px] text-[#444]">
                 <span className="text-base">💌</span>
                 <span className="font-semibold">
-                  JASTIP SERVICE{' '}
+                  CURATED SERVICE{' '}
                   <span className="text-[10px] text-[#888] font-normal block">with love ♡</span>
                 </span>
               </div>

@@ -86,7 +86,7 @@ export default function HomePage() {
 
               {/* Subtitle */}
               <p className="text-white/95 text-lg sm:text-2xl font-medium italic tracking-wide font-serif max-w-xl">
-                The first Gen Z jastip for China&apos;s trendiest bags.
+                The first Gen Z curated store for China&apos;s trendiest bags.
               </p>
 
               {/* Slanted Tape / Sticker */}
@@ -251,7 +251,7 @@ export default function HomePage() {
             <div className="lg:col-span-7 flex flex-col gap-2.5 sm:gap-3">
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[10px] sm:text-[11px] font-black tracking-widest uppercase border border-[#9E1A59]/20">
-                  ✨ JASTIP ON-DEMAND
+                  ✨ SOURCING ON-DEMAND
                 </span>
                 <span className="text-[11px] sm:text-xs text-[#888] font-semibold">
                   China ➔ Indonesia
@@ -304,7 +304,7 @@ export default function HomePage() {
                 </button>
                 <a
                   href={`https://wa.me/${BRAND.whatsappNumber}?text=${encodeURIComponent(
-                    'Halo Admin NEVERMIND! ✨ Saya mau tanya dan request jastip tas yang belum ada di katalog website. Bisa dibantu? ♡'
+                    'Halo Admin NEVERMIND! ✨ Saya mau tanya dan request tas yang belum ada di katalog website. Bisa dibantu? ♡'
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

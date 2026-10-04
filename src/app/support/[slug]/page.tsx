@@ -159,7 +159,7 @@ export default function SupportPage() {
                     NEVERMIND lahir dari kecintaan Gen Z pada fashion tas yang unik, viral di media sosial, dan tidak pasaran. Kami melihat betapa sulitnya mendapatkan tas tren terbaru dari desainer indie di Guangzhou, Shanghai, dan Hangzhou tanpa repot urusan bea cukai, kurs mata uang, atau risiko barang tidak sesuai.
                   </p>
                   <p>
-                    Sebagai platform jastip modern cross-border, kami menghubungkan pecinta fashion Indonesia langsung ke produsen dan studio desain terpercaya di China dengan sistem kurasi yang ketat dan transparan.
+                    Sebagai platform curated fashion cross-border, kami menghubungkan pecinta fashion Indonesia langsung ke produsen dan studio desain terpercaya di China dengan sistem kurasi yang ketat dan transparan.
                   </p>
                 </div>
 
@@ -198,10 +198,10 @@ export default function SupportPage() {
                     <span className="text-2xl mb-2 block">💬</span>
                     <h3 className="font-bold text-sm text-[#1A1A1A]">WhatsApp Official</h3>
                     <p className="text-xs text-[#777] mt-1 mb-3">
-                      Chat langsung untuk respon cepat dari admin jastip kami.
+                      Chat langsung untuk respon cepat dari admin support kami.
                     </p>
                     <a
-                      href={`https://wa.me/${BRAND.whatsappNumber}?text=Halo+Nevermind,+saya+ingin+bertanya+tentang+layanan+jastip`}
+                      href={`https://wa.me/${BRAND.whatsappNumber}?text=Halo+Nevermind,+saya+ingin+bertanya+tentang+produk+dan+pemesanan`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#9E1A59] text-white text-xs font-bold hover:bg-[#7A1244] transition-colors"

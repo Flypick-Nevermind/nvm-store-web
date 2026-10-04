@@ -161,7 +161,7 @@ export const MOCK_REVIEWS: Record<string, CustomerReview[]> = {
       rating: 5,
       title: 'Suka banget sama siluetnya!',
       comment:
-        'Siluet baguette klasik yang ga pernah lekang oleh waktu. Bahan satin-like nya terasa halus di tangan. Pelayanan CS Nevermind ramah banget pas nanya update resi jastip.',
+        'Siluet baguette klasik yang ga pernah lekang oleh waktu. Bahan satin-like nya terasa halus di tangan. Pelayanan CS Nevermind ramah banget pas nanya update resi pesanan.',
       variantName: 'Soft Ivory · Classic Clutch',
       date: '16 September 2026',
       isVerifiedPurchase: true,
@@ -227,7 +227,7 @@ export const DEFAULT_FALLBACK_REVIEWS: CustomerReview[] = [
     rating: 5,
     title: 'Kualitas mantap, real pict 100%!',
     comment:
-      'Barang sampai dengan selamat, packaging sangat rapi dan bubble tebal. Bahan tasnya bagus banget persis dengan foto di katalog. Sangat puas belanja jastip di Nevermind!',
+      'Barang sampai dengan selamat, packaging sangat rapi dan bubble tebal. Bahan tasnya bagus banget persis dengan foto di katalog. Sangat puas belanja di Nevermind!',
     variantName: 'Original Edition',
     date: '15 September 2026',
     isVerifiedPurchase: true,

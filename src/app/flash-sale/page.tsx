@@ -374,7 +374,7 @@ export default function FlashSalePage() {
                 Transparan Tanpa Biaya Tambahan
               </h3>
               <p className="text-xs text-[#777] leading-relaxed">
-                Semua harga Flash Sale sudah termasuk bea masuk impor dan biaya jastip resmi. Tidak
+                Semua harga Flash Sale sudah termasuk bea masuk impor dan biaya pengiriman resmi. Tidak
                 ada biaya siluman saat barang tiba.
               </p>
             </div>

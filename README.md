@@ -66,7 +66,7 @@ Platform ini dibangun dengan design tokens resmi **NEVERMIND**:
 - **QC Trust Card**: Status inspeksi fisik tas (*Jahitan & Ritsleting*, *Bahan & Warna*, *Aksesoris & Tali*).
 - **WhatsApp Support Floating Button (FAB)**: Akses chat bantuan cepat dari halaman mana pun.
 
-### 6. ✨ Custom Jastip Finder ("Request a Bag")
+### 6. ✨ Custom Bag Finder ("Request a Bag")
 - **Custom Bag Request Modal**: Modal interaktif untuk mencari tas impian dari luar katalog (XiaoHongShu / RED, TikTok, Pinterest, Instagram).
 - **Upload Foto & Screenshot**: Drag & drop atau upload foto referensi dengan live image preview, badge ukuran file, dan validasi berkas (JPG, PNG, WebP maks. 5MB).
 - **Budget & Notes**: Pilihan estimasi budget fleksibel serta catatan detail warna & ukuran.

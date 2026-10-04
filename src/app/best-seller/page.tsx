@@ -440,7 +440,7 @@ export default function BestSellerPage() {
               Kenapa Best Seller Kami Cepat Habis?
             </h2>
             <p className="text-xs sm:text-sm text-[#777] mt-2">
-              Jastip tangan pertama dari studio desainer di China dengan standar kualitas tanpa kompromi.
+              Kurasi tangan pertama langsung dari studio desainer di China dengan standar kualitas tanpa kompromi.
             </p>
           </div>
 

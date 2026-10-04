@@ -4,7 +4,7 @@ export const BRAND = {
   name: 'NEVERMIND',
   tagline: 'too cute, too care',
   description:
-    "The first Gen Z jastip for China's trendiest bags. Curated cross-border fashion langsung ke tanganmu.",
+    "The first Gen Z curated store for China's trendiest bags. Curated cross-border fashion langsung ke tanganmu.",
   // ⚠️  Replace with real WA number before production
   whatsappNumber: '6281234567890',
   currency: 'IDR',

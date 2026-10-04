@@ -159,7 +159,7 @@ export function RequestBagModal() {
       return;
     }
 
-    const greeting = `Halo Admin NEVERMIND! ✨ Saya ${user.name.trim()}, mau tanya dan request jastip tas yang belum ada di katalog website. Bisa dibantu? ♡`;
+    const greeting = `Halo Admin NEVERMIND! ✨ Saya ${user.name.trim()}, mau tanya dan request tas yang belum ada di katalog website. Bisa dibantu? ♡`;
     const directUrl = `https://wa.me/${BRAND.whatsappNumber}?text=${encodeURIComponent(greeting)}`;
     window.open(directUrl, '_blank', 'noopener,noreferrer');
     handleClose();
@@ -198,7 +198,7 @@ export function RequestBagModal() {
             {/* Header */}
             <div className="flex flex-col gap-1 sm:gap-1.5 mb-4 sm:mb-6 pr-6">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[9px] sm:text-[10px] font-black tracking-widest uppercase self-start border border-[#9E1A59]/20">
-                ✨ CUSTOM JASTIP FINDER
+                ✨ CUSTOM BAG FINDER
               </span>
               <h3 className="text-xl sm:text-2xl font-display font-black text-[#1A1A1A] tracking-tight">
                 Request a Bag
@@ -224,7 +224,7 @@ export function RequestBagModal() {
                     Masuk Akun untuk Request Tas
                   </h4>
                   <p className="text-xs text-[#666] leading-relaxed">
-                    Fitur <strong>Request a Bag</strong> dan chat konsultasi jastip eksklusif untuk member NEVERMIND. Masuk atau daftar akun agar nomor WhatsApp kamu terverifikasi dan pesanan jastipmu bisa langsung diproses.
+                    Fitur <strong>Request a Bag</strong> dan chat konsultasi eksklusif untuk member NEVERMIND. Masuk atau daftar akun agar nomor WhatsApp kamu terverifikasi dan pesanan khususmu bisa langsung diproses.
                   </p>
                 </div>
 
@@ -280,7 +280,7 @@ export function RequestBagModal() {
                   <div className="flex flex-col items-center">
                     <span className="text-base sm:text-lg">🚚</span>
                     <span className="text-[9px] sm:text-[10px] font-bold text-[#1A1A1A] mt-0.5 sm:mt-1">
-                      3. Jastip All-In
+                      3. Kirim All-In
                     </span>
                   </div>
                 </div>
