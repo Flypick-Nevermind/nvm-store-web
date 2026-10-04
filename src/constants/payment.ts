@@ -77,6 +77,7 @@ export const buildRequestBagWhatsAppUrl = (params: {
   budget?: string;
   notes?: string;
   customerName?: string;
+  hasImage?: boolean;
 }) => {
   let text = `Halo Admin NEVERMIND! ✨`;
   if (params.customerName?.trim()) {
@@ -87,8 +88,11 @@ export const buildRequestBagWhatsAppUrl = (params: {
   if (params.bagName?.trim()) {
     text += `\n\n👜 *Nama/Model Tas:* ${params.bagName.trim()}`;
   }
+  if (params.hasImage) {
+    text += `\n📸 *Foto Tas:* Terlampir di chat ini (sudah di-upload)`;
+  }
   if (params.referenceUrl?.trim()) {
-    text += `\n🔗 *Link/Foto Referensi:* ${params.referenceUrl.trim()}`;
+    text += `\n🔗 *Link/Referensi:* ${params.referenceUrl.trim()}`;
   }
   if (params.budget?.trim()) {
     text += `\n💰 *Estimasi Budget:* ${params.budget.trim()}`;

@@ -1,10 +1,11 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BRAND } from '@/constants/brand';
 import { buildRequestBagWhatsAppUrl } from '@/constants/payment';
+import { formatFileSize } from '@/lib/utils';
 import { useRequestBagModalStore } from '@/store/requestBagModalStore';
 import { useAuthStore } from '@/store/authStore';
 
@@ -25,12 +26,86 @@ export function RequestBagModal() {
   const [budget, setBudget] = useState(BUDGET_OPTIONS[0]);
   const [notes, setNotes] = useState('');
 
+  // Image Upload State
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const resetForm = () => {
+    setBagName('');
+    setReferenceUrl('');
+    setBudget(BUDGET_OPTIONS[0]);
+    setNotes('');
+    setImageFile(null);
+    setImagePreview(null);
+    setImageError(null);
+    setIsDragging(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleClose = () => {
+    resetForm();
+    closeModal();
+  };
+
   useEffect(() => {
     if (initialBagName) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setBagName(initialBagName);
     }
   }, [initialBagName]);
+
+  const validateAndProcessFile = (file: File) => {
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic'];
+    const isImage = validTypes.includes(file.type) || /\.(jpe?g|png|webp|gif|heic)$/i.test(file.name);
+    if (!isImage) {
+      setImageError('Format file harus berupa gambar (JPG, PNG, WebP).');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setImageError('Ukuran gambar maksimal 5MB.');
+      return;
+    }
+
+    setImageError(null);
+    setImageFile(file);
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setImagePreview(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      validateAndProcessFile(file);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      validateAndProcessFile(file);
+    }
+  };
+
+  const handleRemoveImage = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    setImageFile(null);
+    setImagePreview(null);
+    setImageError(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   const handleSendToWhatsApp = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,6 +127,8 @@ export function RequestBagModal() {
           customer_whatsapp: customerWhatsApp,
           bag_name: bagName.trim() || 'Custom Bag Request',
           reference_url: referenceUrl.trim() || undefined,
+          image_name: imageFile ? imageFile.name : undefined,
+          image_preview: imagePreview || undefined,
           budget: budget !== BUDGET_OPTIONS[0] ? budget : undefined,
           notes: notes.trim() || undefined,
           status: 'pending',
@@ -70,10 +147,11 @@ export function RequestBagModal() {
       budget: budget !== BUDGET_OPTIONS[0] ? budget : undefined,
       notes: notes.trim() || undefined,
       customerName: user.name.trim(),
+      hasImage: Boolean(imageFile),
     });
 
     window.open(waUrl, '_blank', 'noopener,noreferrer');
-    closeModal();
+    handleClose();
   };
 
   const handleDirectChat = () => {
@@ -84,7 +162,7 @@ export function RequestBagModal() {
     const greeting = `Halo Admin NEVERMIND! ✨ Saya ${user.name.trim()}, mau tanya dan request jastip tas yang belum ada di katalog website. Bisa dibantu? ♡`;
     const directUrl = `https://wa.me/${BRAND.whatsappNumber}?text=${encodeURIComponent(greeting)}`;
     window.open(directUrl, '_blank', 'noopener,noreferrer');
-    closeModal();
+    handleClose();
   };
 
   return (
@@ -96,7 +174,7 @@ export function RequestBagModal() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={closeModal}
+            onClick={handleClose}
             className="fixed inset-0 bg-black/60 backdrop-blur-xs"
           />
 
@@ -110,7 +188,7 @@ export function RequestBagModal() {
             {/* Close Button */}
             <button
               type="button"
-              onClick={closeModal}
+              onClick={handleClose}
               className="absolute top-4 right-4 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[#888] hover:bg-[#F2EEEB] hover:text-[#1A1A1A] transition-colors cursor-pointer"
               aria-label="Tutup modal"
             >
@@ -216,32 +294,119 @@ export function RequestBagModal() {
                     </label>
                     <input
                       id="req-bag-name"
-                  type="text"
-                  required
-                  placeholder="Contoh: Jelly Mini Bag Y2K atau Shoulder Bag Silver"
-                  value={bagName}
-                  onChange={(e) => setBagName(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-[#E8D5C0] text-xs text-[#1A1A1A] placeholder-[#999] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15 transition-all"
-                />
-              </div>
+                      type="text"
+                      required
+                      placeholder="Contoh: Jelly Mini Bag Y2K atau Shoulder Bag Silver"
+                      value={bagName}
+                      onChange={(e) => setBagName(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-xl border border-[#E8D5C0] text-xs text-[#1A1A1A] placeholder-[#999] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15 transition-all"
+                    />
+                  </div>
 
-              {/* Link / Photo Reference URL */}
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="req-ref-url" className="text-xs font-bold text-[#1A1A1A]">
-                  Link Referensi / Post Media Sosial (Opsional)
-                </label>
-                <input
-                  id="req-ref-url"
-                  type="text"
-                  placeholder="Contoh: link TikTok, XiaoHongShu, Pinterest, dsb."
-                  value={referenceUrl}
-                  onChange={(e) => setReferenceUrl(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-[#E8D5C0] text-xs text-[#1A1A1A] placeholder-[#999] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15 transition-all"
-                />
-                <span className="text-[10px] text-[#888]">
-                  *Kamu juga bisa langsung kirim foto tasnya di chat WhatsApp nanti.
-                </span>
-              </div>
+                  {/* Image / Screenshot Upload (Feature: Upload Image) */}
+                  <div className="flex flex-col gap-1.5">
+                    <div className="flex items-center justify-between">
+                      <label htmlFor="req-image-input" className="text-xs font-bold text-[#1A1A1A]">
+                        Upload Foto / Screenshot Tas (Opsional)
+                      </label>
+                      <span className="text-[10px] text-[#9E1A59] font-bold bg-[#9E1A59]/10 px-2 py-0.5 rounded-full border border-[#9E1A59]/20">
+                        ✨ Sangat Membantu
+                      </span>
+                    </div>
+
+                    <input
+                      ref={fileInputRef}
+                      id="req-image-input"
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/gif,image/heic,.jpg,.jpeg,.png,.webp,.heic"
+                      onChange={handleFileChange}
+                      className="sr-only"
+                    />
+
+                    {!imageFile ? (
+                      <div
+                        onClick={() => fileInputRef.current?.click()}
+                        onDragOver={(e) => {
+                          e.preventDefault();
+                          setIsDragging(true);
+                        }}
+                        onDragLeave={() => setIsDragging(false)}
+                        onDrop={handleDrop}
+                        className={`relative flex flex-col items-center justify-center gap-1.5 p-3.5 sm:p-4 rounded-xl border-2 border-dashed transition-all cursor-pointer ${
+                          isDragging
+                            ? 'border-[#9E1A59] bg-[#9E1A59]/5 scale-[0.99]'
+                            : 'border-[#E8D5C0] bg-[#F2EEEB]/40 hover:bg-[#F2EEEB]/80 hover:border-[#9E1A59]/50'
+                        }`}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
+                      >
+                        <div className="w-9 h-9 rounded-full bg-white shadow-xs flex items-center justify-center text-lg border border-[#E8D5C0]">
+                          📸
+                        </div>
+                        <div className="text-center">
+                          <p className="text-xs font-bold text-[#1A1A1A]">
+                            Klik untuk pilih foto <span className="font-normal text-[#666]">atau drag & drop ke sini</span>
+                          </p>
+                          <p className="text-[10px] text-[#888] mt-0.5">
+                            Screenshot RED (XiaoHongShu), IG, TikTok, atau Pinterest · JPG, PNG, WebP maks. 5MB
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="rounded-xl border border-[#9E1A59]/25 bg-gradient-to-r from-[#FFF0F5] to-[#F2EEEB] p-2.5 sm:p-3 flex items-center gap-3">
+                        {imagePreview && (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img
+                            src={imagePreview}
+                            alt="Preview Foto Tas"
+                            className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg object-cover border border-[#E8D5C0] shrink-0 shadow-xs"
+                          />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.2 rounded-full">
+                              ✓ Foto Terlampir
+                            </span>
+                          </div>
+                          <p className="text-xs font-bold text-[#1A1A1A] truncate">{imageFile.name}</p>
+                          <p className="text-[10px] text-[#888]">{formatFileSize(imageFile.size)}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleRemoveImage}
+                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white border border-[#C8C8C8] text-[#888] hover:text-red-500 hover:border-red-300 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                          title="Hapus foto"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    )}
+
+                    {imageError && (
+                      <p className="text-[11px] text-red-500 flex items-center gap-1">
+                        <span>⚠</span> {imageError}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Link / Photo Reference URL */}
+                  <div className="flex flex-col gap-1.5">
+                    <label htmlFor="req-ref-url" className="text-xs font-bold text-[#1A1A1A]">
+                      Link Referensi / Post Media Sosial (Opsional)
+                    </label>
+                    <input
+                      id="req-ref-url"
+                      type="text"
+                      placeholder="Contoh: link TikTok, XiaoHongShu, Pinterest, dsb."
+                      value={referenceUrl}
+                      onChange={(e) => setReferenceUrl(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-xl border border-[#E8D5C0] text-xs text-[#1A1A1A] placeholder-[#999] focus:outline-none focus:border-[#9E1A59] focus:ring-2 focus:ring-[#9E1A59]/15 transition-all"
+                    />
+                    <span className="text-[10px] text-[#888]">
+                      *Bisa upload foto di atas, atau masukkan link referensi di sini.
+                    </span>
+                  </div>
 
               {/* Budget Range */}
               <div className="flex flex-col gap-1.5">
@@ -288,6 +453,12 @@ export function RequestBagModal() {
                   </svg>
                   <span>Kirim Request ke WhatsApp Admin</span>
                 </button>
+
+                {imageFile && (
+                  <p className="text-[10px] text-center text-[#8A7880] px-2 leading-relaxed">
+                    💡 Saat WhatsApp terbuka, jangan lupa lampirkan / kirim foto tas ini ke chat Admin ya!
+                  </p>
+                )}
 
                 <button
                   type="button"
