@@ -145,7 +145,7 @@ export function Navbar() {
       </div>
 
       {/* ── Layer 2: Mobile (Logo Left, Icons Right) | Desktop (Search Left, Logo Center, Icons Right) ── */}
-      <div className="bg-[#FFF8E1] border-b border-[#E8D5C0] py-2.5 sm:py-3 transition-all duration-300">
+      <div className="bg-[#F2EEEB] border-b border-[#E8D5C0] py-2.5 sm:py-3 transition-all duration-300">
         <div className="relative w-full px-3 sm:px-6 lg:px-8 flex items-center justify-between min-h-[52px] sm:min-h-[72px] md:min-h-[80px]">
           {/* Mobile: Logo di Kiri */}
           <div className="flex md:hidden items-center justify-start shrink-0 z-10">
@@ -334,7 +334,7 @@ export function Navbar() {
 
       {/* ── Layer 3: Desktop Navigation Menu ───────────────── */}
       <nav
-        className="hidden lg:block bg-[#FFF8E1] border-b border-[#E8D5C0]"
+        className="hidden lg:block bg-[#F2EEEB] border-b border-[#E8D5C0]"
         aria-label="Navigasi utama"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -390,13 +390,13 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-0 top-full mt-0 w-52 bg-[#FFF8E1] border border-[#E8D5C0] shadow-xl z-50 py-2"
+                    className="absolute left-0 top-full mt-0 w-52 bg-[#F2EEEB] border border-[#E8D5C0] shadow-xl z-50 py-2"
                   >
                     {SUPPORT_ITEMS.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
-                        className="block px-5 py-2.5 text-sm text-[#333] hover:text-[#9E1A59] hover:bg-[#FFF8E1] transition-colors"
+                        className="block px-5 py-2.5 text-sm text-[#333] hover:text-[#9E1A59] hover:bg-[#F2EEEB] transition-colors"
                         onClick={() => setIsSupportOpen(false)}
                       >
                         {item.label}

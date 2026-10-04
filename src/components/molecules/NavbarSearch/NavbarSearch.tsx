@@ -86,9 +86,9 @@ export function NavbarSearch() {
                       setIsSearchFocused(false);
                       setSearchQuery('');
                     }}
-                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-[#FFF8E1] transition-colors group"
+                    className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-[#F2EEEB] transition-colors group"
                   >
-                    <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-[#FFF8E1] border border-[#E8D5C0] shrink-0">
+                    <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-[#F2EEEB] border border-[#E8D5C0] shrink-0">
                       <Image
                         src={prod.images[0]}
                         alt={prod.name}

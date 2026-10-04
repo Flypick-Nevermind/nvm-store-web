@@ -91,7 +91,7 @@ export default function HomePage() {
 
               {/* Slanted Tape / Sticker */}
               <div className="inline-block transform -rotate-2 hover:rotate-0 transition-transform duration-200 mt-1">
-                <div className="bg-[#FFF8E1] text-[#9E1A59] px-4 py-1.5 rounded-lg shadow-md border border-[#EADFCF] font-bold text-xs sm:text-sm tracking-wide flex items-center gap-1.5">
+                <div className="bg-[#F2EEEB] text-[#9E1A59] px-4 py-1.5 rounded-lg shadow-md border border-[#EADFCF] font-bold text-xs sm:text-sm tracking-wide flex items-center gap-1.5">
                   <span>too cute, too care</span>
                   <span className="text-base leading-none">♡</span>
                 </div>
@@ -107,7 +107,7 @@ export default function HomePage() {
             >
               <div className="relative w-full max-w-sm">
                 {/* Vintage Receipt Card */}
-                <div className="bg-[#FFF8E1] text-[#1A1A1A] p-5 sm:p-6 rounded-3xl shadow-2xl border border-[#E5DACB] transform rotate-2 hover:rotate-0 transition-transform duration-300 relative overflow-hidden">
+                <div className="bg-[#F2EEEB] text-[#1A1A1A] p-5 sm:p-6 rounded-3xl shadow-2xl border border-[#E5DACB] transform rotate-2 hover:rotate-0 transition-transform duration-300 relative overflow-hidden">
                   {/* Chrome metallic 4-point star accent */}
                   <div
                     className="absolute top-3 right-3 text-2xl text-[#C8C8C8] select-none"
@@ -208,7 +208,7 @@ export default function HomePage() {
             <h2 className="text-3xl sm:text-4xl font-display font-black text-[#9E1A59] tracking-tight">
               What&apos;s Hot <span className="text-[#9E1A59]">★</span>
             </h2>
-            <div className="hidden sm:inline-block bg-[#FFF8E1] text-[#9E1A59] border border-[#EADFCF] px-3 py-1 rounded-full text-[11px] font-bold shadow-2xs transform -rotate-1">
+            <div className="hidden sm:inline-block bg-[#F2EEEB] text-[#9E1A59] border border-[#EADFCF] px-3 py-1 rounded-full text-[11px] font-bold shadow-2xs transform -rotate-1">
               cute bags better days ♡
             </div>
           </div>
@@ -243,7 +243,7 @@ export default function HomePage() {
           aria-label="Request tas impian dari China"
         >
           {/* Decorative watermarks */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-[#FFF8E1] rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+          <div className="absolute top-0 right-0 w-80 h-80 bg-[#F2EEEB] rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#9E1A59]/5 rounded-full blur-2xl pointer-events-none -ml-16 -mb-16" />
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
@@ -269,21 +269,21 @@ export default function HomePage() {
 
               {/* 3 Step Process Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-1.5 sm:pt-3">
-                <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] flex flex-col gap-1">
+                <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] flex flex-col gap-1">
                   <span className="text-lg sm:text-xl">📸</span>
                   <p className="text-xs font-bold text-[#1A1A1A]">1. Kirim Foto / Link</p>
                   <p className="text-[11px] text-[#777] leading-snug">
                     Screenshot atau copy link tas yang kamu taksir
                   </p>
                 </div>
-                <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] flex flex-col gap-1">
+                <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] flex flex-col gap-1">
                   <span className="text-lg sm:text-xl">🔍</span>
                   <p className="text-xs font-bold text-[#1A1A1A]">2. QC & Cek Harga</p>
                   <p className="text-[11px] text-[#777] leading-snug">
                     Kami carikan supplier terbaik + harga all-in
                   </p>
                 </div>
-                <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] flex flex-col gap-1">
+                <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] flex flex-col gap-1">
                   <span className="text-lg sm:text-xl">🚚</span>
                   <p className="text-xs font-bold text-[#1A1A1A]">3. Kirim ke Rumahmu</p>
                   <p className="text-[11px] text-[#777] leading-snug">
@@ -320,7 +320,7 @@ export default function HomePage() {
 
             {/* Right Col: Visual Card */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-sm rounded-2xl sm:rounded-3xl bg-[#FFF8E1] border-2 border-dashed border-[#9E1A59]/30 p-5 sm:p-6 flex flex-col items-center text-center gap-3 sm:gap-4">
+              <div className="relative w-full max-w-sm rounded-2xl sm:rounded-3xl bg-[#F2EEEB] border-2 border-dashed border-[#9E1A59]/30 p-5 sm:p-6 flex flex-col items-center text-center gap-3 sm:gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-[#9E1A59]/10 text-[#9E1A59] flex items-center justify-center text-3xl shadow-inner">
                   🛍️
                 </div>
@@ -362,7 +362,7 @@ export default function HomePage() {
 
             {/* Right Receipt Paper Card */}
             <div className="lg:col-span-6 flex justify-center lg:justify-end">
-              <div className="bg-[#FFF8E1] text-[#1A1A1A] p-5 sm:p-6 rounded-2xl shadow-xl border border-[#E5DACB] max-w-sm w-full relative">
+              <div className="bg-[#F2EEEB] text-[#1A1A1A] p-5 sm:p-6 rounded-2xl shadow-xl border border-[#E5DACB] max-w-sm w-full relative">
                 <div className="flex items-center justify-between pb-2 border-b border-[#E5DACB]">
                   <p className="font-display font-black text-xs tracking-wider uppercase text-[#9E1A59]">
                     JOIN OUR COMMUNITY

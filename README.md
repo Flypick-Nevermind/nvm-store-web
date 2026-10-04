@@ -11,11 +11,13 @@ Platform ini dibangun dengan design tokens resmi **NEVERMIND**:
 
 | Token Name | Hex Code | Deskripsi & Penggunaan |
 | :--- | :--- | :--- |
-| **Fuchsia Rose** | `#C74375` | Core brand identity, primary CTA button, active states, progress indicators |
+| **Magenta Rose** | `#9E1A59` | Core brand identity, primary CTA button, active states, progress indicators |
+| **Rose Pink** | `#C23070` | Secondary brand color, hover states, accent gradients |
 | **Chrome Silver** | `#C8C8C8` | Futuristic / metallic Y2K vibe, subtle borders, dividers, chrome accents |
 | **Aqua Mist** | `#D8FFF7` | Fresh & playful accent, ready-stock badge, subtle highlights |
 | **Pastel Yellow** | `#FDFD96` | High-visibility sticker / tag aksen (e.g. *Just Dropped*, *Trending*) |
-| **Warm Cream** | `#FFF8E1` | Background warna utama (hangat, playful, non-sterile) |
+| **Pudding** | `#F2EEEB` | Background warna utama (hangat, lembut, playful, non-sterile) |
+| **Warm Border** | `#E8D5C0` | Garis tepi lembut selaras dengan warna pudding |
 | **Charcoal Noir** | `#1A1A1A` | High-contrast typography & readability |
 
 **Typography**:
@@ -83,7 +85,7 @@ Platform ini dibangun dengan design tokens resmi **NEVERMIND**:
 ```text
 nvm-store-web/
 ├── public/
-│   └── assets/                # Aset statis (logo.svg, qris.png, icons)
+│   └── assets/                # Aset statis (nvm-logo.png, nevermind-logo.PNG, qris.png)
 ├── src/
 │   ├── app/                   # Next.js App Router
 │   │   ├── checkout/          # Halaman Checkout 3-step wizard
@@ -140,10 +142,10 @@ npm run start
 ## ⚙️ Panduan Kustomisasi & Konfigurasi
 
 ### 1. Mengganti Logo Brand
-Komponen `Logo` didesain modular. Kamu cukup menaruh file logo final di folder `public/assets/`:
-- Format SVG: `public/assets/logo.svg` *(direkomendasikan)*
-- Format PNG: `public/assets/logo.png`
-*(Jika file belum tersedia, komponen otomatis menampilkan logo tipografi Y2K beraksen)*.
+Komponen `Logo` didesain modular menggunakan Static Import Next.js (`src/components/atoms/Logo/Logo.tsx`) yang otomatis memiliki cache-busting berbasis hash konten. File logo disimpan di folder `public/assets/`:
+- `public/assets/nvm-logo.png` *(Logo utama)*
+- `public/assets/nevermind-logo.PNG` *(Fallback logo)*
+*(Jika file tidak tersedia, komponen otomatis beralih ke styled text mark Y2K)*.
 
 ### 2. Mengganti QRIS Pembayaran
 Taruh gambar QRIS toko di:

@@ -8,7 +8,7 @@ import { BRAND } from '@/constants/brand';
 export default function NotFound() {
   return (
     <PageShell>
-      <section className="min-h-[75vh] bg-[#FFF8E1] py-16 px-4 flex items-center justify-center">
+      <section className="min-h-[75vh] bg-[#F2EEEB] py-16 px-4 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -72,7 +72,7 @@ export default function NotFound() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <Link
                 href="/best-seller"
-                className="p-3.5 rounded-2xl border border-[#E8D5C0] bg-[#FFF8E1]/50 hover:bg-[#FFF8E1] hover:border-[#9E1A59] transition-all flex items-center gap-3 group"
+                className="p-3.5 rounded-2xl border border-[#E8D5C0] bg-[#F2EEEB]/50 hover:bg-[#F2EEEB] hover:border-[#9E1A59] transition-all flex items-center gap-3 group"
               >
                 <span className="w-10 h-10 rounded-xl bg-white border border-[#E8D5C0] flex items-center justify-center text-lg group-hover:scale-105 transition-transform">
                   👑
@@ -87,7 +87,7 @@ export default function NotFound() {
 
               <Link
                 href="/flash-sale"
-                className="p-3.5 rounded-2xl border border-[#E8D5C0] bg-[#FFF8E1]/50 hover:bg-[#FFF8E1] hover:border-[#9E1A59] transition-all flex items-center gap-3 group"
+                className="p-3.5 rounded-2xl border border-[#E8D5C0] bg-[#F2EEEB]/50 hover:bg-[#F2EEEB] hover:border-[#9E1A59] transition-all flex items-center gap-3 group"
               >
                 <span className="w-10 h-10 rounded-xl bg-white border border-[#E8D5C0] flex items-center justify-center text-lg group-hover:scale-105 transition-transform">
                   ⚡
@@ -102,7 +102,7 @@ export default function NotFound() {
 
               <Link
                 href="/new-arrivals"
-                className="p-3.5 rounded-2xl border border-[#E8D5C0] bg-[#FFF8E1]/50 hover:bg-[#FFF8E1] hover:border-[#9E1A59] transition-all flex items-center gap-3 group"
+                className="p-3.5 rounded-2xl border border-[#E8D5C0] bg-[#F2EEEB]/50 hover:bg-[#F2EEEB] hover:border-[#9E1A59] transition-all flex items-center gap-3 group"
               >
                 <span className="w-10 h-10 rounded-xl bg-white border border-[#E8D5C0] flex items-center justify-center text-lg group-hover:scale-105 transition-transform">
                   ✨
@@ -117,7 +117,7 @@ export default function NotFound() {
 
               <Link
                 href="/category"
-                className="p-3.5 rounded-2xl border border-[#E8D5C0] bg-[#FFF8E1]/50 hover:bg-[#FFF8E1] hover:border-[#9E1A59] transition-all flex items-center gap-3 group"
+                className="p-3.5 rounded-2xl border border-[#E8D5C0] bg-[#F2EEEB]/50 hover:bg-[#F2EEEB] hover:border-[#9E1A59] transition-all flex items-center gap-3 group"
               >
                 <span className="w-10 h-10 rounded-xl bg-white border border-[#E8D5C0] flex items-center justify-center text-lg group-hover:scale-105 transition-transform">
                   👜

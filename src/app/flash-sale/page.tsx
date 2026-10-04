@@ -93,7 +93,7 @@ export default function FlashSalePage() {
   return (
     <PageShell>
       {/* ── Flash Sale Time Session Tabs ────────────────────── */}
-      <section className="bg-[#FFF8E1] border-b border-[#E8D5C0] sticky top-[calc(7rem-1px)] lg:top-[calc(11.25rem-1px)] z-30 shadow-xs py-4 sm:py-5">
+      <section className="bg-[#F2EEEB] border-b border-[#E8D5C0] sticky top-[calc(7rem-1px)] lg:top-[calc(11.25rem-1px)] z-30 shadow-xs py-4 sm:py-5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-4xl mx-auto grid grid-cols-3 gap-2.5 sm:gap-4">
             {[
@@ -111,7 +111,7 @@ export default function FlashSalePage() {
                     'w-full flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 px-3 sm:px-5 py-3 sm:py-3.5 rounded-2xl transition-all cursor-pointer border text-center sm:text-left min-w-0 shadow-2xs',
                     isSelected
                       ? 'bg-[#9E1A59] text-white border-[#9E1A59] shadow-sm ring-2 ring-[#9E1A59]/20'
-                      : 'bg-[#FFF8E1] text-[#666] border-[#E8D5C0] hover:text-[#9E1A59] hover:bg-white',
+                      : 'bg-[#F2EEEB] text-[#666] border-[#E8D5C0] hover:text-[#9E1A59] hover:bg-white',
                   ].join(' ')}
                 >
                   <span className="text-base sm:text-lg shrink-0">{tab.icon}</span>
@@ -161,7 +161,7 @@ export default function FlashSalePage() {
           </div>
 
           {activeSession === 'active' && (
-            <div className="flex items-center gap-2 text-xs font-bold text-[#9E1A59] bg-[#FFF8E1] px-4 py-2.5 rounded-2xl border border-[#E8D5C0] self-start sm:self-auto shrink-0 shadow-2xs">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#9E1A59] bg-[#F2EEEB] px-4 py-2.5 rounded-2xl border border-[#E8D5C0] self-start sm:self-auto shrink-0 shadow-2xs">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#9E1A59] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#9E1A59]"></span>
@@ -312,7 +312,7 @@ export default function FlashSalePage() {
           </div>
         ) : (
           /* Upcoming Session Preview */
-          <div className="bg-[#FFF8E1] rounded-3xl p-8 sm:p-12 border border-[#E8D5C0] text-center max-w-2xl mx-auto flex flex-col items-center">
+          <div className="bg-[#F2EEEB] rounded-3xl p-8 sm:p-12 border border-[#E8D5C0] text-center max-w-2xl mx-auto flex flex-col items-center">
             <span className="text-5xl mb-4">⏰</span>
             <h3 className="text-2xl font-display font-black text-[#1A1A1A] mb-2">
               Sesi Flash Sale Belum Dimulai
@@ -334,7 +334,7 @@ export default function FlashSalePage() {
       </section>
 
       {/* ── Flash Sale Rules & Guarantee Banner ──────────────── */}
-      <section className="bg-[#FFF8E1] border-t border-[#E8D5C0] py-14 px-4 sm:px-6 lg:px-8">
+      <section className="bg-[#F2EEEB] border-t border-[#E8D5C0] py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-xl mx-auto mb-10">
             <span className="text-[11px] font-bold tracking-widest uppercase text-[#9E1A59]">

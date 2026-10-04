@@ -92,7 +92,7 @@ export function Step1Shipping({ defaultValues, onNext }: Step1ShippingProps) {
     <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-5" noValidate>
       {/* Saved Address Book Selector */}
       {addresses.length > 0 && (
-        <div className="flex flex-col gap-2.5 p-4 rounded-2xl bg-[#FFF8E1]/60 border border-[#E8D5C0]">
+        <div className="flex flex-col gap-2.5 p-4 rounded-2xl bg-[#F2EEEB]/60 border border-[#E8D5C0]">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-[#888] uppercase tracking-wider flex items-center gap-1.5">
               <span>📍</span>
@@ -196,7 +196,7 @@ export function Step1Shipping({ defaultValues, onNext }: Step1ShippingProps) {
 
       {/* Save to address book checkbox for manual input */}
       {isManualInput && (
-        <div className="p-3 rounded-xl bg-[#FFF8E1] border border-[#E8D5C0]">
+        <div className="p-3 rounded-xl bg-[#F2EEEB] border border-[#E8D5C0]">
           <Checkbox
             label="Simpan alamat ini ke Buku Alamat Saya untuk checkout berikutnya"
             checked={saveToAddressBook}

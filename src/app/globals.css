@@ -7,9 +7,9 @@
   --color-brand-primary: #9E1A59; /* Magenta Rose — heart of NEVERMIND */
   --color-brand-primary-light: #C23070; /* Rose Pink */
   --color-brand-primary-dark: #7A1244; /* Deep Magenta */
-  --color-brand-cream: #fff8e1; /* Cream — soft, warm, timeless */
-  --color-brand-blush: #fff8e1; /* Alias for cream background */
-  --color-brand-receipt: #fff8e1; /* Cream paper */
+  --color-brand-cream: #F2EEEB; /* Pudding — soft, warm, elegant */
+  --color-brand-blush: #F2EEEB; /* Alias for pudding background */
+  --color-brand-receipt: #F2EEEB; /* Pudding paper */
   --color-brand-card: #ffffff; /* Clean White Card */
   --color-brand-border: #e8d5c0; /* Warm cream border */
   --color-brand-silver: #c8c8c8; /* Chrome Silver */
@@ -19,7 +19,7 @@
   --color-brand-charcoal: #1a1a1a; /* Deep Charcoal */
 
   /* Derived shades */
-  --color-brand-cream-dark: #f0e0c0;
+  --color-brand-cream-dark: #e3ddd8;
 
   /* Typography */
   --font-sans: var(--font-outfit), "Outfit", system-ui, sans-serif;
@@ -38,14 +38,14 @@
 
 /* ─── CSS Custom Properties ──────────────────────────────── */
 :root {
-  --background: #fff8e1;
+  --background: #F2EEEB;
   --foreground: #1a1a1a;
   --brand-primary: #9E1A59;
   --brand-primary-light: #C23070;
   --brand-primary-dark: #7A1244;
-  --brand-blush: #fff8e1;
-  --brand-cream: #fff8e1;
-  --brand-receipt: #fff8e1;
+  --brand-blush: #F2EEEB;
+  --brand-cream: #F2EEEB;
+  --brand-receipt: #F2EEEB;
   --brand-card: #ffffff;
   --brand-border: #e8d5c0;
   --brand-silver: #c8c8c8;
@@ -125,7 +125,7 @@ h6 {
 
 /* Gradient text  */
 .text-gradient-primary {
-  background: linear-gradient(135deg, #9E1A59 0%, #C23070 60%, #fff8e1 100%);
+  background: linear-gradient(135deg, #9E1A59 0%, #C23070 60%, #F2EEEB 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -133,7 +133,7 @@ h6 {
 
 /* Glassmorphism card */
 .glass-card {
-  background: rgba(255, 248, 225, 0.85);
+  background: rgba(242, 238, 235, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(232, 213, 192, 0.8);

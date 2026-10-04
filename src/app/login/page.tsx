@@ -242,7 +242,7 @@ function LoginFormContent() {
         <motion.div
           initial={{ opacity: 0, y: -6, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          className="rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] p-4 flex items-center gap-3.5 shadow-xs"
+          className="rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] p-4 flex items-center gap-3.5 shadow-xs"
         >
           <span className="text-2xl shrink-0" aria-hidden="true">
             🛍️
@@ -260,7 +260,7 @@ function LoginFormContent() {
 
       {/* 1-Click Demo Login Banner */}
       {authStep !== 'otp' && (
-        <div className="rounded-2xl bg-gradient-to-r from-[#D8FFF7] to-[#FFF8E1] border border-[#9DDED1] p-4 flex items-center justify-between gap-3 shadow-xs">
+        <div className="rounded-2xl bg-gradient-to-r from-[#D8FFF7] to-[#F2EEEB] border border-[#9DDED1] p-4 flex items-center justify-between gap-3 shadow-xs">
           <div className="flex items-center gap-2.5 min-w-0">
             <span className="text-2xl shrink-0" aria-hidden="true">
               ⚡
@@ -284,7 +284,7 @@ function LoginFormContent() {
       <div className="rounded-3xl bg-white border border-[#E8D5C0] p-6 sm:p-8 shadow-xs">
         {/* Tab Switcher (Only on login/register steps) */}
         {authStep !== 'otp' && (
-          <div className="flex bg-[#FFF8E1] rounded-2xl p-1 border border-[#E8D5C0] mb-6">
+          <div className="flex bg-[#F2EEEB] rounded-2xl p-1 border border-[#E8D5C0] mb-6">
             <button
               type="button"
               onClick={() => {
@@ -510,7 +510,7 @@ function LoginFormContent() {
               className="flex flex-col gap-5"
             >
               <div className="flex flex-col items-center gap-2 text-center pb-1">
-                <div className="w-14 h-14 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] flex items-center justify-center text-2xl shadow-xs">
+                <div className="w-14 h-14 rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] flex items-center justify-center text-2xl shadow-xs">
                   ✉️
                 </div>
                 <p className="text-xs text-[#8A7880]">
@@ -544,7 +544,7 @@ function LoginFormContent() {
                       'w-11 h-13 sm:w-12 sm:h-14 text-center text-xl font-bold font-mono rounded-xl border bg-white transition-all',
                       'focus:outline-none focus:ring-2 focus:ring-[#9E1A59]/40 focus:border-[#9E1A59]',
                       digit
-                        ? 'border-[#9E1A59] text-[#1A1A1A] bg-[#FFF8E1]/30'
+                        ? 'border-[#9E1A59] text-[#1A1A1A] bg-[#F2EEEB]/30'
                         : 'border-[#E8D5C0] text-[#1A1A1A]',
                     ].join(' ')}
                   />
@@ -552,7 +552,7 @@ function LoginFormContent() {
               </div>
 
               {/* Helper Hint */}
-              <div className="rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] p-3 text-[11px] text-[#8A7880] flex items-start gap-2">
+              <div className="rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] p-3 text-[11px] text-[#8A7880] flex items-start gap-2">
                 <span className="shrink-0 text-sm">💡</span>
                 <div>
                   <span className="font-bold text-[#1A1A1A]">Tips Pengembang:</span> Jika email belum diterima, kode OTP tersimpan di tabel database PostgreSQL backend Anda.

@@ -410,7 +410,7 @@ export default function BestSellerPage() {
             })}
           </motion.div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 gap-4 text-center bg-[#FFF8E1] rounded-2xl border border-[#E8D5C0]">
+          <div className="flex flex-col items-center justify-center py-20 gap-4 text-center bg-[#F2EEEB] rounded-2xl border border-[#E8D5C0]">
             <span className="text-5xl" aria-hidden="true">
               🔍
             </span>
@@ -430,7 +430,7 @@ export default function BestSellerPage() {
       </section>
 
       {/* ── Why Our Best Sellers Win (Trust Section) ────────── */}
-      <section className="bg-[#FFF8E1] border-t border-[#E8D5C0] py-14 px-4 sm:px-6 lg:px-8">
+      <section className="bg-[#F2EEEB] border-t border-[#E8D5C0] py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-xl mx-auto mb-10">
             <span className="text-[11px] font-bold tracking-widest uppercase text-[#9E1A59]">
@@ -446,7 +446,7 @@ export default function BestSellerPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-2xl border border-[#E8D5C0] text-center sm:text-left flex flex-col items-center sm:items-start">
-              <div className="w-12 h-12 rounded-xl bg-[#FFF8E1] text-[#9E1A59] flex items-center justify-center text-2xl mb-4 border border-[#E8D5C0]">
+              <div className="w-12 h-12 rounded-xl bg-[#F2EEEB] text-[#9E1A59] flex items-center justify-center text-2xl mb-4 border border-[#E8D5C0]">
                 🇨🇳
               </div>
               <h3 className="font-display font-bold text-base text-[#1A1A1A] mb-1">
@@ -458,7 +458,7 @@ export default function BestSellerPage() {
             </div>
 
             <div className="bg-white p-6 rounded-2xl border border-[#E8D5C0] text-center sm:text-left flex flex-col items-center sm:items-start">
-              <div className="w-12 h-12 rounded-xl bg-[#FFF8E1] text-[#9E1A59] flex items-center justify-center text-2xl mb-4 border border-[#E8D5C0]">
+              <div className="w-12 h-12 rounded-xl bg-[#F2EEEB] text-[#9E1A59] flex items-center justify-center text-2xl mb-4 border border-[#E8D5C0]">
                 ✨
               </div>
               <h3 className="font-display font-bold text-base text-[#1A1A1A] mb-1">
@@ -470,7 +470,7 @@ export default function BestSellerPage() {
             </div>
 
             <div className="bg-white p-6 rounded-2xl border border-[#E8D5C0] text-center sm:text-left flex flex-col items-center sm:items-start">
-              <div className="w-12 h-12 rounded-xl bg-[#FFF8E1] text-[#9E1A59] flex items-center justify-center text-2xl mb-4 border border-[#E8D5C0]">
+              <div className="w-12 h-12 rounded-xl bg-[#F2EEEB] text-[#9E1A59] flex items-center justify-center text-2xl mb-4 border border-[#E8D5C0]">
                 🛡️
               </div>
               <h3 className="font-display font-bold text-base text-[#1A1A1A] mb-1">

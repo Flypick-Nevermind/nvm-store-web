@@ -111,7 +111,7 @@ export function RequestBagModal() {
             <button
               type="button"
               onClick={closeModal}
-              className="absolute top-4 right-4 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[#888] hover:bg-[#FFF8E1] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+              className="absolute top-4 right-4 sm:top-5 sm:right-5 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[#888] hover:bg-[#F2EEEB] hover:text-[#1A1A1A] transition-colors cursor-pointer"
               aria-label="Tutup modal"
             >
               ✕
@@ -170,7 +170,7 @@ export function RequestBagModal() {
             ) : (
               <>
                 {/* Verified Account Card */}
-                <div className="flex items-center justify-between p-3 rounded-xl bg-[#FFF8E1] border border-[#E8D5C0] mb-4 text-xs">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-[#F2EEEB] border border-[#E8D5C0] mb-4 text-xs">
                   <div className="flex items-center gap-2.5">
                     <span className="w-7 h-7 rounded-full bg-[#9E1A59] text-white flex items-center justify-center font-bold text-xs">
                       {user.name.charAt(0).toUpperCase()}
@@ -186,7 +186,7 @@ export function RequestBagModal() {
                 </div>
 
                 {/* Quick 3-Step Preview */}
-                <div className="grid grid-cols-3 gap-1.5 sm:gap-2 p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] mb-4 sm:mb-5 text-center">
+                <div className="grid grid-cols-3 gap-1.5 sm:gap-2 p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] mb-4 sm:mb-5 text-center">
                   <div className="flex flex-col items-center">
                     <span className="text-base sm:text-lg">📸</span>
                     <span className="text-[9px] sm:text-[10px] font-bold text-[#1A1A1A] mt-0.5 sm:mt-1">

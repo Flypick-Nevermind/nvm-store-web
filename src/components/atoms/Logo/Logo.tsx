@@ -1,8 +1,9 @@
 'use client';
 
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import logoImg from '../../../../public/assets/nvm-logo.png';
 
 type LogoSize = 'sm' | 'md' | 'lg' | 'xl';
 type LogoVariant = 'light' | 'dark';
@@ -42,14 +43,14 @@ function LogoContent({
   variant = 'dark',
   showTagline = false,
 }: Omit<LogoProps, 'href'>) {
-  const [logoSrc, setLogoSrc] = useState<string>('/assets/nvm-logo.png');
+  const [logoSrc, setLogoSrc] = useState<string | StaticImageData>(logoImg);
   const [imageError, setImageError] = useState(false);
   const cfg = sizeConfig[size];
   const textColor = variant === 'dark' ? 'text-[#9E1A59]' : 'text-white';
   const subColor = variant === 'dark' ? 'text-[#8A7880]' : 'text-white/70';
 
   const handleError = () => {
-    if (logoSrc === '/assets/nvm-logo.png') {
+    if (logoSrc === logoImg) {
       setLogoSrc('/assets/nevermind-logo.PNG');
     } else {
       setImageError(true);

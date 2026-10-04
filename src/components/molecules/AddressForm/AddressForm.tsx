@@ -79,7 +79,7 @@ export function AddressForm({
               className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
                 label.toLowerCase() === lbl.toLowerCase()
                   ? 'bg-[#9E1A59] text-white'
-                  : 'bg-[#FFF8E1] border border-[#E8D5C0] text-[#555] hover:border-[#9E1A59]'
+                  : 'bg-[#F2EEEB] border border-[#E8D5C0] text-[#555] hover:border-[#9E1A59]'
               }`}
             >
               {lbl}

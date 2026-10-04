@@ -24,7 +24,7 @@ export function NavbarMobileSearch({ isOpen, onClose }: NavbarMobileSearchProps)
           animate={{ height: 'auto', opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="md:hidden px-4 py-2.5 border-t border-[#E8D5C0] bg-[#FFF8E1]"
+          className="md:hidden px-4 py-2.5 border-t border-[#E8D5C0] bg-[#F2EEEB]"
         >
           <form onSubmit={handleSubmit} className="relative w-full">
             <svg

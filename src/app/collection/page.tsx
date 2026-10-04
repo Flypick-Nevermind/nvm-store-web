@@ -40,7 +40,7 @@ const COLLECTIONS: Collection[] = [
     description:
       'Small bag, big personality. Koleksi tas mini yang compact tapi statement — dari bow detail hingga structured mini tote.',
     coverImage: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?w=800&q=80',
-    accentColor: '#FFF8E1',
+    accentColor: '#F2EEEB',
     textColor: '#1A1A1A',
     badge: 'BESTSELLER',
     tags: ['mini', 'bow', 'tote'],

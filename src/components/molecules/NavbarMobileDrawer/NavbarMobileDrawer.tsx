@@ -32,7 +32,7 @@ export function NavbarMobileDrawer({
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.25 }}
-          className="lg:hidden border-t border-[#E8D5C0] bg-[#FFF8E1] shadow-2xl max-h-[calc(100vh-100px)] overflow-y-auto"
+          className="lg:hidden border-t border-[#E8D5C0] bg-[#F2EEEB] shadow-2xl max-h-[calc(100vh-100px)] overflow-y-auto"
         >
           <div className="px-4 py-4 flex flex-col gap-1">
             {/* Navigation Links */}
@@ -47,7 +47,7 @@ export function NavbarMobileDrawer({
                     'px-4 py-2.5 rounded-xl text-xs font-bold tracking-widest uppercase transition-colors',
                     isActive
                       ? 'bg-[#9E1A59] text-white shadow-xs'
-                      : 'text-[#1A1A1A] hover:bg-[#FFF8E1] hover:text-[#9E1A59]',
+                      : 'text-[#1A1A1A] hover:bg-[#F2EEEB] hover:text-[#9E1A59]',
                   ].join(' ')}
                 >
                   {link.label}
@@ -58,7 +58,7 @@ export function NavbarMobileDrawer({
             {/* Wishlist in mobile drawer */}
             <button
               type="button"
-              className="w-full px-4 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-colors text-[#1A1A1A] hover:bg-[#FFF8E1] hover:text-[#9E1A59] flex items-center justify-between cursor-pointer"
+              className="w-full px-4 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-colors text-[#1A1A1A] hover:bg-[#F2EEEB] hover:text-[#9E1A59] flex items-center justify-between cursor-pointer"
               onClick={() => {
                 onClose();
                 onOpenWishlist();
@@ -77,7 +77,7 @@ export function NavbarMobileDrawer({
             <Link
               href="/orders"
               onClick={onClose}
-              className="w-full px-4 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-colors text-[#1A1A1A] hover:bg-[#FFF8E1] hover:text-[#9E1A59] flex items-center justify-between"
+              className="w-full px-4 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-colors text-[#1A1A1A] hover:bg-[#F2EEEB] hover:text-[#9E1A59] flex items-center justify-between"
             >
               <span className="flex items-center gap-2">
                 <span>🛍️</span>
@@ -113,7 +113,7 @@ export function NavbarMobileDrawer({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block px-4 py-2.5 text-xs font-semibold text-[#444] hover:text-[#9E1A59] hover:bg-[#FFF8E1] rounded-xl transition-colors"
+                  className="block px-4 py-2.5 text-xs font-semibold text-[#444] hover:text-[#9E1A59] hover:bg-[#F2EEEB] rounded-xl transition-colors"
                   onClick={onClose}
                 >
                   {item.label}

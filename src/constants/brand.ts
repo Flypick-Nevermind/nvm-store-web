@@ -15,9 +15,9 @@ export const COLORS = {
   primary: '#9E1A59', // Magenta Rose — bold, deep, confident
   primaryDark: '#7A1244', // Deep Magenta
   primaryLight: '#C23070', // Rose Pink
-  cream: '#FFF8E1', // Cream — soft, warm, timeless
-  blush: '#FFF8E1', // Alias for cream background
-  receipt: '#FFF8E1', // Cream paper
+  cream: '#F2EEEB', // Pudding — soft, warm, elegant
+  blush: '#F2EEEB', // Alias for pudding background
+  receipt: '#F2EEEB', // Pudding paper
   card: '#FFFFFF', // Clean White Card
   border: '#E8D5C0', // Warm cream border
   silver: '#C8C8C8', // Chrome Silver

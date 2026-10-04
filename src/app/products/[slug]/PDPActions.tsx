@@ -75,7 +75,7 @@ export function PDPActions({ product }: PDPActionsProps) {
     return (
       <div className="flex flex-col gap-4 pt-1">
         {/* Sold out notice card */}
-        <div className="p-4 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] flex items-start gap-3">
+        <div className="p-4 rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] flex items-start gap-3">
           <span className="text-2xl shrink-0">⚠️</span>
           <div>
             <h4 className="text-sm font-bold text-[#1A1A1A]">Batch Ini Telah Habis Terjual (Sold Out)</h4>
@@ -100,7 +100,7 @@ export function PDPActions({ product }: PDPActionsProps) {
         </div>
 
         {/* Mobile fixed bottom bar */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#FFF8E1]/95 backdrop-blur-md border-t border-[#E8D5C0] px-4 py-3 z-40">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#F2EEEB]/95 backdrop-blur-md border-t border-[#E8D5C0] px-4 py-3 z-40">
           <a
             href={`https://wa.me/6281234567890?text=Halo+Nevermind,+tolong+kabari+saya+jika+produk+${encodeURIComponent(
               product.name
@@ -139,7 +139,7 @@ export function PDPActions({ product }: PDPActionsProps) {
                   className={[
                     'flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all cursor-pointer',
                     isSelected
-                      ? 'border-[#9E1A59] bg-[#FFF8E1] text-[#9E1A59] shadow-xs ring-2 ring-[#9E1A59]/20 scale-102'
+                      ? 'border-[#9E1A59] bg-[#F2EEEB] text-[#9E1A59] shadow-xs ring-2 ring-[#9E1A59]/20 scale-102'
                       : 'border-[#E8D5C0] bg-white text-[#444] hover:border-[#888] hover:bg-[#FAF0F3]',
                   ].join(' ')}
                   aria-pressed={isSelected}
@@ -221,7 +221,7 @@ export function PDPActions({ product }: PDPActionsProps) {
       <div className="flex items-center justify-between pt-1 pb-1 border-t border-b border-[#E8D5C0] py-3">
         <div className="flex items-center gap-3">
           <span className="text-xs font-bold text-[#8A7880] uppercase tracking-wider">Jumlah:</span>
-          <div className="flex items-center bg-[#FFF8E1] border border-[#E8D5C0] rounded-xl overflow-hidden h-9">
+          <div className="flex items-center bg-[#F2EEEB] border border-[#E8D5C0] rounded-xl overflow-hidden h-9">
             <button
               type="button"
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
@@ -274,7 +274,7 @@ export function PDPActions({ product }: PDPActionsProps) {
       </div>
 
       {/* ── 5. Mobile Fixed Bottom Bar ── */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#FFF8E1]/95 backdrop-blur-md border-t border-[#E8D5C0] px-4 py-3 z-40">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#F2EEEB]/95 backdrop-blur-md border-t border-[#E8D5C0] px-4 py-3 z-40">
         <div className="max-w-md mx-auto flex items-center gap-3">
           <div className="min-w-0 flex-1">
             <span className="text-[10px] text-[#8A7880] block truncate">

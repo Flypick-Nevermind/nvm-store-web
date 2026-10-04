@@ -168,7 +168,7 @@ export function PromoVoucherBadge() {
                 </p>
 
                 {/* Promo Code Box */}
-                <div className="w-full mt-4 p-3 rounded-2xl bg-[#FFF8E1] border-2 border-dashed border-[#9E1A59]/30 flex items-center justify-between gap-3">
+                <div className="w-full mt-4 p-3 rounded-2xl bg-[#F2EEEB] border-2 border-dashed border-[#9E1A59]/30 flex items-center justify-between gap-3">
                   <div className="text-left pl-1">
                     <span className="text-[10px] text-[#8A7880] uppercase tracking-wider font-semibold block">
                       Kode Promo

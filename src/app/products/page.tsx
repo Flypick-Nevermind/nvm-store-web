@@ -181,7 +181,7 @@ function ProductsContent() {
           </motion.div>
 
           {/* Bottom Request a Bag Strip */}
-          <div className="mt-10 sm:mt-14 p-5 sm:p-8 rounded-2xl bg-gradient-to-r from-[#FAF6F0] via-[#FFF8E1] to-[#FFF0F5] border border-[#E8D5C0] flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-5 text-center md:text-left">
+          <div className="mt-10 sm:mt-14 p-5 sm:p-8 rounded-2xl bg-gradient-to-r from-[#FAF6F0] via-[#F2EEEB] to-[#FFF0F5] border border-[#E8D5C0] flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-5 text-center md:text-left">
             <div>
               <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mb-1.5 sm:mb-2">
                 Special Concierge Sourcing
@@ -212,7 +212,7 @@ function ProductsContent() {
           </div>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center py-20 px-4 gap-4 text-center bg-[#FFF8E1] rounded-3xl border border-[#E8D5C0]">
+        <div className="flex flex-col items-center justify-center py-20 px-4 gap-4 text-center bg-[#F2EEEB] rounded-3xl border border-[#E8D5C0]">
           <span className="text-5xl" aria-hidden="true">
             🔍
           </span>

@@ -116,7 +116,7 @@ export default async function ProductDetailPage({ params }: Props) {
                 <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
                   Rp {product.price_total.toLocaleString('id-ID')}
                 </p>
-                <span className="text-xs text-[#8A7880] font-medium bg-[#FFF8E1] px-2.5 py-1 rounded-full border border-[#E8D5C0]">
+                <span className="text-xs text-[#8A7880] font-medium bg-[#F2EEEB] px-2.5 py-1 rounded-full border border-[#E8D5C0]">
                   Sudah Termasuk Bea Cukai & Ongkir
                 </span>
               </div>

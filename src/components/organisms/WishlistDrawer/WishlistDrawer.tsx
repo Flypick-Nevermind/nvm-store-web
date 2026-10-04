@@ -75,7 +75,7 @@ export function WishlistDrawer({ isOpen, onClose }: WishlistDrawerProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-            className="absolute top-0 right-0 bottom-0 w-full max-w-md bg-[#FFF8E1] border-l border-[#E8D5C0] shadow-2xl flex flex-col z-10"
+            className="absolute top-0 right-0 bottom-0 w-full max-w-md bg-[#F2EEEB] border-l border-[#E8D5C0] shadow-2xl flex flex-col z-10"
           >
             {/* Header */}
             <div className="p-4 sm:p-5 border-b border-[#E8D5C0] bg-white flex items-center justify-between">

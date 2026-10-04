@@ -57,7 +57,7 @@ export default function SupportPage() {
                       'w-full flex items-center justify-between p-3.5 rounded-2xl text-xs font-bold transition-all text-left cursor-pointer border',
                       isSelected
                         ? 'bg-[#9E1A59] text-white border-[#9E1A59] shadow-sm'
-                        : 'bg-[#FFF8E1]/60 text-[#1A1A1A] border-[#E8D5C0] hover:bg-[#FFF8E1] hover:border-[#9E1A59]',
+                        : 'bg-[#F2EEEB]/60 text-[#1A1A1A] border-[#E8D5C0] hover:bg-[#F2EEEB] hover:border-[#9E1A59]',
                     ].join(' ')}
                   >
                     <div className="flex items-center gap-3">
@@ -102,7 +102,7 @@ export default function SupportPage() {
                 </h2>
 
                 <div className="flex flex-col gap-4">
-                  <div className="p-5 rounded-2xl bg-[#FFF8E1]/50 border border-[#E8D5C0]">
+                  <div className="p-5 rounded-2xl bg-[#F2EEEB]/50 border border-[#E8D5C0]">
                     <h3 className="font-bold text-sm text-[#1A1A1A] mb-1.5 flex items-center gap-2">
                       <span className="text-[#9E1A59]">Q:</span> Apa bedanya Pre-Order dan Ready Stock?
                     </h3>
@@ -111,7 +111,7 @@ export default function SupportPage() {
                     </p>
                   </div>
 
-                  <div className="p-5 rounded-2xl bg-[#FFF8E1]/50 border border-[#E8D5C0]">
+                  <div className="p-5 rounded-2xl bg-[#F2EEEB]/50 border border-[#E8D5C0]">
                     <h3 className="font-bold text-sm text-[#1A1A1A] mb-1.5 flex items-center gap-2">
                       <span className="text-[#9E1A59]">Q:</span> Apakah harga sudah termasuk bea cukai & pajak impor?
                     </h3>
@@ -120,7 +120,7 @@ export default function SupportPage() {
                     </p>
                   </div>
 
-                  <div className="p-5 rounded-2xl bg-[#FFF8E1]/50 border border-[#E8D5C0]">
+                  <div className="p-5 rounded-2xl bg-[#F2EEEB]/50 border border-[#E8D5C0]">
                     <h3 className="font-bold text-sm text-[#1A1A1A] mb-1.5 flex items-center gap-2">
                       <span className="text-[#9E1A59]">Q:</span> Bagaimana cara melacak status pesanan saya?
                     </h3>
@@ -129,7 +129,7 @@ export default function SupportPage() {
                     </p>
                   </div>
 
-                  <div className="p-5 rounded-2xl bg-[#FFF8E1]/50 border border-[#E8D5C0]">
+                  <div className="p-5 rounded-2xl bg-[#F2EEEB]/50 border border-[#E8D5C0]">
                     <h3 className="font-bold text-sm text-[#1A1A1A] mb-1.5 flex items-center gap-2">
                       <span className="text-[#9E1A59]">Q:</span> Apakah produk asli sesuai foto (Real Picture)?
                     </h3>
@@ -164,15 +164,15 @@ export default function SupportPage() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-6 border-t border-[#E8D5C0]">
-                  <div className="p-4 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] text-center">
+                  <div className="p-4 rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] text-center">
                     <p className="text-2xl font-black text-[#9E1A59]">2,500+</p>
                     <p className="text-[11px] font-bold text-[#888] mt-1">Tas Terkirim</p>
                   </div>
-                  <div className="p-4 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] text-center">
+                  <div className="p-4 rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] text-center">
                     <p className="text-2xl font-black text-[#9E1A59]">4.9 / 5.0</p>
                     <p className="text-[11px] font-bold text-[#888] mt-1">Rating Kepuasan</p>
                   </div>
-                  <div className="p-4 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] text-center">
+                  <div className="p-4 rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] text-center">
                     <p className="text-2xl font-black text-[#9E1A59]">100%</p>
                     <p className="text-[11px] font-bold text-[#888] mt-1">Garansi QC Fisik</p>
                   </div>
@@ -194,7 +194,7 @@ export default function SupportPage() {
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="p-5 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0]">
+                  <div className="p-5 rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0]">
                     <span className="text-2xl mb-2 block">💬</span>
                     <h3 className="font-bold text-sm text-[#1A1A1A]">WhatsApp Official</h3>
                     <p className="text-xs text-[#777] mt-1 mb-3">
@@ -210,7 +210,7 @@ export default function SupportPage() {
                     </a>
                   </div>
 
-                  <div className="p-5 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0]">
+                  <div className="p-5 rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0]">
                     <span className="text-2xl mb-2 block">✉️</span>
                     <h3 className="font-bold text-sm text-[#1A1A1A]">Email Customer Service</h3>
                     <p className="text-xs text-[#777] mt-1 mb-3">
@@ -238,21 +238,21 @@ export default function SupportPage() {
                 </h2>
 
                 <div className="space-y-4 text-xs sm:text-sm text-[#555] leading-relaxed">
-                  <div className="p-4 rounded-2xl border border-[#E8D5C0] bg-[#FFF8E1]/30">
+                  <div className="p-4 rounded-2xl border border-[#E8D5C0] bg-[#F2EEEB]/30">
                     <h3 className="font-bold text-sm text-[#1A1A1A] mb-1">⚡ Ready Stock</h3>
                     <p className="text-xs text-[#666]">
                       Barang yang berstatus Ready Stock akan dipacking dan diserahkan ke kurir ekspedisi (J&T, SiCepat, Anteraja) dalam 1–2 hari kerja setelah pembayaran terkonfirmasi.
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-2xl border border-[#E8D5C0] bg-[#FFF8E1]/30">
+                  <div className="p-4 rounded-2xl border border-[#E8D5C0] bg-[#F2EEEB]/30">
                     <h3 className="font-bold text-sm text-[#1A1A1A] mb-1">⏳ Pre-Order (PO) Cross-Border</h3>
                     <p className="text-xs text-[#666]">
                       Estimasi durasi total berkisar 14–21 hari kerja, meliputi: kurasi dari supplier China (2–4 hari) → QC & packing warehouse China (2 hari) → pengiriman kargo & bea cukai resmi (7–10 hari) → QC warehouse lokal & kirim ke alamatmu (2–3 hari).
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-2xl border border-[#E8D5C0] bg-[#FFF8E1]/30">
+                  <div className="p-4 rounded-2xl border border-[#E8D5C0] bg-[#F2EEEB]/30">
                     <h3 className="font-bold text-sm text-[#1A1A1A] mb-1">📦 Nomor Resi</h3>
                     <p className="text-xs text-[#666]">
                       Nomor resi lokal akan diupdate secara otomatis melalui WhatsApp dan dapat dilacak di halaman Lacak Order setelah paket lulus QC akhir.
@@ -283,7 +283,7 @@ export default function SupportPage() {
                     <li>Paket hilang dalam perjalanan kargo resmi.</li>
                   </ul>
 
-                  <div className="p-4 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] mt-4">
+                  <div className="p-4 rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] mt-4">
                     <h3 className="font-bold text-xs text-[#9E1A59] uppercase tracking-wider mb-1">
                       Syarat Klaim Garansi:
                     </h3>

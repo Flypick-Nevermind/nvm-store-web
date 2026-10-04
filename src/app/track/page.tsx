@@ -99,7 +99,7 @@ function RecentOrdersTracker({ onSelectOrder }: { onSelectOrder: (id: string) =>
             key={ord.order_id}
             type="button"
             onClick={() => onSelectOrder(ord.order_id)}
-            className="flex items-center justify-between p-3 rounded-xl bg-[#FFF8E1]/50 hover:bg-[#FFF8E1] border border-[#E8D5C0]/60 transition-all text-left cursor-pointer group"
+            className="flex items-center justify-between p-3 rounded-xl bg-[#F2EEEB]/50 hover:bg-[#F2EEEB] border border-[#E8D5C0]/60 transition-all text-left cursor-pointer group"
           >
             <div>
               <p className="text-xs font-mono font-bold text-[#1A1A1A] group-hover:text-[#9E1A59]">
@@ -110,7 +110,7 @@ function RecentOrdersTracker({ onSelectOrder }: { onSelectOrder: (id: string) =>
               </p>
             </div>
             <div className="text-right">
-              <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${ord.current_stage === 6 ? 'bg-[#D8FFF7] text-[#1A6B5C]' : 'bg-[#FFF8E1] text-[#9E1A59] border border-[#E8D5C0]'}`}>
+              <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold ${ord.current_stage === 6 ? 'bg-[#D8FFF7] text-[#1A6B5C]' : 'bg-[#F2EEEB] text-[#9E1A59] border border-[#E8D5C0]'}`}>
                 {ord.current_stage === 6 ? 'Selesai 🎉' : `Tahap ${ord.current_stage}/6`}
               </span>
               <p className="text-[11px] font-bold text-[#1A1A1A] mt-0.5">

@@ -272,7 +272,7 @@ export function TrackingContent({ orderId }: TrackingContentProps) {
               </div>
 
               {/* Confirm Delivery CTA */}
-              <div className="p-4 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="p-4 rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <p className="text-xs font-bold text-[#1A1A1A]">Paket sudah sampai di tanganmu?</p>
                   <p className="text-[11px] text-[#888] mt-0.5">

@@ -273,7 +273,7 @@ export function CustomerReviews({ productId, productName, variants = [] }: Custo
                   <span className="text-[#F59E0B]">★</span>
                 </div>
 
-                <div className="flex-1 h-3 rounded-full bg-[#FFF8E1] border border-[#E8D5C0]/60 overflow-hidden p-0.5">
+                <div className="flex-1 h-3 rounded-full bg-[#F2EEEB] border border-[#E8D5C0]/60 overflow-hidden p-0.5">
                   <div
                     className={[
                       'h-full rounded-full transition-all duration-500',
@@ -456,7 +456,7 @@ export function CustomerReviews({ productId, productName, variants = [] }: Custo
                       'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold transition-all cursor-pointer',
                       hasVoted
                         ? 'bg-[#D8FFF7] text-[#1A6B5C] border border-[#9DDED1] cursor-default'
-                        : 'bg-[#FFF8E1] text-[#666] border border-[#E8D5C0] hover:text-[#9E1A59] hover:bg-white',
+                        : 'bg-[#F2EEEB] text-[#666] border border-[#E8D5C0] hover:text-[#9E1A59] hover:bg-white',
                     ].join(' ')}
                   >
                     <span>👍</span>
@@ -513,7 +513,7 @@ export function CustomerReviews({ productId, productName, variants = [] }: Custo
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center text-[#888] hover:bg-[#FFF8E1] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+                className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center text-[#888] hover:bg-[#F2EEEB] hover:text-[#1A1A1A] transition-colors cursor-pointer"
                 aria-label="Tutup modal"
               >
                 ✕
@@ -540,7 +540,7 @@ export function CustomerReviews({ productId, productName, variants = [] }: Custo
               ) : (
                 <form onSubmit={handleReviewSubmit} className="flex flex-col gap-4">
                   {/* Star Rating Picker */}
-                  <div className="flex flex-col items-center justify-center p-4 rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0]/80 gap-2">
+                  <div className="flex flex-col items-center justify-center p-4 rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0]/80 gap-2">
                     <span className="text-xs font-semibold text-[#888]">
                       Berapa bintang untuk produk ini?
                     </span>

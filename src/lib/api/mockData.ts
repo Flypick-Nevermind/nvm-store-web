@@ -28,7 +28,7 @@ export const MOCK_PRODUCTS: Product[] = [
     tags: ['bow', 'tote', 'y2k', 'cream'],
     created_at: '2026-09-01T00:00:00Z',
     colors: [
-      { name: 'Vintage Cream', hex: '#FFF8E1' },
+      { name: 'Vintage Cream', hex: '#F2EEEB' },
       { name: 'Blush Pink', hex: '#FFD1DC' },
       { name: 'Midnight Noir', hex: '#1A1A1A' },
     ],
@@ -145,7 +145,7 @@ export const MOCK_PRODUCTS: Product[] = [
     created_at: '2026-09-12T00:00:00Z',
     colors: [
       { name: 'Teddy Beige', hex: '#D2B48C' },
-      { name: 'Vintage Cream', hex: '#FFF8E1' },
+      { name: 'Vintage Cream', hex: '#F2EEEB' },
       { name: 'Choco Brown', hex: '#5C3826' },
     ],
     variants: [

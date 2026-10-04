@@ -66,7 +66,7 @@ export function CheckoutOrderSummary({
                 className="flex items-center gap-3 py-2 border-b border-[#E8D5C0] last:border-b-0"
               >
                 {/* Thumbnail */}
-                <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#FFF8E1] shrink-0 border border-[#E8D5C0]">
+                <div className="relative w-14 h-14 rounded-xl overflow-hidden bg-[#F2EEEB] shrink-0 border border-[#E8D5C0]">
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -78,7 +78,7 @@ export function CheckoutOrderSummary({
 
                 {/* Details */}
                 <div className="flex-1 min-w-0">
-                  <span className="inline-block text-[10px] px-1.5 py-0.5 rounded-md font-medium bg-[#FFF8E1] text-[#1A1A1A] border border-[#E8D5C0] mb-0.5">
+                  <span className="inline-block text-[10px] px-1.5 py-0.5 rounded-md font-medium bg-[#F2EEEB] text-[#1A1A1A] border border-[#E8D5C0] mb-0.5">
                     {item.type === 'pre-order' ? 'PO 14-21 Hari' : 'Ready Stock'}
                   </span>
                   <p className="text-sm font-semibold text-[#1A1A1A] truncate">{item.name}</p>
@@ -94,7 +94,7 @@ export function CheckoutOrderSummary({
                 <div className="flex flex-col items-end gap-1.5 shrink-0">
                   <div className="flex items-center gap-1.5">
                     {/* Stepper */}
-                    <div className="flex items-center bg-[#FFF8E1] border border-[#E8D5C0] rounded-lg overflow-hidden h-7">
+                    <div className="flex items-center bg-[#F2EEEB] border border-[#E8D5C0] rounded-lg overflow-hidden h-7">
                       <button
                         type="button"
                         onClick={() => onUpdateQuantity(itemIdentifier, item.quantity - 1)}
@@ -236,7 +236,7 @@ export function CheckoutOrderSummary({
       </div>
 
       {/* Trust badge note */}
-      <div className="rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] p-4 text-xs text-[#8A7880] leading-relaxed flex items-start gap-2.5">
+      <div className="rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] p-4 text-xs text-[#8A7880] leading-relaxed flex items-start gap-2.5">
         <span className="text-base shrink-0" aria-hidden="true">
           🔒
         </span>

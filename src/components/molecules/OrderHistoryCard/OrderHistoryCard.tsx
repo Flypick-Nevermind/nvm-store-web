@@ -102,7 +102,7 @@ export function OrderHistoryCard({
             </span>
           )}
           {order.tracking_number && (
-            <span className="hidden md:inline-block font-mono text-[10px] px-2 py-0.5 rounded-full bg-[#FFF8E1] text-[#9E1A59] font-bold border border-[#E8D5C0]">
+            <span className="hidden md:inline-block font-mono text-[10px] px-2 py-0.5 rounded-full bg-[#F2EEEB] text-[#9E1A59] font-bold border border-[#E8D5C0]">
               Resi: {order.tracking_number}
             </span>
           )}
@@ -117,14 +117,14 @@ export function OrderHistoryCard({
             className="flex items-center gap-3.5 py-1 border-b border-[#F5F0E8] last:border-b-0"
           >
             {/* Thumbnail */}
-            <div className="relative w-14 h-16 rounded-xl overflow-hidden bg-[#FFF8E1] border border-[#E8D5C0] shrink-0">
+            <div className="relative w-14 h-16 rounded-xl overflow-hidden bg-[#F2EEEB] border border-[#E8D5C0] shrink-0">
               <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
             </div>
 
             {/* Title & info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <span className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[#FFF8E1] text-[#9E1A59] border border-[#E8D5C0]">
+                <span className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[#F2EEEB] text-[#9E1A59] border border-[#E8D5C0]">
                   {item.type === 'pre-order' ? 'PO 14-21 Hari' : 'Ready Stock'}
                 </span>
               </div>
@@ -212,7 +212,7 @@ export function OrderHistoryCard({
           <button
             type="button"
             onClick={() => onReorder(order)}
-            className="px-3.5 py-2 rounded-xl bg-[#FFF8E1] hover:bg-[#FFEFC4] border border-[#E8D5C0] text-xs font-bold text-[#9E1A59] transition-colors cursor-pointer"
+            className="px-3.5 py-2 rounded-xl bg-[#F2EEEB] hover:bg-[#EAE4DF] border border-[#E8D5C0] text-xs font-bold text-[#9E1A59] transition-colors cursor-pointer"
           >
             🔁 Beli Lagi
           </button>

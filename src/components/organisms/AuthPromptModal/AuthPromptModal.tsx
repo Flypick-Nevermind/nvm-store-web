@@ -80,14 +80,14 @@ export function AuthPromptModal() {
               type="button"
               onClick={handleClose}
               aria-label="Tutup notifikasi"
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#FFF8E1] hover:bg-[#FAF0F3] text-[#8A7880] hover:text-[#1A1A1A] flex items-center justify-center transition-colors cursor-pointer text-sm"
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#F2EEEB] hover:bg-[#FAF0F3] text-[#8A7880] hover:text-[#1A1A1A] flex items-center justify-center transition-colors cursor-pointer text-sm"
             >
               ✕
             </button>
 
             {/* Icon Graphic */}
             <div className="flex justify-center pt-2">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#FFF8E1] via-[#FAF0F3] to-[#FDFD96] border border-[#E8D5C0] flex items-center justify-center shadow-xs">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#F2EEEB] via-[#FAF0F3] to-[#FDFD96] border border-[#E8D5C0] flex items-center justify-center shadow-xs">
                 <span className="text-3xl" aria-hidden="true">
                   🔒
                 </span>
@@ -118,7 +118,7 @@ export function AuthPromptModal() {
             </div>
 
             {/* Highlight Box */}
-            <div className="rounded-2xl bg-[#FFF8E1] border border-[#E8D5C0] p-3 text-left flex items-start gap-2.5 text-[11px] sm:text-xs text-[#8E1744]">
+            <div className="rounded-2xl bg-[#F2EEEB] border border-[#E8D5C0] p-3 text-left flex items-start gap-2.5 text-[11px] sm:text-xs text-[#8E1744]">
               <span className="text-base shrink-0 mt-0.5" aria-hidden="true">
                 💡
               </span>

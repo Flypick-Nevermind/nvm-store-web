@@ -56,7 +56,7 @@ export function NavbarAccountMenu({
             className="absolute right-0 mt-2 w-64 rounded-2xl bg-white border border-[#E8D5C0] shadow-xl p-3 z-50 flex flex-col gap-2"
           >
             {/* User Profile Card */}
-            <div className="p-3 rounded-xl bg-[#FFF8E1] border border-[#E8D5C0] flex flex-col gap-1">
+            <div className="p-3 rounded-xl bg-[#F2EEEB] border border-[#E8D5C0] flex flex-col gap-1">
               <div className="flex items-center justify-between">
                 <p className="text-xs font-extrabold text-[#1A1A1A] truncate">{user.name}</p>
                 <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#9E1A59] text-white">

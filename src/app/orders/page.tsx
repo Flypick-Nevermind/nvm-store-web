@@ -68,7 +68,7 @@ export default function OrdersHistoryPage() {
         {/* Filter Tabs & Search Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-[#E8D5C0]">
           {/* Tabs */}
-          <div className="flex items-center gap-1 bg-[#FFF8E1] p-1 rounded-2xl border border-[#E8D5C0] overflow-x-auto">
+          <div className="flex items-center gap-1 bg-[#F2EEEB] p-1 rounded-2xl border border-[#E8D5C0] overflow-x-auto">
             <button
               type="button"
               onClick={() => setActiveTab('all')}
@@ -150,7 +150,7 @@ export default function OrdersHistoryPage() {
         {/* Orders List */}
         {filteredOrders.length === 0 ? (
           <div className="rounded-3xl bg-white border border-[#C8C8C8]/50 p-8 sm:p-12 flex flex-col items-center justify-center text-center gap-4 shadow-xs">
-            <div className="w-20 h-20 rounded-full bg-[#FFF8E1] border border-[#E8D5C0] flex items-center justify-center text-3xl">
+            <div className="w-20 h-20 rounded-full bg-[#F2EEEB] border border-[#E8D5C0] flex items-center justify-center text-3xl">
               🛍️
             </div>
             <div>

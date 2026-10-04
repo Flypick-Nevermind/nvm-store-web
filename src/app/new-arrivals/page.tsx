@@ -84,7 +84,7 @@ export default function NewArrivalsPage() {
               </span>
             </div>
 
-            <div className="bg-[#FFF8E1] rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#E8D5C0] flex flex-col lg:flex-row items-center gap-8 shadow-xs">
+            <div className="bg-[#F2EEEB] rounded-3xl p-6 sm:p-8 lg:p-10 border border-[#E8D5C0] flex flex-col lg:flex-row items-center gap-8 shadow-xs">
               {/* Product Visual */}
               <div className="relative w-full lg:w-1/2 aspect-[4/3] rounded-2xl overflow-hidden bg-white shrink-0 border border-[#E8D5C0]/60">
                 <Image
@@ -153,7 +153,7 @@ export default function NewArrivalsPage() {
 
                   <Link
                     href={`/products/${heroDrop.slug}`}
-                    className="px-6 py-3.5 rounded-2xl text-xs font-bold border border-[#E8D5C0] bg-white text-[#1A1A1A] hover:bg-[#FFF8E1] transition-colors"
+                    className="px-6 py-3.5 rounded-2xl text-xs font-bold border border-[#E8D5C0] bg-white text-[#1A1A1A] hover:bg-[#F2EEEB] transition-colors"
                   >
                     Lihat Detail
                   </Link>
@@ -319,7 +319,7 @@ export default function NewArrivalsPage() {
             })}
           </motion.div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 gap-4 text-center bg-[#FFF8E1] rounded-2xl border border-[#E8D5C0]">
+          <div className="flex flex-col items-center justify-center py-20 gap-4 text-center bg-[#F2EEEB] rounded-2xl border border-[#E8D5C0]">
             <span className="text-5xl" aria-hidden="true">
               🔍
             </span>
@@ -339,7 +339,7 @@ export default function NewArrivalsPage() {
       </section>
 
       {/* ── Trend Radar / Style Notes Section ───────────────── */}
-      <section className="bg-[#FFF8E1] border-t border-[#E8D5C0] py-14 px-4 sm:px-6 lg:px-8">
+      <section className="bg-[#F2EEEB] border-t border-[#E8D5C0] py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-xl mx-auto mb-10">
             <span className="text-[11px] font-bold tracking-widest uppercase text-[#9E1A59]">
