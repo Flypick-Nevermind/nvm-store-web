@@ -92,8 +92,8 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
 
-          {/* Stock badge */}
-          <div className="absolute top-2.5 left-2.5 z-10">
+          {/* Badges on image: Stock & Discount Sticker */}
+          <div className="absolute top-2.5 left-2.5 z-10 flex flex-col items-start gap-1.5">
             <Badge
               variant={
                 isSoldOut
@@ -105,6 +105,13 @@ export function ProductCard({ product }: ProductCardProps) {
             >
               {isSoldOut ? '❌ Sold Out' : product.stock_type === 'pre-order' ? '⏳ Pre-Order' : '✅ Ready'}
             </Badge>
+
+            {product.discount_percent && (
+              <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#9E1A59] text-white text-[10px] font-black tracking-wide shadow-md border border-white/40 backdrop-blur-xs transform -rotate-1 group-hover:rotate-0 transition-transform">
+                <span className="text-[11px] leading-none">🔥</span>
+                <span>-{product.discount_percent}%</span>
+              </div>
+            )}
           </div>
 
           {/* Wishlist Floating Button (Top-Right of Image) */}
@@ -194,10 +201,22 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.name}
           </h3>
           <div className="flex items-end justify-between gap-2 mt-auto">
-            <div className="flex flex-col gap-0.5">
-              <p className="text-[#9E1A59] font-bold text-sm sm:text-base">
-                {formatIDR(product.price_total)}
-              </p>
+            <div className="flex flex-col gap-1 w-full">
+              <div className="flex items-baseline gap-1.5 flex-wrap">
+                <p className="text-[#9E1A59] font-black text-sm sm:text-base">
+                  {formatIDR(product.price_total)}
+                </p>
+                {product.original_price && (
+                  <p className="text-[11px] text-[#A0959A] line-through font-medium">
+                    {formatIDR(product.original_price)}
+                  </p>
+                )}
+                {product.discount_percent && (
+                  <span className="text-[9px] font-extrabold text-[#9E1A59] bg-[#FAF0F3] px-1.5 py-0.5 rounded border border-[#9E1A59]/20">
+                    -{product.discount_percent}%
+                  </span>
+                )}
+              </div>
               <p className="text-[10px] text-[#8A7880] font-medium min-h-[1rem] flex items-center">
                 {isSoldOut
                   ? '❌ Stok habis • Menunggu restock'

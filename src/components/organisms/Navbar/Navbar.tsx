@@ -31,7 +31,6 @@ const NAV_LINKS = [
   { href: '/category', label: 'CATEGORY' },
   { href: '/collection', label: 'COLLECTION' },
   { href: '/best-seller', label: 'BEST SELLER' },
-  { href: '/flash-sale', label: 'FLASH SALE' },
   { href: '/new-arrivals', label: 'NEW ARRIVALS' },
 ];
 

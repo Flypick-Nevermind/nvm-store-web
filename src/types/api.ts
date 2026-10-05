@@ -37,6 +37,8 @@ export interface Product {
   price_import_duty: number; // Estimasi bea impor (IDR)
   price_shipping: number; // Estimasi ongkir lokal (IDR)
   price_total: number; // Total (IDR)
+  original_price?: number; // Harga normal sebelum diskon (IDR)
+  discount_percent?: number; // Persentase diskon (%)
   stock_type: ProductType;
   lead_time_days: [number, number]; // e.g. [14, 21]
   category: string;

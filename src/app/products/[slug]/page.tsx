@@ -61,7 +61,11 @@ export default async function ProductDetailPage({ params }: Props) {
         <article className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left Column: Compact, elegant Gallery (sticky on desktop) */}
           <div className="md:col-span-5 lg:col-span-5 md:sticky md:top-48 flex justify-center">
-            <ProductGallery images={product.images} productName={product.name} />
+            <ProductGallery
+              images={product.images}
+              productName={product.name}
+              discountPercent={product.discount_percent}
+            />
           </div>
 
           {/* Right Column: Details & Purchase sidebar */}
@@ -84,6 +88,11 @@ export default async function ProductDetailPage({ params }: Props) {
                       ? '⏳ Pre-Order'
                       : '✅ Ready Stock'}
                 </Badge>
+                {product.discount_percent && (
+                  <Badge variant="primary">
+                    🔥 Diskon {product.discount_percent}%
+                  </Badge>
+                )}
                 {product.tags.slice(0, 3).map((tag) => (
                   <Badge key={tag} variant="silver">
                     #{tag}
@@ -112,13 +121,32 @@ export default async function ProductDetailPage({ params }: Props) {
                 </span>
               </a>
 
-              <div className="flex items-baseline gap-3">
-                <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
-                  Rp {product.price_total.toLocaleString('id-ID')}
-                </p>
-                <span className="text-xs text-[#8A7880] font-medium bg-[#F2EEEB] px-2.5 py-1 rounded-full border border-[#E8D5C0]">
-                  Sudah Termasuk Bea Cukai & Ongkir
-                </span>
+              <div className="flex flex-col gap-1.5 pt-1">
+                <div className="flex items-baseline gap-3 flex-wrap">
+                  <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
+                    Rp {product.price_total.toLocaleString('id-ID')}
+                  </p>
+                  {product.original_price && (
+                    <p className="text-base sm:text-lg text-[#A0959A] line-through font-semibold">
+                      Rp {product.original_price.toLocaleString('id-ID')}
+                    </p>
+                  )}
+                  {product.discount_percent && (
+                    <span className="text-xs font-black text-[#9E1A59] bg-[#FAF0F3] px-2.5 py-0.5 rounded-full border border-[#9E1A59]/30">
+                      HEMAT {product.discount_percent}%
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs text-[#8A7880] font-medium bg-[#F2EEEB] px-2.5 py-1 rounded-full border border-[#E8D5C0]">
+                    Sudah Termasuk Bea Cukai & Ongkir
+                  </span>
+                  {product.original_price && (
+                    <span className="text-xs text-[#1A6B5C] font-semibold bg-[#D8FFF7] px-2.5 py-1 rounded-full border border-[#9DDED1]">
+                      Hemat Rp {(product.original_price - product.price_total).toLocaleString('id-ID')}!
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 

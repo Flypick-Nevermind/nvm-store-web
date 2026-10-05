@@ -7,9 +7,10 @@ import { useState } from 'react';
 interface ProductGalleryProps {
   images: string[];
   productName: string;
+  discountPercent?: number;
 }
 
-export function ProductGallery({ images, productName }: ProductGalleryProps) {
+export function ProductGallery({ images, productName, discountPercent }: ProductGalleryProps) {
   const [activeIdx, setActiveIdx] = useState(0);
 
   const handlePrev = (e: React.MouseEvent) => {
@@ -26,6 +27,14 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
     <div className="flex flex-col gap-3.5 max-w-[460px] mx-auto w-full group">
       {/* Main image container with controlled max-height */}
       <div className="relative aspect-[4/5] max-h-[480px] w-full overflow-hidden bg-[#F5F0E8] rounded-3xl border border-[#C8C8C8]/50 shadow-md">
+        {/* Discount Sticker Badge */}
+        {discountPercent && (
+          <div className="absolute top-3.5 left-3.5 z-20 flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#9E1A59] text-white text-xs font-black tracking-wide shadow-md border border-white/40 backdrop-blur-xs transform -rotate-2">
+            <span className="text-sm leading-none">🔥</span>
+            <span>HEMAT {discountPercent}%</span>
+          </div>
+        )}
+
         <AnimatePresence mode="wait">
           <motion.div
             key={activeIdx}

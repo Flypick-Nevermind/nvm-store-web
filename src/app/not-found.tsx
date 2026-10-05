@@ -86,17 +86,17 @@ export default function NotFound() {
               </Link>
 
               <Link
-                href="/flash-sale"
+                href="/collection"
                 className="p-3.5 rounded-2xl border border-[#E8D5C0] bg-[#F2EEEB]/50 hover:bg-[#F2EEEB] hover:border-[#9E1A59] transition-all flex items-center gap-3 group"
               >
                 <span className="w-10 h-10 rounded-xl bg-white border border-[#E8D5C0] flex items-center justify-center text-lg group-hover:scale-105 transition-transform">
-                  ⚡
+                  🎀
                 </span>
                 <div>
                   <h2 className="text-xs font-bold text-[#1A1A1A] group-hover:text-[#9E1A59] transition-colors">
-                    Flash Sale
+                    Collection
                   </h2>
-                  <p className="text-[11px] text-[#888]">Promo diskon waktu terbatas</p>
+                  <p className="text-[11px] text-[#888]">Koleksi tas kurasi aesthetic</p>
                 </div>
               </Link>
 
