@@ -20,6 +20,8 @@ export default function CheckoutPage() {
     setStep,
     items,
     totalPrice,
+    importDutyTotal,
+    shippingTotal,
     totalQuantity,
     updateQuantity,
     removeItem,
@@ -126,6 +128,8 @@ export default function CheckoutPage() {
             step={step}
             totalQuantity={totalQuantity}
             totalPrice={totalPrice}
+            importDutyTotal={importDutyTotal}
+            shippingTotal={shippingTotal}
             discountAmount={discountAmount}
             finalTotal={finalTotal}
             appliedVoucher={appliedVoucher}

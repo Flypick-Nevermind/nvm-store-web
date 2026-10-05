@@ -9,6 +9,8 @@ interface CheckoutOrderSummaryProps {
   step: number;
   totalQuantity: number;
   totalPrice: number;
+  importDutyTotal?: number;
+  shippingTotal?: number;
   discountAmount: number;
   finalTotal: number;
   appliedVoucher: string | null;
@@ -27,6 +29,8 @@ export function CheckoutOrderSummary({
   step,
   totalQuantity,
   totalPrice,
+  importDutyTotal = 0,
+  shippingTotal = 0,
   discountAmount,
   finalTotal,
   appliedVoucher,
@@ -212,11 +216,30 @@ export function CheckoutOrderSummary({
         </div>
 
         {/* Price Calculation Breakdown */}
-        <div className="border-t border-[#E8D5C0] pt-3 flex flex-col gap-1.5 text-xs">
+        <div className="border-t border-[#E8D5C0] pt-3 flex flex-col gap-2 text-xs">
           <div className="flex justify-between items-center text-[#666]">
             <span>Subtotal Produk</span>
             <span className="font-semibold text-[#1A1A1A]">{formatIDR(totalPrice)}</span>
           </div>
+
+          {importDutyTotal > 0 && (
+            <div className="flex justify-between items-center text-[#666]">
+              <span className="flex items-center gap-1">
+                <span>Estimasi Bea & Pajak Impor</span>
+                <span className="text-[10px] text-[#888] cursor-help" title="Kepatuhan bea cukai & pajak resmi">
+                  ℹ️
+                </span>
+              </span>
+              <span className="font-semibold text-[#1A1A1A]">{formatIDR(importDutyTotal)}</span>
+            </div>
+          )}
+
+          {shippingTotal > 0 && (
+            <div className="flex justify-between items-center text-[#666]">
+              <span>Ongkos Kirim Domestik (JNE/J&T)</span>
+              <span className="font-semibold text-[#1A1A1A]">{formatIDR(shippingTotal)}</span>
+            </div>
+          )}
 
           {discountAmount > 0 && (
             <div className="flex justify-between items-center text-[#25D366] font-bold">
@@ -227,8 +250,11 @@ export function CheckoutOrderSummary({
             </div>
           )}
 
-          <div className="flex justify-between items-center pt-2 border-t border-[#E8D5C0]/60">
-            <span className="text-base font-bold text-[#1A1A1A]">Total Pembayaran</span>
+          <div className="flex justify-between items-center pt-2.5 border-t border-[#E8D5C0]/60">
+            <div>
+              <span className="text-base font-bold text-[#1A1A1A] block">Total Pembayaran</span>
+              <span className="text-[10px] text-[#8A7880]">Sudah termasuk ongkir & bea masuk</span>
+            </div>
             <span className="text-lg font-black text-[#9E1A59]">{formatIDR(finalTotal)}</span>
           </div>
         </div>

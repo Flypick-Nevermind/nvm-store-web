@@ -44,9 +44,11 @@ export function ProductCard({ product }: ProductCardProps) {
       slug: product.slug,
       name: product.name,
       image: product.images[0],
-      price: product.price_total,
+      price: product.price_base,
       quantity: 1,
       type: product.stock_type,
+      price_import_duty: product.price_import_duty,
+      price_shipping: product.price_shipping,
     });
 
     setAddedFeedback(true);
@@ -238,7 +240,7 @@ export function ProductCard({ product }: ProductCardProps) {
               {/* Pricing row */}
               <div className="flex items-baseline gap-1.5 flex-wrap">
                 <p className="text-[#9E1A59] font-black text-sm sm:text-base tracking-tight">
-                  {formatIDR(product.price_total)}
+                  {formatIDR(product.price_base)}
                 </p>
                 {product.original_price && (
                   <p className="text-[11px] text-[#A0959A] line-through font-medium">

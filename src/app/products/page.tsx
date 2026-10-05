@@ -40,8 +40,8 @@ function ProductsContent() {
       );
     }
 
-    if (sortBy === 'price-asc') result.sort((a, b) => a.price_total - b.price_total);
-    if (sortBy === 'price-desc') result.sort((a, b) => b.price_total - a.price_total);
+    if (sortBy === 'price-asc') result.sort((a, b) => a.price_base - b.price_base);
+    if (sortBy === 'price-desc') result.sort((a, b) => b.price_base - a.price_base);
     if (sortBy === 'newest') {
       result.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
     }

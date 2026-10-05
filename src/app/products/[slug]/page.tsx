@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import { Badge } from '@/components/atoms/Badge';
 import { PageShell } from '@/components/layouts/PageShell';
 import { ETACalculator } from '@/components/molecules/ETACalculator';
-import { PriceBreakdown } from '@/components/molecules/PriceBreakdown';
 import { ProductCard } from '@/components/molecules/ProductCard';
 import { CustomerReviews } from '@/components/organisms/CustomerReviews';
 import { ProductGallery } from '@/components/organisms/ProductGallery';
@@ -124,7 +123,7 @@ export default async function ProductDetailPage({ params }: Props) {
               <div className="flex flex-col gap-1.5 pt-1">
                 <div className="flex items-baseline gap-3 flex-wrap">
                   <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
-                    Rp {product.price_total.toLocaleString('id-ID')}
+                    Rp {product.price_base.toLocaleString('id-ID')}
                   </p>
                   {product.original_price && (
                     <p className="text-base sm:text-lg text-[#A0959A] line-through font-semibold">
@@ -139,11 +138,11 @@ export default async function ProductDetailPage({ params }: Props) {
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-xs text-[#8A7880] font-medium bg-[#F2EEEB] px-2.5 py-1 rounded-full border border-[#E8D5C0]">
-                    Sudah Termasuk Bea Cukai & Ongkir
+                    Ongkir & biaya dihitung saat checkout
                   </span>
                   {product.original_price && (
                     <span className="text-xs text-[#1A6B5C] font-semibold bg-[#D8FFF7] px-2.5 py-1 rounded-full border border-[#9DDED1]">
-                      Hemat Rp {(product.original_price - product.price_total).toLocaleString('id-ID')}!
+                      Hemat Rp {(product.original_price - product.price_base).toLocaleString('id-ID')}!
                     </span>
                   )}
                 </div>
@@ -226,13 +225,21 @@ export default async function ProductDetailPage({ params }: Props) {
               </div>
             </div>
 
-            {/* Price Breakdown */}
-            <PriceBreakdown
-              priceBase={product.price_base}
-              priceImportDuty={product.price_import_duty}
-              priceShipping={product.price_shipping}
-              priceTotal={product.price_total}
-            />
+            {/* Shipping & Fees info note */}
+            <div className="rounded-2xl border border-[#E8D5C0] bg-white/90 p-4 flex flex-col gap-2 shadow-2xs">
+              <div className="flex items-center gap-2">
+                <span className="text-base" aria-hidden="true">
+                  📦
+                </span>
+                <h3 className="text-xs font-bold text-[#1A1A1A]">Informasi Ongkir & Biaya Tambahan</h3>
+                <span className="text-[10px] text-[#9E1A59] font-semibold bg-[#9E1A59]/10 px-2 py-0.5 rounded-full ml-auto">
+                  Transparan ✓
+                </span>
+              </div>
+              <p className="text-xs text-[#8A7880] leading-relaxed">
+                Harga di atas merupakan harga asli produk. Ongkos kirim domestik dan estimasi bea masuk dihitung secara transparan saat checkout sebelum pembayaran.
+              </p>
+            </div>
 
             {/* QC Guarantee Card */}
             <div className="rounded-2xl bg-[#D8FFF7] border border-[#9DDED1] p-4 flex items-start gap-3.5 shadow-xs">

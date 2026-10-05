@@ -101,7 +101,7 @@ export function NavbarSearch() {
                       <p className="text-xs font-semibold text-[#1A1A1A] group-hover:text-[#9E1A59] truncate">
                         {prod.name}
                       </p>
-                      <p className="text-[11px] text-[#888]">{formatIDR(prod.price_total)}</p>
+                      <p className="text-[11px] text-[#888]">{formatIDR(prod.price_base)}</p>
                     </div>
                     <span className="text-xs text-[#9E1A59] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
                       ➔

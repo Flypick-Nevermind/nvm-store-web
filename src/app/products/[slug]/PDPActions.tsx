@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '@/components/atoms/Button';
 import { formatIDR } from '@/lib/utils';
@@ -15,7 +15,6 @@ interface PDPActionsProps {
 
 export function PDPActions({ product }: PDPActionsProps) {
   const router = useRouter();
-  const _pathname = usePathname();
   const addItem = useCartStore((s) => s.addItem);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const openAuthModal = useAuthModalStore((s) => s.openModal);
@@ -32,7 +31,7 @@ export function PDPActions({ product }: PDPActionsProps) {
   const [quantity, setQuantity] = useState(1);
   const [addedFeedback, setAddedFeedback] = useState(false);
 
-  const currentUnitPrice = product.price_total + (selectedVariant?.price_delta || 0);
+  const currentUnitPrice = product.price_base + (selectedVariant?.price_delta || 0);
 
   const buildCartPayload = () => ({
     productId: product.id,
@@ -45,6 +44,8 @@ export function PDPActions({ product }: PDPActionsProps) {
     type: product.stock_type,
     color: selectedColor?.name,
     variant: selectedVariant?.name,
+    price_import_duty: product.price_import_duty,
+    price_shipping: product.price_shipping,
   });
 
   const handleBuyNow = () => {

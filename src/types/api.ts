@@ -138,6 +138,8 @@ export interface CartItem {
   color?: string;
   variant?: string;
   key?: string;
+  price_import_duty?: number;
+  price_shipping?: number;
 }
 
 // ─── Customer Review ────────────────────────────────────────

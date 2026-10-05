@@ -41,9 +41,9 @@ export default function NewArrivalsPage() {
 
     // Sort
     if (sortBy === 'price-asc') {
-      list = list.sort((a, b) => a.price_total - b.price_total);
+      list = list.sort((a, b) => a.price_base - b.price_base);
     } else if (sortBy === 'price-desc') {
-      list = list.sort((a, b) => b.price_total - a.price_total);
+      list = list.sort((a, b) => b.price_base - a.price_base);
     } else {
       list = list.sort(
         (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()

@@ -29,10 +29,20 @@ export const buildWhatsAppRedirectUrl = (params: {
   totalAmount: string;
   voucherCode?: string;
   discountAmount?: string;
+  subtotal?: string;
+  shippingFee?: string;
+  importDuty?: string;
 }) => {
   const voucherLine =
     params.voucherCode && params.discountAmount
       ? `🏷️ *Voucher:* ${params.voucherCode} (-${params.discountAmount})\n`
+      : '';
+
+  const costBreakdown =
+    params.subtotal && params.shippingFee
+      ? `📦 *Subtotal Produk:* ${params.subtotal}\n` +
+        (params.importDuty ? `🛡️ *Bea Masuk:* ${params.importDuty}\n` : '') +
+        `🚚 *Ongkir Domestik:* ${params.shippingFee}\n`
       : '';
 
   const msg = encodeURIComponent(
@@ -41,8 +51,9 @@ export const buildWhatsAppRedirectUrl = (params: {
       `🧾 *Order ID:* ${params.orderId}\n` +
       `👤 *Nama:* ${params.buyerName}\n` +
       `🛍️ *Item:* ${params.items}\n` +
+      costBreakdown +
       voucherLine +
-      `💰 *Total:* ${params.totalAmount}\n\n` +
+      `💰 *Total Pembayaran:* ${params.totalAmount}\n\n` +
       `Bukti transfer sudah saya upload. Mohon dikonfirmasi ya! 🙏`
   );
   return `https://wa.me/${params.whatsappNumber}?text=${msg}`;

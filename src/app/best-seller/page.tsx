@@ -46,9 +46,11 @@ export default function BestSellerPage() {
       slug: product.slug,
       name: product.name,
       image: product.images[0],
-      price: product.price_total,
+      price: product.price_base,
       quantity: 1,
       type: product.stock_type,
+      price_import_duty: product.price_import_duty,
+      price_shipping: product.price_shipping,
     });
 
     setAddedProductId(product.id);
@@ -82,9 +84,9 @@ export default function BestSellerPage() {
           (BEST_SELLER_STATS[b.id]?.rating ?? 0) - (BEST_SELLER_STATS[a.id]?.rating ?? 0)
       );
     } else if (sortBy === 'price-asc') {
-      list = [...list].sort((a, b) => a.price_total - b.price_total);
+      list = [...list].sort((a, b) => a.price_base - b.price_base);
     } else if (sortBy === 'price-desc') {
-      list = [...list].sort((a, b) => b.price_total - a.price_total);
+      list = [...list].sort((a, b) => b.price_base - a.price_base);
     } else {
       // default: rank
       list = [...list].sort(
@@ -201,9 +203,9 @@ export default function BestSellerPage() {
 
                     <div className="mt-auto pt-3 border-t border-[#E8D5C0]/60 flex items-center justify-between">
                       <div>
-                        <p className="text-[10px] text-[#888] font-bold uppercase tracking-wider">Harga All-In</p>
+                        <p className="text-[10px] text-[#888] font-bold uppercase tracking-wider">Harga Produk</p>
                         <p className="text-lg font-black text-[#9E1A59]">
-                          {formatIDR(product.price_total)}
+                          {formatIDR(product.price_base)}
                         </p>
                       </div>
 
@@ -389,7 +391,7 @@ export default function BestSellerPage() {
                       <div className="flex items-end justify-between gap-2 mt-auto pt-1">
                         <div className="flex flex-col gap-0.5">
                           <p className="text-[#9E1A59] font-black text-sm sm:text-base">
-                            {formatIDR(product.price_total)}
+                            {formatIDR(product.price_base)}
                           </p>
                           <p className="text-[10px] text-[#8A7880] font-medium">
                             {isSoldOut

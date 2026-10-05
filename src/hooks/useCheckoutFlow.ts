@@ -46,15 +46,20 @@ export function useCheckoutFlow() {
     if (typeof window !== 'undefined') {
       const savedVoucher = sessionStorage.getItem('nvm_applied_voucher');
       if (savedVoucher && savedVoucher.toUpperCase() === 'NVM5') {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setAppliedVoucher('NVM5');
       }
     }
   }, []);
 
+  const subtotal = totalPrice;
+  const importDutyTotal = items.reduce(
+    (sum, item) => sum + (item.price_import_duty ?? 35000) * item.quantity,
+    0
+  );
+  const shippingTotal = items.length > 0 ? 20000 : 0;
   const isVoucher5 = appliedVoucher?.toUpperCase() === 'NVM5';
-  const discountAmount = isVoucher5 ? Math.round(totalPrice * 0.05) : 0;
-  const finalTotal = Math.max(0, totalPrice - discountAmount);
+  const discountAmount = isVoucher5 ? Math.round(subtotal * 0.05) : 0;
+  const finalTotal = Math.max(0, subtotal + importDutyTotal + shippingTotal - discountAmount);
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleApplyVoucher = () => {
@@ -144,6 +149,9 @@ export function useCheckoutFlow() {
         buyerName: buyerData.full_name,
         items: items.map((i) => `${i.name} (x${i.quantity})`).join(', '),
         totalAmount: formatIDR(finalTotal),
+        subtotal: formatIDR(subtotal),
+        shippingFee: formatIDR(shippingTotal),
+        importDuty: importDutyTotal > 0 ? formatIDR(importDutyTotal) : undefined,
         voucherCode: appliedVoucher || undefined,
         discountAmount: discountAmount > 0 ? formatIDR(discountAmount) : undefined,
       });
@@ -159,6 +167,9 @@ export function useCheckoutFlow() {
     setStep,
     items,
     totalPrice,
+    subtotal,
+    importDutyTotal,
+    shippingTotal,
     totalQuantity,
     updateQuantity,
     removeItem,

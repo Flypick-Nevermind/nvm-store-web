@@ -29,9 +29,11 @@ export function WishlistDrawer({ isOpen, onClose }: WishlistDrawerProps) {
       slug: product.slug,
       name: product.name,
       image: product.images[0],
-      price: product.price_total,
+      price: product.price_base,
       quantity: 1,
       type: product.stock_type,
+      price_import_duty: product.price_import_duty,
+      price_shipping: product.price_shipping,
     });
 
     setAddedItemIds((prev) => ({ ...prev, [product.id]: true }));
@@ -47,9 +49,11 @@ export function WishlistDrawer({ isOpen, onClose }: WishlistDrawerProps) {
         slug: product.slug,
         name: product.name,
         image: product.images[0],
-        price: product.price_total,
+        price: product.price_base,
         quantity: 1,
         type: product.stock_type,
+        price_import_duty: product.price_import_duty,
+        price_shipping: product.price_shipping,
       });
     });
     onClose();
@@ -201,7 +205,7 @@ export function WishlistDrawer({ isOpen, onClose }: WishlistDrawerProps) {
 
                         <div className="mt-2 flex items-center justify-between gap-2">
                           <p className="font-extrabold text-sm text-[#9E1A59]">
-                            {formatIDR(product.price_total)}
+                            {formatIDR(product.price_base)}
                           </p>
 
                           {!isSoldOut && (
