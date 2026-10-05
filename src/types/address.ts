@@ -8,6 +8,8 @@ export interface Address {
   street_address: string;
   district: string;
   city: string;
+  province?: string;
+  village?: string; // Kelurahan/Desa
   postal_code: string;
   is_default: boolean;
 }

@@ -2,11 +2,18 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createAddressApi, fetchAddressesApi } from '@/lib/api/address';
+import { getUserIdFromToken } from '@/lib/api/auth';
+import { useAuthStore } from '@/store/authStore';
 import type { Address, AddressInput } from '@/types/address';
 
 interface AddressStore {
   addresses: Address[];
   selectedAddressId: string | null;
+  defaultAddressId: string | null;
+  isSyncing: boolean;
+  /** Load addresses from backend for the logged-in user (no-op for guest/demo). */
+  syncFromServer: () => Promise<void>;
   addAddress: (address: AddressInput) => Address;
   updateAddress: (id: string, updates: Partial<AddressInput>) => void;
   deleteAddress: (id: string) => void;
@@ -40,11 +47,45 @@ const DEFAULT_ADDRESSES: Address[] = [
   },
 ];
 
+/** Returns the real backend user id, or null for guest / demo sessions. */
+function getRemoteUserId(): string | null {
+  const { user, token, isAuthenticated } = useAuthStore.getState();
+  if (!isAuthenticated || !user || !token || token === 'demo_jwt_token') return null;
+  // Older sessions stored a generated fake id (usr_<timestamp>); prefer the id inside the JWT.
+  return getUserIdFromToken(token) ?? user.id;
+}
+
 export const useAddressStore = create<AddressStore>()(
   persist(
     (set, get) => ({
       addresses: DEFAULT_ADDRESSES,
       selectedAddressId: 'addr_1',
+      defaultAddressId: 'addr_1',
+      isSyncing: false,
+
+      syncFromServer: async () => {
+        const userId = getRemoteUserId();
+        if (!userId) return;
+        set({ isSyncing: true });
+        try {
+          const remote = await fetchAddressesApi(userId);
+          set((state) => {
+            const defaultId =
+              remote.find((a) => a.id === state.defaultAddressId)?.id ?? remote[0]?.id ?? null;
+            const list = remote.map((a) => ({ ...a, is_default: a.id === defaultId }));
+            const selected =
+              list.find((a) => a.id === state.selectedAddressId)?.id ?? defaultId;
+            return {
+              addresses: list,
+              defaultAddressId: defaultId,
+              selectedAddressId: selected,
+              isSyncing: false,
+            };
+          });
+        } catch {
+          set({ isSyncing: false });
+        }
+      },
 
       addAddress: (input) => {
         const newAddress: Address = {
@@ -60,8 +101,19 @@ export const useAddressStore = create<AddressStore>()(
           return {
             addresses: [newAddress, ...updated],
             selectedAddressId: newAddress.id,
+            defaultAddressId: newAddress.is_default ? newAddress.id : state.defaultAddressId,
           };
         });
+
+        // Persist to backend, then refresh list so ids match the server.
+        const userId = getRemoteUserId();
+        if (userId) {
+          createAddressApi(userId, input)
+            .then(() => get().syncFromServer())
+            .catch(() => {
+              // Keep optimistic local copy if the request fails.
+            });
+        }
 
         return newAddress;
       },
@@ -102,6 +154,7 @@ export const useAddressStore = create<AddressStore>()(
             ...a,
             is_default: a.id === id,
           })),
+          defaultAddressId: id,
           selectedAddressId: id,
         }));
       },

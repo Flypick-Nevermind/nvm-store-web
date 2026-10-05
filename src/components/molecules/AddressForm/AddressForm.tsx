@@ -24,6 +24,8 @@ export function AddressForm({
   const [whatsappNumber, setWhatsappNumber] = useState(initialData?.whatsapp_number || '');
   const [streetAddress, setStreetAddress] = useState(initialData?.street_address || '');
   const [district, setDistrict] = useState(initialData?.district || '');
+  const [village, setVillage] = useState(initialData?.village || '');
+  const [province, setProvince] = useState(initialData?.province || '');
   const [city, setCity] = useState(initialData?.city || '');
   const [postalCode, setPostalCode] = useState(initialData?.postal_code || '');
   const [isDefault, setIsDefault] = useState(initialData?.is_default || false);
@@ -43,8 +45,8 @@ export function AddressForm({
       setError('Alamat lengkap wajib diisi');
       return;
     }
-    if (!district.trim() || !city.trim() || !postalCode.trim()) {
-      setError('Kecamatan, kota, dan kode pos wajib diisi');
+    if (!province.trim() || !district.trim() || !city.trim() || !postalCode.trim()) {
+      setError('Provinsi, kota, kecamatan, dan kode pos wajib diisi');
       return;
     }
 
@@ -55,6 +57,8 @@ export function AddressForm({
       whatsapp_number: whatsappNumber.trim(),
       street_address: streetAddress.trim(),
       district: district.trim(),
+      village: village.trim(),
+      province: province.trim(),
       city: city.trim(),
       postal_code: postalCode.trim(),
       is_default: isDefault,
@@ -120,6 +124,22 @@ export function AddressForm({
         onChange={(e) => setStreetAddress(e.target.value)}
         required
       />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <Input
+          label="Provinsi"
+          placeholder="DKI Jakarta"
+          value={province}
+          onChange={(e) => setProvince(e.target.value)}
+          required
+        />
+        <Input
+          label="Kelurahan/Desa"
+          placeholder="Senayan"
+          value={village}
+          onChange={(e) => setVillage(e.target.value)}
+        />
+      </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <Input
