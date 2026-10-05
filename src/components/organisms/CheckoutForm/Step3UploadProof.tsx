@@ -7,9 +7,10 @@ import { FileUploader } from '@/components/molecules/FileUploader';
 interface Step3UploadProofProps {
   onSubmit: (file: File) => void;
   isLoading: boolean;
+  onBack?: () => void;
 }
 
-export function Step3UploadProof({ onSubmit, isLoading }: Step3UploadProofProps) {
+export function Step3UploadProof({ onSubmit, isLoading, onBack }: Step3UploadProofProps) {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -42,6 +43,16 @@ export function Step3UploadProof({ onSubmit, isLoading }: Step3UploadProofProps)
       >
         {isLoading ? 'Memproses...' : 'Konfirmasi & Hubungi Admin 🚀'}
       </Button>
+      {onBack && (
+        <button
+          type="button"
+          onClick={onBack}
+          disabled={isLoading}
+          className="text-xs font-bold text-[#888] hover:text-[#9E1A59] transition-colors cursor-pointer self-center disabled:opacity-50"
+        >
+          ← Kembali ke Pembayaran
+        </button>
+      )}
     </div>
   );
 }

@@ -43,6 +43,11 @@ export default function CheckoutPage() {
     mounted,
   } = useCheckoutFlow();
 
+  const goToStep = (s: 1 | 2 | 3) => {
+    setStep(s);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   if (!mounted) {
     return (
       <PageShell showFooter={false}>
@@ -93,7 +98,10 @@ export default function CheckoutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left Column: 3-Step Wizard */}
           <div className="lg:col-span-7 flex flex-col gap-6 order-2 lg:order-1">
-            <CheckoutStepIndicator current={step} />
+            <CheckoutStepIndicator
+              current={step}
+              onStepClick={(s) => goToStep(s as 1 | 2 | 3)}
+            />
 
             <div className="bg-white rounded-3xl border border-[#C8C8C8]/50 p-5 sm:p-7 shadow-xs">
               <AnimatePresence mode="wait">
@@ -112,10 +120,15 @@ export default function CheckoutPage() {
                       selectedMethod={paymentMethod}
                       onSelectMethod={setPaymentMethod}
                       onNext={handleStep2}
+                      onBack={() => goToStep(1)}
                     />
                   )}
                   {step === 3 && (
-                    <Step3UploadProof onSubmit={handleStep3} isLoading={isSubmitting} />
+                    <Step3UploadProof
+                      onSubmit={handleStep3}
+                      isLoading={isSubmitting}
+                      onBack={() => goToStep(2)}
+                    />
                   )}
                 </motion.div>
               </AnimatePresence>

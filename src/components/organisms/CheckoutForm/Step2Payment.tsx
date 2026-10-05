@@ -9,9 +9,15 @@ interface Step2PaymentProps {
   selectedMethod: string;
   onSelectMethod: (method: string) => void;
   onNext: () => void;
+  onBack?: () => void;
 }
 
-export function Step2Payment({ selectedMethod, onSelectMethod, onNext }: Step2PaymentProps) {
+export function Step2Payment({
+  selectedMethod,
+  onSelectMethod,
+  onNext,
+  onBack,
+}: Step2PaymentProps) {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
@@ -109,6 +115,15 @@ export function Step2Payment({ selectedMethod, onSelectMethod, onNext }: Step2Pa
       <Button variant="primary" size="lg" fullWidth onClick={onNext}>
         Sudah Transfer, Upload Bukti →
       </Button>
+      {onBack && (
+        <button
+          type="button"
+          onClick={onBack}
+          className="text-xs font-bold text-[#888] hover:text-[#9E1A59] transition-colors cursor-pointer self-center"
+        >
+          ← Kembali ke Data Pengiriman
+        </button>
+      )}
     </div>
   );
 }
