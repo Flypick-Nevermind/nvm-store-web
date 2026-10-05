@@ -5,10 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { PageShell } from '@/components/layouts/PageShell';
-import { Badge } from '@/components/atoms/Badge';
-import { formatIDR } from '@/lib/utils';
 import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { formatIDR } from '@/lib/utils';
 import { useCartStore } from '@/store/cartStore';
+import { useWishlistStore } from '@/store/wishlistStore';
 import type { Product } from '@/types/api';
 
 // Metadata stat per product for the best seller leaderboard
@@ -21,15 +21,235 @@ interface BestSellerMeta {
 }
 
 const BEST_SELLER_STATS: Record<string, BestSellerMeta> = {
-  'prod-001': { rank: 1, salesCount: 540, rating: 4.9, reviewCount: 142, badgeLabel: '👑 ALL-TIME #1' },
-  'prod-002': { rank: 2, salesCount: 420, rating: 4.9, reviewCount: 98, badgeLabel: '🔥 HOT SELLER' },
-  'prod-004': { rank: 3, salesCount: 360, rating: 4.8, reviewCount: 86, badgeLabel: '✨ VIRAL PICK' },
+  'prod-001': {
+    rank: 1,
+    salesCount: 540,
+    rating: 4.9,
+    reviewCount: 142,
+    badgeLabel: '👑 ALL-TIME #1',
+  },
+  'prod-002': {
+    rank: 2,
+    salesCount: 420,
+    rating: 4.9,
+    reviewCount: 98,
+    badgeLabel: '🔥 HOT SELLER',
+  },
+  'prod-004': {
+    rank: 3,
+    salesCount: 360,
+    rating: 4.8,
+    reviewCount: 86,
+    badgeLabel: '✨ VIRAL PICK',
+  },
   'prod-005': { rank: 4, salesCount: 290, rating: 4.8, reviewCount: 64 },
   'prod-003': { rank: 5, salesCount: 230, rating: 4.7, reviewCount: 51 },
   'prod-006': { rank: 6, salesCount: 190, rating: 4.7, reviewCount: 43 },
 };
 
 type SortByType = 'rank' | 'sales' | 'rating' | 'price-asc' | 'price-desc';
+
+function BestSellerCard({
+  product,
+  rank,
+  stat,
+  onQuickAdd,
+  isAdded,
+}: {
+  product: Product;
+  rank: number;
+  stat?: BestSellerMeta;
+  onQuickAdd: (e: React.MouseEvent, product: Product) => void;
+  isAdded: boolean;
+}) {
+  const isSoldOut = product.stock_type === 'sold-out';
+  const toggleWishlist = useWishlistStore((s) => s.toggleWishlist);
+  const isWishlisted = useWishlistStore((s) => s.items.some((i) => i.id === product.id));
+
+  return (
+    <article className="flex flex-col h-full relative rounded-2xl overflow-hidden bg-white border border-[#E8D5C0] cursor-pointer shadow-xs hover:border-[#9E1A59]/40 hover:shadow-lg transition-all duration-300 group select-none">
+      {/* ── Image Area (3:4 Ratio) ─────────────────────────── */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#FAF0F3] shrink-0">
+        <Link href={`/products/${product.slug}`} className="block w-full h-full">
+          <Image
+            src={product.images[0]}
+            alt={product.name}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className={[
+              'object-cover transition-transform duration-500 group-hover:scale-105',
+              isSoldOut ? 'grayscale-[30%] opacity-90' : '',
+            ].join(' ')}
+          />
+        </Link>
+
+        {/* Sold out overlay */}
+        {isSoldOut && (
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-[0.5px] flex items-center justify-center pointer-events-none z-10">
+            <span className="px-3.5 py-1 rounded-full bg-black/85 text-white text-[10px] font-black tracking-widest uppercase border border-white/30 shadow-lg">
+              SOLD OUT
+            </span>
+          </div>
+        )}
+
+        {/* Badges on image: Rank, Stock Status & Discount */}
+        <div className="absolute top-2.5 left-2.5 z-10 flex flex-wrap items-center gap-1.5 max-w-[calc(100%-60px)]">
+          {/* Rank Badge */}
+          <span
+            className={[
+              'inline-flex items-center justify-center px-2 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase shadow-xs',
+              rank === 1
+                ? 'bg-[#9E1A59] text-white ring-1 ring-white/50'
+                : rank === 2
+                  ? 'bg-[#1A1A1A] text-white ring-1 ring-white/50'
+                  : rank === 3
+                    ? 'bg-[#C23070] text-white ring-1 ring-white/50'
+                    : 'bg-white/95 backdrop-blur-xs text-[#1A1A1A] border border-[#E8D5C0]',
+            ].join(' ')}
+          >
+            #{rank}
+          </span>
+
+          {/* Stock Status Badge with Dot */}
+          <span
+            className={[
+              'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase backdrop-blur-md shadow-2xs border',
+              isSoldOut
+                ? 'bg-[#1A1A1A]/85 text-white border-white/20'
+                : product.stock_type === 'ready-stock'
+                  ? 'bg-emerald-50/95 text-emerald-800 border-emerald-300/80'
+                  : 'bg-[#FFF9E6]/95 text-[#7A5200] border-[#FFE082]',
+            ].join(' ')}
+          >
+            <span
+              className={[
+                'w-1.5 h-1.5 rounded-full shrink-0',
+                isSoldOut
+                  ? 'bg-zinc-400'
+                  : product.stock_type === 'ready-stock'
+                    ? 'bg-emerald-500 animate-pulse'
+                    : 'bg-amber-500',
+              ].join(' ')}
+            />
+            <span>
+              {isSoldOut
+                ? 'Sold Out'
+                : product.stock_type === 'ready-stock'
+                  ? 'Ready Stock'
+                  : 'Pre-Order'}
+            </span>
+          </span>
+
+          {/* Discount Sticker */}
+          {product.discount_percent && (
+            <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-[#9E1A59] text-white text-[10px] font-black tracking-tight shadow-md border border-white/30 backdrop-blur-xs">
+              <span className="text-[11px] leading-none">🔥</span>
+              <span>-{product.discount_percent}%</span>
+            </span>
+          )}
+        </div>
+
+        {/* Quick Add overlay button on desktop hover */}
+        {!isSoldOut && (
+          <div className="hidden sm:block absolute bottom-0 inset-x-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+            <button
+              type="button"
+              onClick={(e) => onQuickAdd(e, product)}
+              className={[
+                'w-full py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer shadow-md active:scale-95',
+                isAdded
+                  ? 'bg-[#D8FFF7] text-[#1A6B5C] border border-[#9DDED1]'
+                  : 'bg-[#9E1A59] text-white hover:bg-[#7A1244] border border-white/20',
+              ].join(' ')}
+            >
+              {isAdded ? '✓ Ditambahkan!' : '+ Tambah ke Keranjang'}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* ── Product Info Section ───────────────────────────── */}
+      <div className="p-3 sm:p-3.5 flex flex-col flex-1 justify-between gap-1.5">
+        {/* Rating & Sold Count Text */}
+        <div className="flex items-center gap-1.5 text-[11px] text-[#888]">
+          <span className="text-[#9E1A59] font-bold">★ {stat?.rating ?? '4.8'}</span>
+          <span>•</span>
+          <span>{stat?.salesCount ?? 200}+ terjual</span>
+        </div>
+
+        {/* Product Title */}
+        <Link href={`/products/${product.slug}`}>
+          <h3 className="text-xs sm:text-sm font-bold text-[#1A1A1A] leading-snug line-clamp-2 min-h-[2.4rem] group-hover:text-[#9E1A59] transition-colors">
+            {product.name}
+          </h3>
+        </Link>
+
+        {/* Price, Status & Wishlist Button Row */}
+        <div className="flex items-end justify-between gap-2 mt-auto pt-1">
+          <div className="flex flex-col gap-0.5 min-w-0">
+            {/* Pricing row with original_price coret */}
+            <div className="flex items-baseline gap-1.5 flex-wrap">
+              <p className="text-[#9E1A59] font-black text-sm sm:text-base tracking-tight">
+                {formatIDR(product.price_base)}
+              </p>
+              {product.original_price && (
+                <p className="text-[11px] text-[#A0959A] line-through font-medium">
+                  {formatIDR(product.original_price)}
+                </p>
+              )}
+            </div>
+
+            {/* Delivery / Status Note */}
+            <p className="text-[10px] text-[#8A7880] font-medium truncate">
+              {isSoldOut ? (
+                <span className="text-zinc-500">Stok habis • Menunggu restock</span>
+              ) : product.stock_type === 'ready-stock' ? (
+                <span className="text-emerald-700 font-semibold flex items-center gap-0.5">
+                  <span>⚡</span> Siap kirim hari ini
+                </span>
+              ) : (
+                <span>
+                  ⏱️ Est. {product.lead_time_days[0]}–{product.lead_time_days[1]} hari
+                </span>
+              )}
+            </p>
+          </div>
+
+          {/* Wishlist Heart Button (Bottom Right) */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleWishlist(product);
+            }}
+            aria-label={isWishlisted ? `Hapus dari Wishlist` : `Simpan ke Wishlist`}
+            className={[
+              'w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-75',
+              isWishlisted
+                ? 'bg-[#FFF0F5] text-[#9E1A59] border border-[#9E1A59]/40 shadow-2xs'
+                : 'text-[#8A7880] hover:text-[#9E1A59] hover:bg-[#FFF0F5] border border-transparent hover:border-[#E8D5C0]/80',
+            ].join(' ')}
+          >
+            <svg
+              className="w-4 h-4"
+              fill={isWishlisted ? '#9E1A59' : 'none'}
+              stroke={isWishlisted ? '#9E1A59' : 'currentColor'}
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
 
 export default function BestSellerPage() {
   const [sortBy, setSortBy] = useState<SortByType>('rank');
@@ -80,13 +300,12 @@ export default function BestSellerPage() {
       );
     } else if (sortBy === 'rating') {
       list = [...list].sort(
-        (a, b) =>
-          (BEST_SELLER_STATS[b.id]?.rating ?? 0) - (BEST_SELLER_STATS[a.id]?.rating ?? 0)
+        (a, b) => (BEST_SELLER_STATS[b.id]?.rating ?? 0) - (BEST_SELLER_STATS[a.id]?.rating ?? 0)
       );
     } else if (sortBy === 'price-asc') {
-      list = [...list].sort((a, b) => a.price_base - b.price_base);
+      list = list.sort((a, b) => a.price_base - b.price_base);
     } else if (sortBy === 'price-desc') {
-      list = [...list].sort((a, b) => b.price_base - a.price_base);
+      list = list.sort((a, b) => b.price_base - a.price_base);
     } else {
       // default: rank
       list = [...list].sort(
@@ -100,18 +319,18 @@ export default function BestSellerPage() {
   return (
     <PageShell>
       {/* ── Top 3 Spotlight Podium (Hall of Fame) ─────────── */}
-      <section className="bg-[#9E1A59] py-12 px-4 sm:px-6 lg:px-8 border-y border-[#7A1244] shadow-inner relative overflow-hidden">
+      <section className="bg-[#9E1A59] py-10 sm:py-10 px-4 sm:px-6 lg:px-8 border-y border-[#7A1244] shadow-inner relative overflow-hidden">
         {/* Subtle decorative background circle accents */}
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-[#7A1244]/40 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-3">
             <div>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-[#FDFD96] border border-white/20 text-[11px] font-black tracking-widest uppercase mb-2 backdrop-blur-xs">
                 ✨ HALL OF FAME
               </span>
-              <h2 className="text-3xl sm:text-4xl font-display font-black text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black text-white tracking-tight">
                 Top 3 Most Loved
               </h2>
             </div>
@@ -120,8 +339,8 @@ export default function BestSellerPage() {
             </p>
           </div>
 
-          {/* 3-Column Podium Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+          {/* 3-Column Proportional Podium Cards (Compact, Not Oversized) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 items-stretch">
             {topThree.map((product, idx) => {
               const stat = BEST_SELLER_STATS[product.id];
               const isFirst = idx === 0;
@@ -133,21 +352,21 @@ export default function BestSellerPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: idx * 0.1 }}
                   className={[
-                    'relative rounded-3xl overflow-hidden transition-all duration-300 flex flex-col',
+                    'relative rounded-2xl overflow-hidden transition-all duration-300 flex flex-col bg-white shadow-md',
                     isFirst
-                      ? 'bg-white border-2 border-[#FDFD96] shadow-2xl md:-translate-y-3 ring-4 ring-black/10'
-                      : 'bg-white border border-white/40 shadow-xl hover:-translate-y-1',
+                      ? 'border-2 border-[#FDFD96] md:-translate-y-2 ring-2 ring-black/10'
+                      : 'border border-white/40 hover:-translate-y-1',
                   ].join(' ')}
                 >
                   {/* Top Rank Header Strip */}
                   <div
                     className={[
-                      'px-5 py-3 flex items-center justify-between text-xs font-black tracking-wider uppercase',
+                      'px-4 py-2 flex items-center justify-between text-[11px] font-black tracking-wider uppercase shrink-0',
                       isFirst
                         ? 'bg-[#1A1A1A] text-[#FDFD96] border-b border-[#FDFD96]/30'
                         : idx === 1
-                        ? 'bg-[#1A1A1A] text-[#D8FFF7]'
-                        : 'bg-[#1A1A1A] text-white',
+                          ? 'bg-[#1A1A1A] text-[#D8FFF7]'
+                          : 'bg-[#1A1A1A] text-white',
                     ].join(' ')}
                   >
                     <span className="flex items-center gap-1.5">
@@ -155,18 +374,32 @@ export default function BestSellerPage() {
                       {idx === 1 && '🥈'}
                       {idx === 2 && '🥉'}
                       RANK #{stat?.rank ?? idx + 1}
-                      {idx === 0 && <span className="text-[10px] text-white/70 font-normal ml-1">• ALL-TIME #1</span>}
-                      {idx === 1 && <span className="text-[10px] text-white/70 font-normal ml-1">• HOT SELLER</span>}
-                      {idx === 2 && <span className="text-[10px] text-white/70 font-normal ml-1">• VIRAL PICK</span>}
+                      {idx === 0 && (
+                        <span className="text-[9px] text-white/70 font-normal ml-1">
+                          • ALL-TIME #1
+                        </span>
+                      )}
+                      {idx === 1 && (
+                        <span className="text-[9px] text-white/70 font-normal ml-1">
+                          • HOT SELLER
+                        </span>
+                      )}
+                      {idx === 2 && (
+                        <span className="text-[9px] text-white/70 font-normal ml-1">
+                          • VIRAL PICK
+                        </span>
+                      )}
                     </span>
-                    <span className="text-[11px] font-bold text-white/90">{stat?.salesCount}+ Terjual</span>
+                    <span className="text-[10px] font-bold text-white/90">
+                      {stat?.salesCount}+ Terjual
+                    </span>
                   </div>
 
-                  {/* Card Content */}
-                  <div className="p-5 flex flex-col flex-1 bg-white">
+                  {/* Card Content - Compact & Clean */}
+                  <div className="p-3.5 sm:p-4 flex flex-col flex-1 bg-white">
                     <Link
                       href={`/products/${product.slug}`}
-                      className="group relative block aspect-[4/3] rounded-2xl overflow-hidden bg-[#FAF0F3] mb-4"
+                      className="group relative block aspect-[16/10] rounded-xl overflow-hidden bg-[#FAF0F3] mb-3 shrink-0"
                     >
                       <Image
                         src={product.images[0]}
@@ -175,48 +408,77 @@ export default function BestSellerPage() {
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <div className="absolute top-2.5 left-2.5">
-                        <Badge variant={product.stock_type === 'pre-order' ? 'yellow' : 'aqua'}>
-                          {product.stock_type === 'pre-order' ? 'Pre-Order' : 'Ready Stock'}
-                        </Badge>
+                      {/* Image Badges */}
+                      <div className="absolute top-2 left-2 flex flex-wrap items-center gap-1 z-10">
+                        <span
+                          className={[
+                            'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-black tracking-wider uppercase backdrop-blur-md shadow-2xs border',
+                            product.stock_type === 'ready-stock'
+                              ? 'bg-emerald-50/95 text-emerald-800 border-emerald-300/80'
+                              : 'bg-[#FFF9E6]/95 text-[#7A5200] border-[#FFE082]',
+                          ].join(' ')}
+                        >
+                          <span
+                            className={[
+                              'w-1.5 h-1.5 rounded-full shrink-0',
+                              product.stock_type === 'ready-stock'
+                                ? 'bg-emerald-500 animate-pulse'
+                                : 'bg-amber-500',
+                            ].join(' ')}
+                          />
+                          <span>
+                            {product.stock_type === 'ready-stock' ? 'Ready Stock' : 'Pre-Order'}
+                          </span>
+                        </span>
+                        {product.discount_percent && (
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-[#9E1A59] text-white text-[9px] font-black tracking-tight shadow-md border border-white/30 backdrop-blur-xs">
+                            <span>🔥 -{product.discount_percent}%</span>
+                          </span>
+                        )}
                       </div>
                     </Link>
 
-                    {/* Product Details */}
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <div className="flex text-[#9E1A59] text-xs">
-                        {'★'.repeat(Math.floor(stat?.rating || 5))}
-                      </div>
-                      <span className="text-xs font-bold text-[#1A1A1A]">{stat?.rating}</span>
-                      <span className="text-[11px] text-[#777]">({stat?.reviewCount} ulasan)</span>
+                    {/* Rating & Review info */}
+                    <div className="flex items-center gap-1.5 text-[11px] mb-1">
+                      <span className="text-[#9E1A59] font-bold">★ {stat?.rating ?? '4.8'}</span>
+                      <span className="text-[#777]">({stat?.reviewCount ?? 100} ulasan)</span>
                     </div>
 
+                    {/* Product Title */}
                     <Link href={`/products/${product.slug}`}>
-                      <h3 className="font-bold text-base text-[#1A1A1A] hover:text-[#9E1A59] transition-colors line-clamp-1 mb-1">
+                      <h3 className="font-bold text-sm text-[#1A1A1A] hover:text-[#9E1A59] transition-colors line-clamp-1 mb-1">
                         {product.name}
                       </h3>
                     </Link>
 
-                    <p className="text-xs text-[#666] line-clamp-2 mb-4 leading-relaxed">
+                    {/* Short Description */}
+                    <p className="text-[11px] text-[#666] line-clamp-1 mb-3 leading-relaxed">
                       {product.short_description}
                     </p>
 
-                    <div className="mt-auto pt-3 border-t border-[#E8D5C0]/60 flex items-center justify-between">
-                      <div>
-                        <p className="text-[10px] text-[#888] font-bold uppercase tracking-wider">Harga Produk</p>
-                        <p className="text-lg font-black text-[#9E1A59]">
-                          {formatIDR(product.price_base)}
-                        </p>
+                    {/* Price with Coret Discount & Quick Add Button */}
+                    <div className="mt-auto pt-2.5 border-t border-[#E8D5C0]/60 flex items-center justify-between gap-2">
+                      <div className="flex flex-col">
+                        <div className="flex items-baseline gap-1.5 flex-wrap">
+                          <p className="text-base font-black text-[#9E1A59]">
+                            {formatIDR(product.price_base)}
+                          </p>
+                          {product.original_price && (
+                            <p className="text-[11px] text-[#A0959A] line-through font-medium">
+                              {formatIDR(product.original_price)}
+                            </p>
+                          )}
+                        </div>
                       </div>
 
                       <button
                         type="button"
                         onClick={(e) => handleQuickAdd(e, product)}
                         className={[
-                          'px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm',
+                          'px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs shrink-0',
                           addedProductId === product.id
                             ? 'bg-[#D8FFF7] text-[#1A6B5C] border border-[#9DDED1]'
-                            : 'bg-[#9E1A59] text-white hover:bg-[#7A1244]',
+                            : 'bg-[#9E1A59] text-white hover:bg-[#7A1244] active:scale-95',
                         ].join(' ')}
                       >
                         {addedProductId === product.id ? '✓ Ditambahkan' : '+ Keranjang'}
@@ -231,7 +493,10 @@ export default function BestSellerPage() {
       </section>
 
       {/* ── Complete Leaderboard Grid ──────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" aria-label="Best seller products">
+      <section
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10"
+        aria-label="Best seller products"
+      >
         {/* Sleek Minimalist Toolbar */}
         <div className="flex items-center justify-between py-3 mb-6 border-b border-[#E8D5C0]/80">
           <p className="text-xs font-bold text-[#8A7880] uppercase tracking-widest">
@@ -261,18 +526,18 @@ export default function BestSellerPage() {
           </div>
         </div>
 
+        {/* Products Grid with Best Seller Concept Cards */}
         {filteredProducts.length > 0 ? (
           <motion.div
             key={sortBy}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5"
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
           >
             {filteredProducts.map((product, i) => {
               const stat = BEST_SELLER_STATS[product.id];
               const rank = stat?.rank ?? i + 1;
-              const isSoldOut = product.stock_type === 'sold-out';
 
               return (
                 <motion.div
@@ -280,133 +545,15 @@ export default function BestSellerPage() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: i * 0.04 }}
-                  className="flex flex-col h-full group"
+                  className="h-full flex flex-col"
                 >
-                  <article
-                    className="flex flex-col h-full relative rounded-[1.25rem] overflow-hidden bg-white border border-[#E8D5C0] cursor-pointer hover:shadow-lg transition-all duration-300"
-                    style={{ boxShadow: '0 2px 16px 0 rgba(184,38,94,0.06)' }}
-                  >
-                    {/* Image with 3:4 ratio */}
-                    <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#FAF0F3] shrink-0">
-                      <Link href={`/products/${product.slug}`} className="block w-full h-full">
-                        <Image
-                          src={product.images[0]}
-                          alt={product.name}
-                          fill
-                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                          className={[
-                            'object-cover transition-transform duration-500 group-hover:scale-105',
-                            isSoldOut ? 'grayscale-[25%] opacity-90' : '',
-                          ].join(' ')}
-                        />
-                      </Link>
-
-                      {/* Sold Out Visual Overlay */}
-                      {isSoldOut && (
-                        <div className="absolute inset-0 bg-black/25 backdrop-blur-[0.5px] flex items-center justify-center pointer-events-none z-5">
-                          <span className="px-3 py-1 rounded-full bg-black/85 text-white text-[10px] font-black tracking-widest uppercase border border-white/30 shadow-md">
-                            SOLD OUT
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Rank Tag (Top-Left) */}
-                      <div className="absolute top-2.5 left-2.5 z-10 flex flex-col gap-1.5 items-start">
-                        <span
-                          className={[
-                            'px-2.5 py-1 rounded-full text-[10px] font-black tracking-wider uppercase shadow-xs',
-                            rank === 1
-                              ? 'bg-[#9E1A59] text-white ring-2 ring-white/50'
-                              : rank === 2
-                              ? 'bg-[#1A1A1A] text-white ring-2 ring-white/50'
-                              : rank === 3
-                              ? 'bg-[#C23070] text-white ring-2 ring-white/50'
-                              : 'bg-white/90 backdrop-blur-xs text-[#1A1A1A] border border-[#E8D5C0]',
-                          ].join(' ')}
-                        >
-                          #{rank}
-                        </span>
-
-                        <Badge
-                          variant={
-                            isSoldOut
-                              ? 'sold-out'
-                              : product.stock_type === 'pre-order'
-                              ? 'yellow'
-                              : 'aqua'
-                          }
-                        >
-                          {isSoldOut ? 'Sold Out' : product.stock_type === 'pre-order' ? 'Pre-Order' : 'Ready Stock'}
-                        </Badge>
-                      </div>
-
-                      {/* Sold Count Badge (Top-Right) */}
-                      {stat && (
-                        <div className="absolute top-2.5 right-2.5 z-10">
-                          <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-xs text-white text-[9px] font-bold tracking-wide">
-                            {stat.salesCount}+ Sold
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Quick Add overlay button */}
-                      <div className="absolute bottom-0 inset-x-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                        {isSoldOut ? (
-                          <div className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-center bg-[#1A1A1A]/85 text-white/90 backdrop-blur-xs border border-white/20 shadow-sm">
-                            Habis Terjual
-                          </div>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={(e) => handleQuickAdd(e, product)}
-                            className={[
-                              'w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer shadow-md',
-                              addedProductId === product.id
-                                ? 'bg-[#D8FFF7] text-[#1A6B5C] border border-[#9DDED1]'
-                                : 'bg-[#9E1A59] text-white hover:bg-[#7A1244]',
-                            ].join(' ')}
-                          >
-                            {addedProductId === product.id ? '✓ Ditambahkan!' : '+ Quick Add'}
-                          </button>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Info */}
-                    <div className="p-3 sm:p-3.5 flex flex-col flex-1 justify-between gap-1.5">
-                      <Link href={`/products/${product.slug}`}>
-                        <h3 className="text-xs sm:text-sm font-semibold text-[#1A1A1A] leading-snug line-clamp-2 hover:text-[#9E1A59] transition-colors min-h-[2.5rem]">
-                          {product.name}
-                        </h3>
-                      </Link>
-
-                      {/* Rating & Sold count */}
-                      <div className="flex items-center gap-1.5 text-[11px] text-[#888]">
-                        <span className="text-[#9E1A59] font-bold">★ {stat?.rating ?? '4.8'}</span>
-                        <span>•</span>
-                        <span>{stat?.salesCount ?? 200}+ terjual</span>
-                      </div>
-
-                      {/* Price & Action */}
-                      <div className="flex items-end justify-between gap-2 mt-auto pt-1">
-                        <div className="flex flex-col gap-0.5">
-                          <p className="text-[#9E1A59] font-black text-sm sm:text-base">
-                            {formatIDR(product.price_base)}
-                          </p>
-                          <p className="text-[10px] text-[#8A7880] font-medium">
-                            {isSoldOut
-                              ? '❌ Stok habis • Menunggu restock'
-                              : product.stock_type === 'pre-order'
-                              ? `Est. ${product.lead_time_days[0]}–${product.lead_time_days[1]} hari`
-                              : 'Siap kirim hari ini'}
-                          </p>
-                        </div>
-                        <span className="text-[#8A7880] hover:text-[#9E1A59] transition-colors text-sm mb-1">
-                          ♡
-                        </span>
-                      </div>
-                    </div>
-                  </article>
+                  <BestSellerCard
+                    product={product}
+                    rank={rank}
+                    stat={stat}
+                    onQuickAdd={handleQuickAdd}
+                    isAdded={addedProductId === product.id}
+                  />
                 </motion.div>
               );
             })}
@@ -416,7 +563,9 @@ export default function BestSellerPage() {
             <span className="text-5xl" aria-hidden="true">
               🔍
             </span>
-            <p className="font-display font-bold text-lg text-[#1A1A1A]">Belum ada produk yang cocok</p>
+            <p className="font-display font-bold text-lg text-[#1A1A1A]">
+              Belum ada produk yang cocok
+            </p>
             <p className="text-sm text-[#888] max-w-xs">
               Coba reset filter untuk melihat semua koleksi Best Seller Nevermind.
             </p>
@@ -442,7 +591,8 @@ export default function BestSellerPage() {
               Kenapa Best Seller Kami Cepat Habis?
             </h2>
             <p className="text-xs sm:text-sm text-[#777] mt-2">
-              Kurasi tangan pertama langsung dari studio desainer di China dengan standar kualitas tanpa kompromi.
+              Kurasi tangan pertama langsung dari studio desainer di China dengan standar kualitas
+              tanpa kompromi.
             </p>
           </div>
 
@@ -455,7 +605,8 @@ export default function BestSellerPage() {
                 Langsung dari Sumber Tren
               </h3>
               <p className="text-xs text-[#777] leading-relaxed">
-                Dikurasi langsung dari pusat fashion Guangzhou & Shanghai. Desain viral yang belum banyak masuk pasar lokal Indonesia.
+                Dikurasi langsung dari pusat fashion Guangzhou & Shanghai. Desain viral yang belum
+                banyak masuk pasar lokal Indonesia.
               </p>
             </div>
 
@@ -467,7 +618,8 @@ export default function BestSellerPage() {
                 Double Quality Control (QC)
               </h3>
               <p className="text-xs text-[#777] leading-relaxed">
-                Dicek 2x: saat tiba di warehouse China dan sebelum dikirim ke alamatmu. Jahitan rapi, resleting mulus, dan hardware kokoh.
+                Dicek 2x: saat tiba di warehouse China dan sebelum dikirim ke alamatmu. Jahitan
+                rapi, resleting mulus, dan hardware kokoh.
               </p>
             </div>
 
@@ -476,10 +628,11 @@ export default function BestSellerPage() {
                 🛡️
               </div>
               <h3 className="font-display font-bold text-base text-[#1A1A1A] mb-1">
-                Harga Transparan & All-In
+                Harga Asli Transparan
               </h3>
               <p className="text-xs text-[#777] leading-relaxed">
-                Semua harga sudah termasuk bea masuk, pajak impor resmi, dan ongkir internasional. Tidak ada biaya siluman saat barang sampai.
+                Harga produk transparan sesuai harga aslinya. Bea masuk dan ongkos kirim domestik
+                dirinci jelas saat checkout tanpa biaya siluman.
               </p>
             </div>
           </div>

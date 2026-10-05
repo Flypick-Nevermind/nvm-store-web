@@ -11,9 +11,11 @@ import type { Product } from '@/types/api';
 
 interface ProductCardProps {
   product: Product;
+  rank?: number;
+  soldCount?: number | string;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, rank, soldCount }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [addedFeedback, setAddedFeedback] = useState(false);
   const [heartPulsing, setHeartPulsing] = useState(false);
@@ -110,8 +112,26 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
 
-          {/* Badges on image: Stock Status & Discount Tag */}
+          {/* Badges on image: Rank, Stock Status & Discount Tag */}
           <div className="absolute top-2.5 left-2.5 z-10 flex flex-wrap items-center gap-1.5 max-w-[calc(100%-44px)]">
+            {/* Optional Rank Badge for Best Seller */}
+            {typeof rank === 'number' && (
+              <span
+                className={[
+                  'inline-flex items-center justify-center px-2 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase shadow-xs',
+                  rank === 1
+                    ? 'bg-[#9E1A59] text-white ring-1 ring-white/50'
+                    : rank === 2
+                    ? 'bg-[#1A1A1A] text-white ring-1 ring-white/50'
+                    : rank === 3
+                    ? 'bg-[#C23070] text-white ring-1 ring-white/50'
+                    : 'bg-white/95 backdrop-blur-xs text-[#1A1A1A] border border-[#E8D5C0]',
+                ].join(' ')}
+              >
+                #{rank}
+              </span>
+            )}
+
             {/* Stock Status Badge */}
             <span
               className={[
@@ -150,6 +170,15 @@ export function ProductCard({ product }: ProductCardProps) {
               </span>
             )}
           </div>
+
+          {/* Optional Sold Count Badge (Top-Right) */}
+          {soldCount && (
+            <div className="absolute top-2.5 right-2.5 z-10 pointer-events-none">
+              <span className="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-xs text-white text-[9px] font-bold tracking-wide">
+                {soldCount}+ Sold
+              </span>
+            </div>
+          )}
 
           {/* Desktop Quick Add overlay on image */}
           <AnimatePresence>
