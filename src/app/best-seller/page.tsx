@@ -175,7 +175,7 @@ export default function BestSellerPage() {
                       />
                       <div className="absolute top-2.5 left-2.5">
                         <Badge variant={product.stock_type === 'pre-order' ? 'yellow' : 'aqua'}>
-                          {product.stock_type === 'pre-order' ? '⏳ Pre-Order' : '✅ Ready Stock'}
+                          {product.stock_type === 'pre-order' ? 'Pre-Order' : 'Ready Stock'}
                         </Badge>
                       </div>
                     </Link>
@@ -334,7 +334,7 @@ export default function BestSellerPage() {
                               : 'aqua'
                           }
                         >
-                          {isSoldOut ? '❌ Sold Out' : product.stock_type === 'pre-order' ? '⏳ PO' : '✅ Ready'}
+                          {isSoldOut ? 'Sold Out' : product.stock_type === 'pre-order' ? 'Pre-Order' : 'Ready Stock'}
                         </Badge>
                       </div>
 

@@ -83,10 +83,10 @@ export default async function ProductDetailPage({ params }: Props) {
                   }
                 >
                   {product.stock_type === 'sold-out'
-                    ? '❌ Sold Out'
+                    ? 'Sold Out'
                     : product.stock_type === 'pre-order'
-                      ? '⏳ Pre-Order'
-                      : '✅ Ready Stock'}
+                      ? 'Pre-Order'
+                      : 'Ready Stock'}
                 </Badge>
                 {product.discount_percent && (
                   <Badge variant="primary">

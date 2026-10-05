@@ -123,7 +123,7 @@ export function Navbar() {
       ].join(' ')}
     >
       {/* ── Layer 1: Announcement Bar ──────────────────────── */}
-      <div className="bg-[#9E1A59] text-white text-[11px] font-semibold tracking-wide py-2 px-4 flex items-center justify-between sm:justify-center relative">
+      <div className="bg-[#9E1A59] text-white text-[11px] font-semibold tracking-wide py-2 px-4 flex items-center justify-center relative text-center">
         <span className="truncate">
           FREE SHIPPING FOR NEW MEMBERS! —{' '}
           <Link
@@ -133,14 +133,6 @@ export function Navbar() {
             SIGN UP NOW →
           </Link>
         </span>
-        <button
-          type="button"
-          onClick={() => openRequestBagModal()}
-          className="hidden md:inline-flex items-center gap-1.5 ml-4 px-2.5 py-0.5 rounded-full bg-white/15 hover:bg-white/25 text-[#FDFD96] text-[10px] font-bold tracking-wider uppercase transition-colors cursor-pointer border border-white/20 shrink-0"
-        >
-          <span>✨</span>
-          <span>Request a Bag</span>
-        </button>
       </div>
 
       {/* ── Layer 2: Mobile (Logo Left, Icons Right) | Desktop (Search Left, Logo Center, Icons Right) ── */}
@@ -165,6 +157,17 @@ export function Navbar() {
 
           {/* Sisi Kanan: Action Icons */}
           <div className="flex items-center justify-end gap-0.5 sm:gap-1.5 z-10">
+            {/* Tablet Request Bag CTA (visible on md screens when Layer 3 is hidden) */}
+            <button
+              type="button"
+              onClick={() => openRequestBagModal()}
+              className="hidden md:inline-flex lg:hidden items-center gap-1.5 mr-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-[#9E1A59] to-[#7A1244] text-white text-[10px] font-black tracking-wider uppercase transition-all duration-200 cursor-pointer shadow-xs hover:shadow-md hover:scale-105 active:scale-95 border border-white/20 group"
+              aria-label="Request a Bag"
+            >
+              <span className="text-xs group-hover:scale-120 transition-transform">📸</span>
+              <span>REQUEST BAG</span>
+            </button>
+
             {/* Mobile search toggle */}
             <button
               type="button"
@@ -333,10 +336,10 @@ export function Navbar() {
 
       {/* ── Layer 3: Desktop Navigation Menu ───────────────── */}
       <nav
-        className="hidden lg:block bg-[#F2EEEB] border-b border-[#E8D5C0]"
+        className="hidden lg:block bg-[#F2EEEB] border-b border-[#E8D5C0] relative"
         aria-label="Navigasi utama"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex items-center justify-center min-h-[46px]">
           <ul className="flex items-center justify-center gap-0">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href;
@@ -405,19 +408,25 @@ export function Navbar() {
                 )}
               </AnimatePresence>
             </li>
-
-            {/* Request a Bag Action Button */}
-            <li className="ml-3">
-              <button
-                type="button"
-                onClick={() => openRequestBagModal()}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#9E1A59]/10 hover:bg-[#9E1A59] text-[#9E1A59] hover:text-white border border-[#9E1A59]/30 text-[10px] font-black tracking-wider uppercase transition-all duration-200 cursor-pointer shadow-2xs hover:shadow-xs group"
-              >
-                <span className="text-xs group-hover:scale-115 transition-transform">✨</span>
-                <span>REQUEST BAG</span>
-              </button>
-            </li>
           </ul>
+
+          {/* Right: Redesigned Request Bag CTA Button */}
+          <div className="absolute right-4 sm:right-6 lg:right-8 flex items-center">
+            <button
+              type="button"
+              onClick={() => openRequestBagModal()}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[#9E1A59] via-[#A81B61] to-[#7A1244] text-white text-[11px] font-black tracking-wider uppercase transition-all duration-200 cursor-pointer shadow-[0_2px_10px_rgba(158,26,89,0.22)] hover:shadow-[0_4px_16px_rgba(158,26,89,0.38)] hover:scale-[1.03] active:scale-95 border border-white/30 group"
+              aria-label="Request a Bag"
+            >
+              <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs group-hover:scale-115 group-hover:rotate-12 transition-transform">
+                📸
+              </span>
+              <span>REQUEST BAG</span>
+              <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-[#FDFD96] text-[#5C5C00] tracking-normal leading-none shadow-2xs">
+                Cari Tas
+              </span>
+            </button>
+          </div>
         </div>
       </nav>
 

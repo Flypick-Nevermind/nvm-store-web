@@ -126,16 +126,6 @@ function ProductsContent() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            type="button"
-            onClick={() => openRequestBag(query || undefined)}
-            className="inline-flex items-center gap-1 text-[11px] sm:text-xs font-bold text-[#9E1A59] bg-[#FFF0F5] hover:bg-[#FCE4EC] border border-[#F48FB1]/50 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full transition-colors cursor-pointer shrink-0"
-          >
-            <span>✨</span>
-            <span className="hidden sm:inline">Cari model lain? Request di sini</span>
-            <span className="sm:hidden">Request Tas</span>
-          </button>
-
           <div className="flex items-center gap-2">
             <span className="text-xs font-medium text-[#888] hidden sm:inline">Urutkan:</span>
             <select
@@ -181,33 +171,37 @@ function ProductsContent() {
           </motion.div>
 
           {/* Bottom Request a Bag Strip */}
-          <div className="mt-10 sm:mt-14 p-5 sm:p-8 rounded-2xl bg-gradient-to-r from-[#FAF6F0] via-[#F2EEEB] to-[#FFF0F5] border border-[#E8D5C0] flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-5 text-center md:text-left">
+          <div className="mt-10 sm:mt-14 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-white via-[#FAF6F0] to-[#FAF0F3] border border-[#E8D5C0] shadow-sm flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
             <div>
-              <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#9E1A59]/10 text-[#9E1A59] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mb-1.5 sm:mb-2">
-                Special Concierge Sourcing
-              </span>
-              <h3 className="font-display font-black text-base sm:text-lg text-[#1A1A1A]">
-                Tidak Menemukan Tas yang Kamu Cari di Katalog?
+              <div className="flex items-center gap-2 justify-center md:justify-start mb-2">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#9E1A59] text-white text-[10px] font-black uppercase tracking-wider">
+                  <span>📸</span> On-Demand Sourcing
+                </span>
+                <span className="text-[10px] font-bold text-[#5C5C00] bg-[#FDFD96] px-2 py-0.5 rounded-full border border-[#E0E040]">
+                  Upload Foto Bebas
+                </span>
+              </div>
+              <h3 className="font-display font-black text-lg sm:text-xl text-[#1A1A1A]">
+                Tidak Menemukan Model Tas yang Kamu Cari?
               </h3>
-              <p className="text-xs sm:text-sm text-[#666] mt-1 max-w-xl">
-                Beri tahu kami nama model, warna, atau kirim foto referensinya. Tim kami siap
-                carikan tas impian original bergaransi langsung ke boutique partner.
+              <p className="text-xs sm:text-sm text-[#666] mt-1.5 max-w-xl leading-relaxed">
+                Punya foto tas dari TikTok, Pinterest, atau XiaoHongShu? Cukup upload foto
+                referensinya. Tim kami siap carikan tas impian original bergaransi langsung dari
+                supplier China bebas bea cukai.
               </p>
             </div>
             <button
               type="button"
               onClick={() => openRequestBag(query || undefined)}
-              className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#9E1A59] hover:bg-[#7A1244] text-white text-xs sm:text-sm font-bold tracking-wide shadow-md hover:shadow-lg transition-all cursor-pointer"
+              className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-full bg-gradient-to-r from-[#9E1A59] via-[#A81B61] to-[#7A1244] hover:from-[#7A1244] hover:to-[#9E1A59] text-white text-xs sm:text-sm font-black tracking-wider uppercase shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all cursor-pointer border border-white/20 group"
             >
-              <span>✨ Request a Bag</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
+              <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs group-hover:rotate-12 transition-transform">
+                📸
+              </span>
+              <span>REQUEST BAG SEKARANG</span>
+              <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-[#FDFD96] text-[#5C5C00] tracking-normal leading-none shadow-2xs">
+                Upload Foto
+              </span>
             </button>
           </div>
         </>
@@ -247,9 +241,10 @@ function ProductsContent() {
             <button
               type="button"
               onClick={() => openRequestBag(query || undefined)}
-              className="px-5 py-2.5 rounded-full bg-[#9E1A59] text-white text-xs font-bold tracking-wide hover:bg-[#7A1244] transition-colors cursor-pointer shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#9E1A59] to-[#7A1244] text-white text-xs font-black tracking-wider uppercase hover:shadow-md transition-all cursor-pointer shadow-xs active:scale-95"
             >
-              ✨ Request Tas via WA
+              <span>📸</span>
+              <span>Request Tas (Upload Foto)</span>
             </button>
           </div>
         </div>

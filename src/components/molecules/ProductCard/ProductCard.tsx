@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Badge } from '@/components/atoms/Badge';
 import { formatIDR } from '@/lib/utils';
 import { useCartStore } from '@/store/cartStore';
 import { useWishlistStore } from '@/store/wishlistStore';
@@ -55,6 +54,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   const isSoldOut = product.stock_type === 'sold-out';
+  const hasSecondImage = product.images.length > 1;
 
   return (
     <Link
@@ -63,103 +63,93 @@ export function ProductCard({ product }: ProductCardProps) {
       aria-label={product.name}
     >
       <motion.article
-        className="flex flex-col h-full relative rounded-[1.25rem] overflow-hidden bg-white border border-[#E8D5C0] cursor-pointer"
-        style={{ boxShadow: '0 2px 16px 0 rgba(184,38,94,0.06)' }}
+        className="flex flex-col h-full relative rounded-2xl overflow-hidden bg-white border border-[#E8D5C0] cursor-pointer shadow-xs hover:border-[#9E1A59]/40 transition-colors"
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        whileHover={{ y: -4, boxShadow: '0 8px 32px 0 rgba(184,38,94,0.14)' }}
-        transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+        whileHover={{ y: -5, boxShadow: '0 12px 30px -4px rgba(158,26,89,0.12)' }}
+        transition={{ type: 'spring', stiffness: 320, damping: 26 }}
       >
-        {/* Image — 3:4 ratio */}
+        {/* ── Image Area (3:4 Ratio) ─────────────────────────── */}
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#FAF0F3] shrink-0">
+          {/* Primary image */}
           <Image
             src={product.images[0]}
             alt={product.name}
             fill
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className={[
-              'object-cover transition-transform duration-500 group-hover:scale-105',
-              isSoldOut ? 'grayscale-[25%] opacity-90' : '',
+              'object-cover transition-all duration-500',
+              hasSecondImage && isHovered ? 'opacity-0 scale-105' : 'opacity-100 group-hover:scale-105',
+              isSoldOut ? 'grayscale-[30%] opacity-90' : '',
             ].join(' ')}
           />
 
-          {/* Sold out visual center tag */}
+          {/* Secondary preview image (revealed on hover) */}
+          {hasSecondImage && (
+            <Image
+              src={product.images[1]}
+              alt={`${product.name} angle preview`}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              className={[
+                'object-cover transition-all duration-500',
+                isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-100',
+                isSoldOut ? 'grayscale-[30%] opacity-90' : '',
+              ].join(' ')}
+            />
+          )}
+
+          {/* Sold out overlay */}
           {isSoldOut && (
-            <div className="absolute inset-0 bg-black/25 backdrop-blur-[0.5px] flex items-center justify-center pointer-events-none z-5">
-              <span className="px-3 py-1 rounded-full bg-black/80 text-white text-[10px] font-black tracking-widest uppercase border border-white/30 shadow-lg">
+            <div className="absolute inset-0 bg-black/30 backdrop-blur-[0.5px] flex items-center justify-center pointer-events-none z-10">
+              <span className="px-3.5 py-1 rounded-full bg-black/85 text-white text-[11px] font-black tracking-widest uppercase border border-white/30 shadow-lg">
                 SOLD OUT
               </span>
             </div>
           )}
 
-          {/* Badges on image: Stock & Discount Sticker */}
-          <div className="absolute top-2.5 left-2.5 z-10 flex flex-col items-start gap-1.5">
-            <Badge
-              variant={
+          {/* Badges on image: Stock Status & Discount Tag */}
+          <div className="absolute top-2.5 left-2.5 z-10 flex flex-wrap items-center gap-1.5 max-w-[calc(100%-44px)]">
+            {/* Stock Status Badge */}
+            <span
+              className={[
+                'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase backdrop-blur-md shadow-2xs border',
                 isSoldOut
-                  ? 'sold-out'
-                  : product.stock_type === 'pre-order'
-                  ? 'yellow'
-                  : 'aqua'
-              }
+                  ? 'bg-[#1A1A1A]/85 text-white border-white/20'
+                  : product.stock_type === 'ready-stock'
+                  ? 'bg-emerald-50/95 text-emerald-800 border-emerald-300/80'
+                  : 'bg-[#FFF9E6]/95 text-[#7A5200] border-[#FFE082]',
+              ].join(' ')}
             >
-              {isSoldOut ? '❌ Sold Out' : product.stock_type === 'pre-order' ? '⏳ Pre-Order' : '✅ Ready'}
-            </Badge>
+              <span
+                className={[
+                  'w-1.5 h-1.5 rounded-full shrink-0',
+                  isSoldOut
+                    ? 'bg-zinc-400'
+                    : product.stock_type === 'ready-stock'
+                    ? 'bg-emerald-500 animate-pulse'
+                    : 'bg-amber-500',
+                ].join(' ')}
+              />
+              <span>
+                {isSoldOut
+                  ? 'Sold Out'
+                  : product.stock_type === 'ready-stock'
+                  ? 'Ready Stock'
+                  : 'Pre-Order'}
+              </span>
+            </span>
 
+            {/* Discount Sticker */}
             {product.discount_percent && (
-              <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#9E1A59] text-white text-[10px] font-black tracking-wide shadow-md border border-white/40 backdrop-blur-xs transform -rotate-1 group-hover:rotate-0 transition-transform">
+              <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-[#9E1A59] text-white text-[10px] font-black tracking-tight shadow-md border border-white/30 backdrop-blur-xs transform -rotate-1 group-hover:rotate-0 transition-transform">
                 <span className="text-[11px] leading-none">🔥</span>
                 <span>-{product.discount_percent}%</span>
-              </div>
+              </span>
             )}
           </div>
 
-          {/* Wishlist Floating Button (Top-Right of Image) */}
-          <button
-            type="button"
-            onClick={handleToggleWishlist}
-            aria-label={isWishlisted ? `Hapus ${product.name} dari Wishlist` : `Simpan ${product.name} ke Wishlist`}
-            className={[
-              'absolute top-2.5 right-2.5 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer',
-              'backdrop-blur-md shadow-xs active:scale-80 hover:scale-110',
-              isWishlisted
-                ? 'bg-[#FFF0F5] text-[#9E1A59] border border-[#9E1A59]/40 shadow-xs'
-                : 'bg-white/85 text-[#8A7880] hover:text-[#9E1A59] hover:bg-white border border-white/60',
-            ].join(' ')}
-          >
-            <motion.svg
-              animate={heartPulsing ? { scale: [1, 1.4, 1] } : { scale: 1 }}
-              transition={{ duration: 0.3 }}
-              className="w-4 h-4"
-              fill={isWishlisted ? '#9E1A59' : 'none'}
-              viewBox="0 0 24 24"
-              stroke={isWishlisted ? '#9E1A59' : 'currentColor'}
-              strokeWidth={isWishlisted ? 1.5 : 2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </motion.svg>
-          </button>
-
-          {/* Feedback Toast */}
-          <AnimatePresence>
-            {wishlistToast && (
-              <motion.div
-                initial={{ opacity: 0, y: -6, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -4, scale: 0.9 }}
-                transition={{ duration: 0.15 }}
-                className="absolute top-12 right-2.5 z-20 px-2.5 py-1 rounded-lg bg-[#1A1A1A]/90 text-white text-[10px] font-bold tracking-wide backdrop-blur-xs shadow-md pointer-events-none"
-              >
-                {wishlistToast}
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Quick Add overlay */}
+          {/* Desktop Quick Add overlay on image */}
           <AnimatePresence>
             {isHovered && (
               <motion.div
@@ -168,7 +158,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 8 }}
                 transition={{ duration: 0.18 }}
-                className="absolute bottom-0 inset-x-0 p-3 z-10"
+                className="hidden sm:block absolute bottom-0 inset-x-0 p-3 z-10"
               >
                 {isSoldOut ? (
                   <div className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-center bg-[#1A1A1A]/85 text-white/90 backdrop-blur-xs border border-white/20 shadow-sm">
@@ -179,11 +169,11 @@ export function ProductCard({ product }: ProductCardProps) {
                     id={`quick-add-${product.id}`}
                     onClick={handleQuickAdd}
                     className={[
-                      'w-full py-2.5 px-4 rounded-xl text-sm font-semibold',
-                      'transition-all duration-150 cursor-pointer shadow-sm',
+                      'w-full py-2.5 px-4 rounded-xl text-xs font-bold tracking-wider uppercase',
+                      'transition-all duration-150 cursor-pointer shadow-md active:scale-95',
                       addedFeedback
                         ? 'bg-[#D8FFF7] text-[#1A6B5C] border border-[#9DDED1]'
-                        : 'bg-[#9E1A59] text-white hover:bg-[#7A1244]',
+                        : 'bg-[#9E1A59] text-white hover:bg-[#7A1244] border border-white/20',
                     ].join(' ')}
                     aria-label={`Tambah ${product.name} ke keranjang`}
                   >
@@ -195,15 +185,59 @@ export function ProductCard({ product }: ProductCardProps) {
           </AnimatePresence>
         </div>
 
-        {/* Info */}
-        <div className="p-3 sm:p-3.5 flex flex-col flex-1 justify-between gap-1.5">
-          <h3 className="text-sm font-semibold text-[#1A1A1A] leading-snug line-clamp-2 min-h-[2.5rem]">
+        {/* ── Product Info Section ───────────────────────────── */}
+        <div className="p-3 sm:p-3.5 flex flex-col flex-1 justify-between gap-1.5 relative">
+          {/* Wishlist Feedback Toast */}
+          <AnimatePresence>
+            {wishlistToast && (
+              <motion.div
+                initial={{ opacity: 0, y: 4, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 4, scale: 0.9 }}
+                transition={{ duration: 0.15 }}
+                className="absolute bottom-12 right-2.5 z-20 px-2.5 py-1 rounded-lg bg-[#1A1A1A]/90 text-white text-[10px] font-bold tracking-wide backdrop-blur-xs shadow-md pointer-events-none"
+              >
+                {wishlistToast}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Category & Color Swatches */}
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#8A7880]">
+              {product.category.replace('-', ' ')}
+            </span>
+
+            {/* Miniature Color Swatch Dots */}
+            {product.colors && product.colors.length > 0 && (
+              <div className="flex items-center -space-x-1" title={`${product.colors.length} Pilihan Warna`}>
+                {product.colors.slice(0, 3).map((c, i) => (
+                  <span
+                    key={i}
+                    className="w-2.5 h-2.5 rounded-full border border-white shadow-2xs inline-block"
+                    style={{ backgroundColor: c.hex }}
+                  />
+                ))}
+                {product.colors.length > 3 && (
+                  <span className="text-[8px] font-bold text-[#8A7880] pl-1.5">
+                    +{product.colors.length - 3}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Product Title */}
+          <h3 className="text-xs sm:text-sm font-bold text-[#1A1A1A] leading-snug line-clamp-2 min-h-[2.4rem] group-hover:text-[#9E1A59] transition-colors">
             {product.name}
           </h3>
-          <div className="flex items-end justify-between gap-2 mt-auto">
-            <div className="flex flex-col gap-1 w-full">
+
+          {/* Price, Status & Wishlist Button Row */}
+          <div className="flex items-end justify-between gap-2 mt-auto pt-1">
+            <div className="flex flex-col gap-0.5 min-w-0">
+              {/* Pricing row */}
               <div className="flex items-baseline gap-1.5 flex-wrap">
-                <p className="text-[#9E1A59] font-black text-sm sm:text-base">
+                <p className="text-[#9E1A59] font-black text-sm sm:text-base tracking-tight">
                   {formatIDR(product.price_total)}
                 </p>
                 {product.original_price && (
@@ -211,20 +245,50 @@ export function ProductCard({ product }: ProductCardProps) {
                     {formatIDR(product.original_price)}
                   </p>
                 )}
-                {product.discount_percent && (
-                  <span className="text-[9px] font-extrabold text-[#9E1A59] bg-[#FAF0F3] px-1.5 py-0.5 rounded border border-[#9E1A59]/20">
-                    -{product.discount_percent}%
-                  </span>
-                )}
               </div>
-              <p className="text-[10px] text-[#8A7880] font-medium min-h-[1rem] flex items-center">
-                {isSoldOut
-                  ? '❌ Stok habis • Menunggu restock'
-                  : product.stock_type === 'pre-order'
-                  ? `⏱ Est. ${product.lead_time_days[0]}–${product.lead_time_days[1]} hari`
-                  : '⚡ Siap dikirim hari ini'}
+
+              {/* Delivery / Status Note */}
+              <p className="text-[10px] text-[#8A7880] font-medium truncate flex items-center gap-1">
+                {isSoldOut ? (
+                  <span className="text-zinc-500">Stok habis • Menunggu restock</span>
+                ) : product.stock_type === 'ready-stock' ? (
+                  <span className="text-emerald-700 font-semibold flex items-center gap-0.5">
+                    <span>⚡</span> Siap kirim hari ini
+                  </span>
+                ) : (
+                  <span>⏱️ Est. {product.lead_time_days[0]}–{product.lead_time_days[1]} hari</span>
+                )}
               </p>
             </div>
+
+            {/* Wishlist Heart Button (Bottom Right) */}
+            <button
+              type="button"
+              onClick={handleToggleWishlist}
+              aria-label={isWishlisted ? `Hapus ${product.name} dari Wishlist` : `Simpan ${product.name} ke Wishlist`}
+              className={[
+                'w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-75',
+                isWishlisted
+                  ? 'bg-[#FFF0F5] text-[#9E1A59] border border-[#9E1A59]/40 shadow-2xs'
+                  : 'text-[#8A7880] hover:text-[#9E1A59] hover:bg-[#FFF0F5] border border-transparent hover:border-[#E8D5C0]/80',
+              ].join(' ')}
+            >
+              <motion.svg
+                animate={heartPulsing ? { scale: [1, 1.4, 1] } : { scale: 1 }}
+                transition={{ duration: 0.3 }}
+                className="w-4 h-4"
+                fill={isWishlisted ? '#9E1A59' : 'none'}
+                viewBox="0 0 24 24"
+                stroke={isWishlisted ? '#9E1A59' : 'currentColor'}
+                strokeWidth={isWishlisted ? 1.5 : 2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </motion.svg>
+            </button>
           </div>
         </div>
       </motion.article>

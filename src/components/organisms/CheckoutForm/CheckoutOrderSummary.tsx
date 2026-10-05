@@ -189,7 +189,7 @@ export function CheckoutOrderSummary({
                       onApplyVoucher();
                     }
                   }}
-                  placeholder="Kode promo (cth: NVM5)"
+                  placeholder="Kode voucher promo"
                   className="flex-1 min-w-0 px-3 py-2 text-xs font-mono font-bold bg-[#FAF6F0] rounded-xl border border-[#E8D5C0] focus:border-[#9E1A59] focus:outline-none uppercase placeholder:font-sans placeholder:normal-case placeholder:font-normal placeholder:text-[#999]"
                 />
                 <button
@@ -204,8 +204,7 @@ export function CheckoutOrderSummary({
                 <p className="text-[10px] text-red-500 font-medium pl-1">{voucherError}</p>
               ) : (
                 <p className="text-[10px] text-[#888] pl-1">
-                  Punya voucher? Masukkan kode <span className="font-bold text-[#9E1A59]">NVM5</span>{' '}
-                  untuk diskon 5%.
+                  Punya kode voucher promo? Masukkan di atas.
                 </p>
               )}
             </div>
