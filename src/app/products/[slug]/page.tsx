@@ -92,11 +92,6 @@ export default async function ProductDetailPage({ params }: Props) {
                     🔥 Diskon {product.discount_percent}%
                   </Badge>
                 )}
-                {product.tags.slice(0, 3).map((tag) => (
-                  <Badge key={tag} variant="silver">
-                    #{tag}
-                  </Badge>
-                ))}
               </div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black text-[#1A1A1A] leading-snug">
                 {product.name}
@@ -120,11 +115,18 @@ export default async function ProductDetailPage({ params }: Props) {
                 </span>
               </a>
 
+              {/* Price Row */}
               <div className="flex flex-col gap-1.5 pt-1">
                 <div className="flex items-baseline gap-3 flex-wrap">
-                  <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
-                    Rp {product.price_base.toLocaleString('id-ID')}
-                  </p>
+                  {product.skus && product.skus.length > 0 && Math.min(...product.skus.map((s) => s.price_base)) !== Math.max(...product.skus.map((s) => s.price_base)) ? (
+                    <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
+                      Rp {Math.min(...product.skus.map((s) => s.price_base)).toLocaleString('id-ID')} – Rp {Math.max(...product.skus.map((s) => s.price_base)).toLocaleString('id-ID')}
+                    </p>
+                  ) : (
+                    <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
+                      Rp {product.price_base.toLocaleString('id-ID')}
+                    </p>
+                  )}
                   {product.original_price && (
                     <p className="text-base sm:text-lg text-[#A0959A] line-through font-semibold">
                       Rp {product.original_price.toLocaleString('id-ID')}
@@ -142,7 +144,7 @@ export default async function ProductDetailPage({ params }: Props) {
                   </span>
                   {product.original_price && (
                     <span className="text-xs text-[#1A6B5C] font-semibold bg-[#D8FFF7] px-2.5 py-1 rounded-full border border-[#9DDED1]">
-                      Hemat Rp {(product.original_price - product.price_base).toLocaleString('id-ID')}!
+                      Hemat s.d. Rp {(product.original_price - product.price_base).toLocaleString('id-ID')}!
                     </span>
                   )}
                 </div>
@@ -187,7 +189,7 @@ export default async function ProductDetailPage({ params }: Props) {
             {/* Description */}
             <div className="flex flex-col gap-2 pt-2 border-t border-[#E8D5C0]">
               <h2 className="text-sm font-bold text-[#1A1A1A]">Deskripsi Produk</h2>
-              <p className="text-sm text-[#555] leading-relaxed">{product.description}</p>
+              <p className="text-sm text-[#555] leading-relaxed whitespace-pre-line">{product.description}</p>
             </div>
 
             {/* Specifications Card */}
@@ -195,13 +197,28 @@ export default async function ProductDetailPage({ params }: Props) {
               <h3 className="text-xs font-bold text-[#1A1A1A] uppercase tracking-wider text-[#888]">
                 Informasi & Spesifikasi
               </h3>
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                <div className="flex flex-col">
-                  <span className="text-[#888]">Kategori</span>
-                  <span className="font-semibold text-[#1A1A1A] capitalize">
-                    {product.category.replace('-', ' ')}
-                  </span>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                {product.specs ? (
+                  product.specs.map((spec) => (
+                    <div key={spec.label} className="flex flex-col">
+                      <span className="text-[#888]">{spec.label}</span>
+                      <span className="font-semibold text-[#1A1A1A]">{spec.value}</span>
+                    </div>
+                  ))
+                ) : (
+                  <>
+                    <div className="flex flex-col">
+                      <span className="text-[#888]">Kategori</span>
+                      <span className="font-semibold text-[#1A1A1A] capitalize">
+                        {product.category.replace('-', ' ')}
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-[#888]">Asal Produk</span>
+                      <span className="font-semibold text-[#1A1A1A]">Guangzhou / Hangzhou, China</span>
+                    </div>
+                  </>
+                )}
                 <div className="flex flex-col">
                   <span className="text-[#888]">Tipe Pengiriman</span>
                   <span className="font-semibold text-[#1A1A1A]">
@@ -213,10 +230,6 @@ export default async function ProductDetailPage({ params }: Props) {
                   </span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[#888]">Asal Produk</span>
-                  <span className="font-semibold text-[#1A1A1A]">Guangzhou / Hangzhou, China</span>
-                </div>
-                <div className="flex flex-col">
                   <span className="text-[#888]">Jaminan Kualitas</span>
                   <span className="font-semibold text-[#1A6B5C]">
                     100% Real Picture & QC Passed
@@ -224,6 +237,25 @@ export default async function ProductDetailPage({ params }: Props) {
                 </div>
               </div>
             </div>
+
+            {/* Important Notes & Disclaimer Card */}
+            {product.notes && product.notes.length > 0 && (
+              <div className="rounded-2xl border border-[#E8D5C0] bg-[#FFF9E6]/70 p-4 flex flex-col gap-2.5 shadow-2xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-base" aria-hidden="true">
+                    📌
+                  </span>
+                  <h3 className="text-xs font-bold text-[#7A5200] uppercase tracking-wider">
+                    Catatan & Ketentuan Produk
+                  </h3>
+                </div>
+                <ul className="text-xs text-[#6B4F1D] space-y-1.5 list-disc list-inside leading-relaxed">
+                  {product.notes.map((note, idx) => (
+                    <li key={idx}>{note}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Shipping & Fees info note */}
             <div className="rounded-2xl border border-[#E8D5C0] bg-white/90 p-4 flex flex-col gap-2 shadow-2xs">

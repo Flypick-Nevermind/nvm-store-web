@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ProductGalleryProps {
   images: string[];
@@ -12,6 +12,16 @@ interface ProductGalleryProps {
 
 export function ProductGallery({ images, productName, discountPercent }: ProductGalleryProps) {
   const [activeIdx, setActiveIdx] = useState(0);
+
+  // Jump to the photo that matches the color picked in PDPActions.
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const idx = (e as CustomEvent<number>).detail;
+      if (typeof idx === 'number' && idx >= 0 && idx < images.length) setActiveIdx(idx);
+    };
+    window.addEventListener('pdp-select-image', handler);
+    return () => window.removeEventListener('pdp-select-image', handler);
+  }, [images.length]);
 
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();

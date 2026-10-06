@@ -35,9 +35,29 @@ export const MOCK_PRODUCTS: Product[] = [
       { name: 'Midnight Noir', hex: '#1A1A1A' },
     ],
     variants: [
-      { id: 'regular', name: 'Regular Size' },
-      { id: 'mini-petite', name: 'Mini Petite' },
-      { id: 'pearl-strap', name: 'Bundle + Pearl Chain Strap', price_delta: 25000 },
+      {
+        id: 'regular',
+        name: 'Regular Size',
+        colors: [
+          { name: 'Vintage Cream', hex: '#F2EEEB', image_index: 0 },
+          { name: 'Blush Pink', hex: '#FFD1DC', image_index: 1 },
+          { name: 'Midnight Noir', hex: '#1A1A1A', image_index: 2 },
+        ],
+      },
+      {
+        id: 'mini-petite',
+        name: 'Mini Petite',
+        colors: [
+          { name: 'Vintage Cream', hex: '#F2EEEB', image_index: 0 },
+          { name: 'Blush Pink', hex: '#FFD1DC', image_index: 1 },
+        ],
+      },
+      {
+        id: 'pearl-strap',
+        name: 'Bundle + Pearl Chain Strap',
+        price_delta: 25000,
+        colors: [{ name: 'Vintage Cream', hex: '#F2EEEB', image_index: 0 }],
+      },
     ],
   },
   {
@@ -69,38 +89,88 @@ export const MOCK_PRODUCTS: Product[] = [
       { name: 'Glossy Black', hex: '#111111' },
     ],
     variants: [
-      { id: 'shoulder-std', name: 'Classic Shoulder' },
-      { id: 'crossbody-ext', name: 'Crossbody (Long Strap)', price_delta: 20000 },
+      {
+        id: 'shoulder-std',
+        name: 'Classic Shoulder',
+        colors: [
+          { name: 'Metallic Chrome', hex: '#C8C8C8', image_index: 0 },
+          { name: 'Cyber Aqua', hex: '#D8FFF7', image_index: 1 },
+          { name: 'Glossy Black', hex: '#111111' },
+        ],
+      },
+      {
+        id: 'crossbody-ext',
+        name: 'Crossbody (Long Strap)',
+        price_delta: 20000,
+        colors: [
+          { name: 'Metallic Chrome', hex: '#C8C8C8', image_index: 0 },
+          { name: 'Glossy Black', hex: '#111111' },
+        ],
+      },
     ],
   },
   {
     id: 'prod-003',
-    slug: 'aqua-jelly-mini-crossbody',
-    name: 'Aqua Jelly Mini Crossbody',
+    slug: 'jelly-firkin-bag',
+    name: 'Jelly Firkin Bag — TPU',
     description:
-      'Mini crossbody bag dari material jelly transparan warna aqua yang super cute. Trendy di TikTok & Reels! Adjustable strap, kapasitas compact.',
-    short_description: 'Mini crossbody jelly transparan aqua, viral TikTok.',
-    images: ['https://images.unsplash.com/photo-1519183071298-a2962feb14f4?w=600&q=80'],
-    price_base: 135000,
-    price_import_duty: 25000,
+      'Tas jelly dengan desain firkin yang cute, playful, dan trendy. Terbuat dari material TPU (Thermoplastic Polyurethane) dengan karakter bahan yang fleksibel dan memberikan tampilan glossy/transparan khas jelly bag.\n\nCocok untuk melengkapi berbagai outfit, mulai dari casual, girly, Y2K-inspired hingga daily look.',
+    short_description: 'Tas jelly firkin material TPU glossy transparan, cute & trendy.',
+    images: [
+      'https://images.unsplash.com/photo-1519183071298-a2962feb14f4?w=600&q=80',
+      'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80',
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80',
+      'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&q=80',
+      'https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?w=600&q=80',
+    ],
+    price_base: 185000,
+    price_import_duty: 30000,
     price_shipping: 20000,
-    price_total: 180000,
-    original_price: 180000,
-    discount_percent: 25,
+    price_total: 235000,
+    original_price: 235000,
+    discount_percent: 21,
     stock_type: 'pre-order',
     lead_time_days: [14, 21],
     category: 'trending-now',
-    is_featured: false,
-    tags: ['jelly', 'crossbody', 'transparan', 'aqua'],
+    is_featured: true,
+    tags: ['jelly', 'firkin', 'tpu', 'handbag', 'y2k', 'glossy'],
     created_at: '2026-09-10T00:00:00Z',
-    colors: [
-      { name: 'Aqua Mist', hex: '#9DDED1' },
-      { name: 'Berry Jelly', hex: '#9E1A59' },
-      { name: 'Clear Crystal', hex: '#EAEAEA' },
+    specs: [
+      { label: 'Material', value: 'TPU (Thermoplastic Polyurethane)' },
+      { label: 'Model', value: 'Jelly Firkin / Top Handle Bag' },
+      { label: 'Karakter Bahan', value: 'Fleksibel, glossy & jelly-look' },
+      { label: 'Tipe Tas', value: 'Handbag' },
+      { label: 'Pilihan Ukuran', value: 'Small (26×9×17 cm), Medium (35×15×27 cm), Large (38×13×28 cm), Horizontal (35×15×29 cm)' },
+      { label: 'Cocok Untuk', value: 'Daily use, hangout, jalan-jalan, dan styling outfit' },
+      { label: 'Status Merek', value: 'Non-brand / Tanpa Merek' },
     ],
-    variants: [
-      { id: 'standard', name: 'Standard Bag' },
-      { id: 'charm-bundle', name: 'Bundle + Y2K Keychain Charm', price_delta: 15000 },
+    notes: [
+      'Produk yang dikirim adalah tas sesuai pilihan warna yang dipilih.',
+      'Karena karakter material TPU, tas dapat memiliki sedikit lipatan atau lekukan wajar akibat proses penyimpanan atau pengiriman.',
+      'Warna produk dapat terlihat sedikit berbeda tergantung pencahayaan dan resolusi layar perangkat.',
+      'Ukuran diukur secara manual, sehingga dapat terdapat toleransi selisih sekitar 1–3 cm.',
+      'Tidak terdapat logo atau brand pada produk (Desain murni aesthetic non-brand).',
+    ],
+    options: [
+      {
+        id: 'color',
+        name: 'Pilihan Warna',
+        type: 'color',
+        values: [
+          { id: 'aqua-mist', name: 'Aqua Mist', hex: '#9DDED1', image_index: 0 },
+          { id: 'lemon-glow', name: 'Lemon Glow', hex: '#FDFD96', image_index: 1 },
+          { id: 'clear-crystal', name: 'Clear Crystal', hex: '#F2EEEB', image_index: 2 },
+          { id: 'berry-jelly', name: 'Berry Jelly', hex: '#9E1A59', image_index: 3 },
+          { id: 'smoke-noir', name: 'Smoke Noir', hex: '#2A2A2A', image_index: 4 },
+        ],
+      },
+    ],
+    skus: [
+      { id: 'jelly-tpu-aqua', options: { color: 'aqua-mist' }, price_base: 185000, original_price: 235000, image_index: 0 },
+      { id: 'jelly-tpu-lemon', options: { color: 'lemon-glow' }, price_base: 185000, original_price: 235000, image_index: 1 },
+      { id: 'jelly-tpu-clear', options: { color: 'clear-crystal' }, price_base: 185000, original_price: 235000, image_index: 2 },
+      { id: 'jelly-tpu-berry', options: { color: 'berry-jelly' }, price_base: 185000, original_price: 235000, image_index: 3 },
+      { id: 'jelly-tpu-smoke', options: { color: 'smoke-noir' }, price_base: 185000, original_price: 235000, image_index: 4 },
     ],
   },
   {
@@ -129,8 +199,24 @@ export const MOCK_PRODUCTS: Product[] = [
       { name: 'Soft Ivory', hex: '#FAF9F6' },
     ],
     variants: [
-      { id: 'clutch-std', name: 'Classic Clutch' },
-      { id: 'chain-strap', name: 'With Silver Chain Strap', price_delta: 20000 },
+      {
+        id: 'clutch-std',
+        name: 'Classic Clutch',
+        colors: [
+          { name: 'Lemon Pastel', hex: '#FDFD96' },
+          { name: 'Lilac Haze', hex: '#DDA0DD' },
+          { name: 'Soft Ivory', hex: '#FAF9F6' },
+        ],
+      },
+      {
+        id: 'chain-strap',
+        name: 'With Silver Chain Strap',
+        price_delta: 20000,
+        colors: [
+          { name: 'Lemon Pastel', hex: '#FDFD96' },
+          { name: 'Soft Ivory', hex: '#FAF9F6' },
+        ],
+      },
     ],
   },
   {
@@ -159,8 +245,24 @@ export const MOCK_PRODUCTS: Product[] = [
       { name: 'Choco Brown', hex: '#5C3826' },
     ],
     variants: [
-      { id: 'medium', name: 'Medium Bucket' },
-      { id: 'large-daily', name: 'Large Daily (+Rp 30.000)', price_delta: 30000 },
+      {
+        id: 'medium',
+        name: 'Medium Bucket',
+        colors: [
+          { name: 'Teddy Beige', hex: '#D2B48C' },
+          { name: 'Vintage Cream', hex: '#F2EEEB' },
+          { name: 'Choco Brown', hex: '#5C3826' },
+        ],
+      },
+      {
+        id: 'large-daily',
+        name: 'Large Daily (+Rp 30.000)',
+        price_delta: 30000,
+        colors: [
+          { name: 'Teddy Beige', hex: '#D2B48C' },
+          { name: 'Choco Brown', hex: '#5C3826' },
+        ],
+      },
     ],
   },
   {
@@ -189,8 +291,24 @@ export const MOCK_PRODUCTS: Product[] = [
       { name: 'Washed Charcoal', hex: '#3A3A3A' },
     ],
     variants: [
-      { id: 'standard', name: 'Standard Edition' },
-      { id: 'pins-bundle', name: 'Bundle + 5 Y2K Enamel Pins', price_delta: 25000 },
+      {
+        id: 'standard',
+        name: 'Standard Edition',
+        colors: [
+          { name: 'Washed Light Blue', hex: '#A4C2E0' },
+          { name: 'Deep Indigo', hex: '#2A4B7C' },
+          { name: 'Washed Charcoal', hex: '#3A3A3A' },
+        ],
+      },
+      {
+        id: 'pins-bundle',
+        name: 'Bundle + 5 Y2K Enamel Pins',
+        price_delta: 25000,
+        colors: [
+          { name: 'Washed Light Blue', hex: '#A4C2E0' },
+          { name: 'Deep Indigo', hex: '#2A4B7C' },
+        ],
+      },
     ],
   },
 ];

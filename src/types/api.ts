@@ -17,12 +17,51 @@ export type ProductType = 'pre-order' | 'ready-stock' | 'sold-out';
 export interface ProductColor {
   name: string;
   hex: string;
+  /** Index into Product.images shown when this color is selected. */
+  image_index?: number;
+  /** Direct thumbnail URL for this color option */
+  image?: string;
 }
 
 export interface ProductVariant {
   id: string;
   name: string;
   price_delta?: number;
+  /** Colors available for this specific variant (falls back to Product.colors). */
+  colors?: ProductColor[];
+}
+
+export interface ProductOptionValue {
+  id: string;
+  name: string;
+  subtitle?: string; // e.g. "26 × 9 × 17 cm"
+  hex?: string; // for color swatches
+  image_index?: number;
+  /** Direct thumbnail URL for this option value */
+  image?: string;
+}
+
+export interface ProductOption {
+  id: string; // e.g. 'material' | 'size' | 'color'
+  name: string; // e.g. 'Pilihan Bahan' | 'Pilihan Ukuran' | 'Pilihan Warna'
+  type?: 'text' | 'color' | 'size';
+  values: ProductOptionValue[];
+}
+
+export interface ProductSku {
+  id: string;
+  options: Record<string, string>; // e.g. { material: 'tpu', size: 'medium', color: 'aqua-mist' }
+  price_base: number;
+  original_price?: number;
+  price_import_duty?: number;
+  price_shipping?: number;
+  image_index?: number;
+  stock_type?: ProductType;
+}
+
+export interface ProductSpec {
+  label: string;
+  value: string;
 }
 
 export interface Product {
@@ -47,6 +86,10 @@ export interface Product {
   created_at: string;
   colors?: ProductColor[];
   variants?: ProductVariant[];
+  options?: ProductOption[];
+  skus?: ProductSku[];
+  specs?: ProductSpec[];
+  notes?: string[];
 }
 
 // ─── Order ──────────────────────────────────────────────────
@@ -137,6 +180,7 @@ export interface CartItem {
   eta?: string;
   color?: string;
   variant?: string;
+  selected_options?: Record<string, string>;
   key?: string;
   price_import_duty?: number;
   price_shipping?: number;
