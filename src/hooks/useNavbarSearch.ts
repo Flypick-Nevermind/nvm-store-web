@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { useProducts } from './useProducts';
 
 export function useNavbarSearch() {
   const router = useRouter();
@@ -10,6 +10,8 @@ export function useNavbarSearch() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const desktopSearchRef = useRef<HTMLDivElement>(null);
+
+  const { data: allProducts = [] } = useProducts();
 
   // Sync searchQuery with URL query parameter
   useEffect(() => {
@@ -22,13 +24,12 @@ export function useNavbarSearch() {
   const liveSearchResults = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     if (q.length < 2) return [];
-    return MOCK_PRODUCTS.filter(
+    return allProducts.filter(
       (p) =>
         p.name.toLowerCase().includes(q) ||
-        p.tags.some((t) => t.toLowerCase().includes(q)) ||
         p.category.toLowerCase().includes(q)
     ).slice(0, 4);
-  }, [searchQuery]);
+  }, [searchQuery, allProducts]);
 
   // Submit search query
   const handleSearchSubmit = (e?: React.FormEvent) => {

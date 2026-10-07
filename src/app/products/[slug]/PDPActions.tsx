@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/atoms/Button';
 import { formatIDR } from '@/lib/utils';
 import { useAuthModalStore } from '@/store/authModalStore';
@@ -98,6 +98,38 @@ export function PDPActions({ product }: PDPActionsProps) {
       window.dispatchEvent(new CustomEvent('pdp-select-image', { detail: imageIndex }));
     }
   };
+
+  // Broadcast selected variant and pricing to header & gallery
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const discount = (currentOriginalPrice && currentOriginalPrice > currentUnitPrice)
+      ? Math.round(((currentOriginalPrice - currentUnitPrice) / currentOriginalPrice) * 100)
+      : undefined;
+
+    let activeName: string | undefined;
+    if (hasOptions) {
+      const colorValId = selectedOptions['color'];
+      const colorOpt = options.find((o) => o.id === 'color');
+      const val = colorOpt?.values.find((v) => v.id === colorValId);
+      activeName = val?.name;
+    } else {
+      activeName = selectedColor?.name ?? selectedVariant?.name;
+    }
+
+    window.dispatchEvent(
+      new CustomEvent('pdp-variant-change', {
+        detail: {
+          unitPrice: currentUnitPrice,
+          originalPrice: currentOriginalPrice,
+          discountPercent: discount,
+          variantName: activeName,
+          matchedSku,
+          isUserAction: true,
+        },
+      })
+    );
+  }, [currentUnitPrice, currentOriginalPrice, selectedOptions, selectedColor, selectedVariant, hasOptions, options, matchedSku]);
 
   // Helper to check if a specific option value has at least one valid SKU with prior selections
   const isOptionValueAvailable = (optId: string, valId: string): boolean => {
@@ -721,10 +753,15 @@ export function PDPActions({ product }: PDPActionsProps) {
               <span className="text-lg sm:text-xl font-black text-[#9E1A59]">
                 {formatIDR(currentUnitPrice)}
               </span>
-              {currentOriginalPrice && (
-                <span className="text-xs text-[#A0959A] line-through font-semibold">
-                  {formatIDR(currentOriginalPrice)}
-                </span>
+              {currentOriginalPrice && currentOriginalPrice > currentUnitPrice && (
+                <>
+                  <span className="text-xs text-[#A0959A] line-through font-semibold">
+                    {formatIDR(currentOriginalPrice)}
+                  </span>
+                  <span className="text-[10px] font-black text-[#9E1A59] bg-[#FAF0F3] px-2 py-0.5 rounded-full border border-[#9E1A59]/30">
+                    -{Math.round(((currentOriginalPrice - currentUnitPrice) / currentOriginalPrice) * 100)}%
+                  </span>
+                </>
               )}
             </div>
           </div>

@@ -2,11 +2,10 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 import { PageShell } from '@/components/layouts/PageShell';
-import { ProductCard } from '@/components/molecules/ProductCard';
-import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { ProductCard, ProductCardSkeleton } from '@/components/molecules/ProductCard';
+import { useProducts } from '@/hooks/useProducts';
 
 interface Collection {
   id: string;
@@ -97,17 +96,20 @@ const COLLECTIONS: Collection[] = [
 
 export default function CollectionPage() {
   const [activeCollection, setActiveCollection] = useState<Collection | null>(null);
+  const { data: allProducts = [], isLoading } = useProducts();
 
   const collectionProducts = activeCollection
-    ? MOCK_PRODUCTS.filter((p) =>
+    ? allProducts.filter((p) =>
         activeCollection.tags.some(
-          (tag) => p.tags.includes(tag) || p.category.includes(tag),
+          (tag) =>
+            p.category?.toLowerCase().includes(tag.toLowerCase()) ||
+            p.name.toLowerCase().includes(tag.toLowerCase()),
         ),
       )
     : [];
 
   const displayProducts =
-    activeCollection && collectionProducts.length === 0 ? MOCK_PRODUCTS.slice(0, 4) : collectionProducts;
+    activeCollection && collectionProducts.length === 0 ? allProducts.slice(0, 4) : collectionProducts;
 
   return (
     <PageShell>
@@ -228,17 +230,21 @@ export default function CollectionPage() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5">
-                {displayProducts.map((product, i) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: i * 0.05 }}
-                  >
-                    <ProductCard product={product} />
-                  </motion.div>
-                ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                {isLoading ? (
+                  [1, 2, 3, 4, 5, 6].map((key) => <ProductCardSkeleton key={key} />)
+                ) : (
+                  displayProducts.map((product, i) => (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: i * 0.05 }}
+                    >
+                      <ProductCard product={product} />
+                    </motion.div>
+                  ))
+                )}
               </div>
             </section>
           </motion.div>

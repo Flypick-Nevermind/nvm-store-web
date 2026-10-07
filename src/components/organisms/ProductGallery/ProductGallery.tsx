@@ -12,15 +12,27 @@ interface ProductGalleryProps {
 
 export function ProductGallery({ images, productName, discountPercent }: ProductGalleryProps) {
   const [activeIdx, setActiveIdx] = useState(0);
+  const [dynamicDiscount, setDynamicDiscount] = useState<number | undefined>(discountPercent);
 
-  // Jump to the photo that matches the color picked in PDPActions.
+  // Jump to the photo that matches the color picked in PDPActions, and sync dynamic discount.
   useEffect(() => {
-    const handler = (e: Event) => {
+    const imgHandler = (e: Event) => {
       const idx = (e as CustomEvent<number>).detail;
       if (typeof idx === 'number' && idx >= 0 && idx < images.length) setActiveIdx(idx);
     };
-    window.addEventListener('pdp-select-image', handler);
-    return () => window.removeEventListener('pdp-select-image', handler);
+    const variantHandler = (e: Event) => {
+      const detail = (e as CustomEvent<{ discountPercent?: number }>).detail;
+      if (detail && typeof detail.discountPercent !== 'undefined') {
+        setDynamicDiscount(detail.discountPercent);
+      }
+    };
+
+    window.addEventListener('pdp-select-image', imgHandler);
+    window.addEventListener('pdp-variant-change', variantHandler);
+    return () => {
+      window.removeEventListener('pdp-select-image', imgHandler);
+      window.removeEventListener('pdp-variant-change', variantHandler);
+    };
   }, [images.length]);
 
   const handlePrev = (e: React.MouseEvent) => {
@@ -34,14 +46,14 @@ export function ProductGallery({ images, productName, discountPercent }: Product
   };
 
   return (
-    <div className="flex flex-col gap-3.5 max-w-[460px] mx-auto w-full group">
-      {/* Main image container with controlled max-height */}
-      <div className="relative aspect-[4/5] max-h-[480px] w-full overflow-hidden bg-[#F5F0E8] rounded-3xl border border-[#C8C8C8]/50 shadow-md">
+    <div className="flex flex-col gap-3.5 max-w-[500px] mx-auto w-full group">
+      {/* Main image container (Square 1:1 for Bag Proportions) */}
+      <div className="relative aspect-square max-h-[500px] w-full overflow-hidden bg-[#F5F0E8] rounded-3xl border border-[#C8C8C8]/50 shadow-md">
         {/* Discount Sticker Badge */}
-        {discountPercent && (
-          <div className="absolute top-3.5 left-3.5 z-20 flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#9E1A59] text-white text-xs font-black tracking-wide shadow-md border border-white/40 backdrop-blur-xs transform -rotate-2">
+        {dynamicDiscount && dynamicDiscount > 0 && (
+          <div className="absolute top-3.5 left-3.5 z-20 flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#9E1A59] text-white text-xs font-black tracking-wide shadow-md border border-white/40 backdrop-blur-xs transform -rotate-2 transition-all">
             <span className="text-sm leading-none">🔥</span>
-            <span>HEMAT {discountPercent}%</span>
+            <span>HEMAT {dynamicDiscount}%</span>
           </div>
         )}
 

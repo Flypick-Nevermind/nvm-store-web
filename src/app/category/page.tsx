@@ -2,11 +2,10 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 import { PageShell } from '@/components/layouts/PageShell';
-import { ProductCard } from '@/components/molecules/ProductCard';
-import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { ProductCard, ProductCardSkeleton } from '@/components/molecules/ProductCard';
+import { useProducts } from '@/hooks/useProducts';
 import type { Product } from '@/types/api';
 
 interface BagCategory {
@@ -71,19 +70,19 @@ const BAG_CATEGORIES: BagCategory[] = [
 
 export default function CategoryPage() {
   const [activeCategory, setActiveCategory] = useState<BagCategory | null>(null);
+  const { data: allProducts = [], isLoading } = useProducts();
 
   const filteredProducts: Product[] = activeCategory
-    ? MOCK_PRODUCTS.filter(
+    ? allProducts.filter(
         (p) =>
-          p.tags.includes(activeCategory.tag) ||
-          p.category.includes(activeCategory.tag) ||
-          p.name.toLowerCase().includes(activeCategory.tag),
+          p.category?.toLowerCase().includes(activeCategory.tag.toLowerCase()) ||
+          p.name.toLowerCase().includes(activeCategory.tag.toLowerCase()),
       )
     : [];
 
   // fallback: show all if no tag matches
   const displayProducts =
-    activeCategory && filteredProducts.length === 0 ? MOCK_PRODUCTS : filteredProducts;
+    activeCategory && filteredProducts.length === 0 ? allProducts : filteredProducts;
 
   return (
     <PageShell>
@@ -177,24 +176,32 @@ export default function CategoryPage() {
           </div>
 
           {/* Product Grid */}
-          <motion.div
-            key={activeCategory.id}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5"
-          >
-            {displayProducts.map((product, i) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-              >
-                <ProductCard product={product} />
-              </motion.div>
-            ))}
-          </motion.div>
+          {isLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {[1, 2, 3, 4, 5, 6].map((key) => (
+                <ProductCardSkeleton key={key} />
+              ))}
+            </div>
+          ) : (
+            <motion.div
+              key={activeCategory.id}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+            >
+              {displayProducts.map((product, i) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.05 }}
+                >
+                  <ProductCard product={product} />
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </section>
       )}
     </PageShell>

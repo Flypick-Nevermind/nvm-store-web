@@ -1,22 +1,24 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Badge } from '@/components/atoms/Badge';
 import { PageShell } from '@/components/layouts/PageShell';
 import { ETACalculator } from '@/components/molecules/ETACalculator';
 import { ProductCard } from '@/components/molecules/ProductCard';
 import { CustomerReviews } from '@/components/organisms/CustomerReviews';
 import { ProductGallery } from '@/components/organisms/ProductGallery';
-import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { getProductBySlug, getProducts } from '@/lib/api/products';
 import { PDPActions } from './PDPActions';
+import { PDPPriceHeader } from './PDPPriceHeader';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = MOCK_PRODUCTS.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
   if (!product) return { title: 'Produk tidak ditemukan | NEVERMIND' };
   return {
     title: product.name,
@@ -30,15 +32,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  return MOCK_PRODUCTS.map((p) => ({ slug: p.slug }));
+  const products = await getProducts();
+  return products.map((p) => ({ slug: p.slug }));
 }
 
 export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
-  const product = MOCK_PRODUCTS.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const relatedProducts = MOCK_PRODUCTS.filter((p) => p.slug !== slug).slice(0, 4);
+  console.log({ product });
+
+  const allProducts = await getProducts();
+  const relatedProducts = allProducts.filter((p) => p.slug !== slug).slice(0, 4);
 
   return (
     <PageShell>
@@ -69,87 +75,8 @@ export default async function ProductDetailPage({ params }: Props) {
 
           {/* Right Column: Details & Purchase sidebar */}
           <div className="md:col-span-7 lg:col-span-7 flex flex-col gap-6">
-            {/* Header */}
-            <div className="flex flex-col gap-2.5">
-              <div className="flex items-center gap-2 flex-wrap">
-                <Badge
-                  variant={
-                    product.stock_type === 'sold-out'
-                      ? 'sold-out'
-                      : product.stock_type === 'pre-order'
-                        ? 'yellow'
-                        : 'aqua'
-                  }
-                >
-                  {product.stock_type === 'sold-out'
-                    ? 'Sold Out'
-                    : product.stock_type === 'pre-order'
-                      ? 'Pre-Order'
-                      : 'Ready Stock'}
-                </Badge>
-                {product.discount_percent && (
-                  <Badge variant="primary">
-                    🔥 Diskon {product.discount_percent}%
-                  </Badge>
-                )}
-              </div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-black text-[#1A1A1A] leading-snug">
-                {product.name}
-              </h1>
-
-              {/* Rating & Review Anchor */}
-              <a
-                href="#customer-reviews"
-                className="inline-flex items-center gap-2 text-xs font-semibold text-[#888] hover:text-[#9E1A59] transition-colors group w-fit cursor-pointer"
-              >
-                <div className="flex items-center text-[#F59E0B] text-sm">
-                  <span>★★★★★</span>
-                </div>
-                <span className="font-bold text-[#1A1A1A]">4.9</span>
-                <span>·</span>
-                <span className="underline underline-offset-2 group-hover:text-[#9E1A59]">
-                  Lihat Ulasan Pembeli
-                </span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#D8FFF7] text-[#1A6B5C] font-bold">
-                  ✓ Terverifikasi
-                </span>
-              </a>
-
-              {/* Price Row */}
-              <div className="flex flex-col gap-1.5 pt-1">
-                <div className="flex items-baseline gap-3 flex-wrap">
-                  {product.skus && product.skus.length > 0 && Math.min(...product.skus.map((s) => s.price_base)) !== Math.max(...product.skus.map((s) => s.price_base)) ? (
-                    <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
-                      Rp {Math.min(...product.skus.map((s) => s.price_base)).toLocaleString('id-ID')} – Rp {Math.max(...product.skus.map((s) => s.price_base)).toLocaleString('id-ID')}
-                    </p>
-                  ) : (
-                    <p className="text-2xl sm:text-3xl font-extrabold text-[#9E1A59]">
-                      Rp {product.price_base.toLocaleString('id-ID')}
-                    </p>
-                  )}
-                  {product.original_price && (
-                    <p className="text-base sm:text-lg text-[#A0959A] line-through font-semibold">
-                      Rp {product.original_price.toLocaleString('id-ID')}
-                    </p>
-                  )}
-                  {product.discount_percent && (
-                    <span className="text-xs font-black text-[#9E1A59] bg-[#FAF0F3] px-2.5 py-0.5 rounded-full border border-[#9E1A59]/30">
-                      HEMAT {product.discount_percent}%
-                    </span>
-                  )}
-                </div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs text-[#8A7880] font-medium bg-[#F2EEEB] px-2.5 py-1 rounded-full border border-[#E8D5C0]">
-                    Ongkir & biaya dihitung saat checkout
-                  </span>
-                  {product.original_price && (
-                    <span className="text-xs text-[#1A6B5C] font-semibold bg-[#D8FFF7] px-2.5 py-1 rounded-full border border-[#9DDED1]">
-                      Hemat s.d. Rp {(product.original_price - product.price_base).toLocaleString('id-ID')}!
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
+            {/* Dynamic Header & Price Row */}
+            <PDPPriceHeader product={product} />
 
             {/* ETA */}
             {product.stock_type === 'pre-order' && (
@@ -189,7 +116,9 @@ export default async function ProductDetailPage({ params }: Props) {
             {/* Description */}
             <div className="flex flex-col gap-2 pt-2 border-t border-[#E8D5C0]">
               <h2 className="text-sm font-bold text-[#1A1A1A]">Deskripsi Produk</h2>
-              <p className="text-sm text-[#555] leading-relaxed whitespace-pre-line">{product.description}</p>
+              <p className="text-sm text-[#555] leading-relaxed whitespace-pre-line">
+                {product.description}
+              </p>
             </div>
 
             {/* Specifications Card */}
@@ -215,7 +144,9 @@ export default async function ProductDetailPage({ params }: Props) {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-[#888]">Asal Produk</span>
-                      <span className="font-semibold text-[#1A1A1A]">Guangzhou / Hangzhou, China</span>
+                      <span className="font-semibold text-[#1A1A1A]">
+                        Guangzhou / Hangzhou, China
+                      </span>
                     </div>
                   </>
                 )}
@@ -263,13 +194,16 @@ export default async function ProductDetailPage({ params }: Props) {
                 <span className="text-base" aria-hidden="true">
                   📦
                 </span>
-                <h3 className="text-xs font-bold text-[#1A1A1A]">Informasi Ongkir & Biaya Tambahan</h3>
+                <h3 className="text-xs font-bold text-[#1A1A1A]">
+                  Informasi Ongkir & Biaya Tambahan
+                </h3>
                 <span className="text-[10px] text-[#9E1A59] font-semibold bg-[#9E1A59]/10 px-2 py-0.5 rounded-full ml-auto">
                   Transparan ✓
                 </span>
               </div>
               <p className="text-xs text-[#8A7880] leading-relaxed">
-                Harga di atas merupakan harga asli produk. Ongkos kirim domestik dan estimasi bea masuk dihitung secara transparan saat checkout sebelum pembayaran.
+                Harga di atas merupakan harga asli produk. Ongkos kirim domestik dan estimasi bea
+                masuk dihitung secara transparan saat checkout sebelum pembayaran.
               </p>
             </div>
 
@@ -313,7 +247,7 @@ export default async function ProductDetailPage({ params }: Props) {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6 items-stretch">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
               {relatedProducts.map((relProduct) => (
                 <div key={relProduct.id} className="h-full flex flex-col">
                   <ProductCard product={relProduct} />

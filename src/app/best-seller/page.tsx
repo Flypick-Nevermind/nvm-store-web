@@ -5,7 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { PageShell } from '@/components/layouts/PageShell';
-import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { ProductCardSkeleton } from '@/components/molecules/ProductCard';
+import { useProducts } from '@/hooks/useProducts';
 import { formatIDR } from '@/lib/utils';
 import { useCartStore } from '@/store/cartStore';
 import { useWishlistStore } from '@/store/wishlistStore';
@@ -68,14 +69,14 @@ function BestSellerCard({
 
   return (
     <article className="flex flex-col h-full relative rounded-2xl overflow-hidden bg-white border border-[#E8D5C0] cursor-pointer shadow-xs hover:border-[#9E1A59]/40 hover:shadow-lg transition-all duration-300 group select-none">
-      {/* ── Image Area (3:4 Ratio) ─────────────────────────── */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#FAF0F3] shrink-0">
+      {/* ── Image Area (Square 1:1) ─────────────────────────── */}
+      <div className="relative aspect-square w-full overflow-hidden bg-[#FAF0F3] shrink-0">
         <Link href={`/products/${product.slug}`} className="block w-full h-full">
           <Image
             src={product.images[0]}
             alt={product.name}
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className={[
               'object-cover transition-transform duration-500 group-hover:scale-105',
               isSoldOut ? 'grayscale-[30%] opacity-90' : '',
@@ -256,6 +257,7 @@ export default function BestSellerPage() {
   const [addedProductId, setAddedProductId] = useState<string | null>(null);
 
   const addItem = useCartStore((s) => s.addItem);
+  const { data: allProducts = [], isLoading } = useProducts();
 
   const handleQuickAdd = (e: React.MouseEvent, product: Product) => {
     e.preventDefault();
@@ -279,12 +281,12 @@ export default function BestSellerPage() {
 
   // Rank products by best seller stats
   const rankedProducts = useMemo(() => {
-    return [...MOCK_PRODUCTS].sort((a, b) => {
+    return [...allProducts].sort((a, b) => {
       const rankA = BEST_SELLER_STATS[a.id]?.rank ?? 99;
       const rankB = BEST_SELLER_STATS[b.id]?.rank ?? 99;
       return rankA - rankB;
     });
-  }, []);
+  }, [allProducts]);
 
   // Top 3 Podium
   const topThree = useMemo(() => rankedProducts.slice(0, 3), [rankedProducts]);
@@ -319,7 +321,8 @@ export default function BestSellerPage() {
   return (
     <PageShell>
       {/* ── Top 3 Spotlight Podium (Hall of Fame) ─────────── */}
-      <section className="bg-[#9E1A59] py-10 sm:py-10 px-4 sm:px-6 lg:px-8 border-y border-[#7A1244] shadow-inner relative overflow-hidden">
+      {topThree.length > 0 && (
+        <section className="bg-[#9E1A59] py-10 sm:py-10 px-4 sm:px-6 lg:px-8 border-y border-[#7A1244] shadow-inner relative overflow-hidden">
         {/* Subtle decorative background circle accents */}
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-[#7A1244]/40 rounded-full blur-3xl pointer-events-none" />
@@ -391,7 +394,7 @@ export default function BestSellerPage() {
                       )}
                     </span>
                     <span className="text-[10px] font-bold text-white/90">
-                      {stat?.salesCount}+ Terjual
+                      {(stat?.salesCount ?? 150)}+ Terjual
                     </span>
                   </div>
 
@@ -491,6 +494,7 @@ export default function BestSellerPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ── Complete Leaderboard Grid ──────────────────────── */}
       <section
@@ -500,7 +504,7 @@ export default function BestSellerPage() {
         {/* Sleek Minimalist Toolbar */}
         <div className="flex items-center justify-between py-3 mb-6 border-b border-[#E8D5C0]/80">
           <p className="text-xs font-bold text-[#8A7880] uppercase tracking-widest">
-            {filteredProducts.length} Best Sellers
+            {isLoading ? 'Memuat...' : `${filteredProducts.length} Best Sellers`}
           </p>
 
           <div className="flex items-center gap-2">
@@ -527,13 +531,19 @@ export default function BestSellerPage() {
         </div>
 
         {/* Products Grid with Best Seller Concept Cards */}
-        {filteredProducts.length > 0 ? (
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {[1, 2, 3, 4, 5, 6].map((key) => (
+              <ProductCardSkeleton key={key} />
+            ))}
+          </div>
+        ) : filteredProducts.length > 0 ? (
           <motion.div
             key={sortBy}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
           >
             {filteredProducts.map((product, i) => {
               const stat = BEST_SELLER_STATS[product.id];

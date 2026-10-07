@@ -1,6 +1,14 @@
 // NEVERMIND — Centralized API Client
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api-backend';
+const BACKEND_BASE = process.env.BACKEND_API_URL || 'https://service-nvm-production.up.railway.app/api';
+const CLIENT_BASE = process.env.NEXT_PUBLIC_API_URL || '/api-backend';
+
+function getBaseUrl(): string {
+  if (typeof window === 'undefined') {
+    return BACKEND_BASE;
+  }
+  return CLIENT_BASE;
+}
 
 interface RequestOptions extends RequestInit {
   token?: string | null;
@@ -21,7 +29,8 @@ function getStoredToken(): string | null {
 export async function apiClient<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
   const { token, headers = {}, ...rest } = options;
 
-  const url = endpoint.startsWith('http') ? endpoint : `${BASE_URL}${endpoint}`;
+  const base = getBaseUrl();
+  const url = endpoint.startsWith('http') ? endpoint : `${base}${endpoint}`;
 
   // Automatically inject token from localStorage if not explicitly passed
   const activeToken = token === undefined ? getStoredToken() : token;

@@ -5,9 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { PageShell } from '@/components/layouts/PageShell';
-import { ProductCard } from '@/components/molecules/ProductCard';
+import { ProductCard, ProductCardSkeleton } from '@/components/molecules/ProductCard';
 import { BRAND } from '@/constants/brand';
-import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { useProducts } from '@/hooks/useProducts';
 import { useRequestBagModalStore } from '@/store/requestBagModalStore';
 
 export default function HomePage() {
@@ -15,7 +15,7 @@ export default function HomePage() {
   const [emailSubscribed, setEmailSubscribed] = useState(false);
   const [emailInput, setEmailInput] = useState('');
 
-  const products = MOCK_PRODUCTS;
+  const { data: products = [], isLoading } = useProducts();
 
   const handleHeroCategoryClick = () => {
     const catalogEl = document.getElementById('catalog-section');
@@ -223,18 +223,26 @@ export default function HomePage() {
         </div>
 
         {/* Responsive Product Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5 lg:gap-6 items-stretch">
-          {products.map((product, idx) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: idx * 0.04 }}
-              className="h-full flex flex-col"
-            >
-              <ProductCard product={product} />
-            </motion.div>
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+          {isLoading ? (
+            [1, 2, 3].map((key) => <ProductCardSkeleton key={key} />)
+          ) : products.length > 0 ? (
+            products.map((product, idx) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: idx * 0.04 }}
+                className="h-full flex flex-col"
+              >
+                <ProductCard product={product} />
+              </motion.div>
+            ))
+          ) : (
+            <div className="col-span-full py-12 text-center text-[#888] bg-[#FAF5F0] rounded-2xl border border-[#E8D5C0]">
+              <p className="text-sm font-semibold">Belum ada produk yang ditampilkan.</p>
+            </div>
+          )}
         </div>
 
         {/* ── Request a Bag Feature Section ───────────────────── */}

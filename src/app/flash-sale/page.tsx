@@ -6,12 +6,13 @@ import { useState } from 'react';
 import { Badge } from '@/components/atoms/Badge';
 import { Button } from '@/components/atoms/Button';
 import { PageShell } from '@/components/layouts/PageShell';
-import { ProductCard } from '@/components/molecules/ProductCard';
-import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { ProductCard, ProductCardSkeleton } from '@/components/molecules/ProductCard';
+import { useProducts } from '@/hooks/useProducts';
 
 export default function FlashSalePage() {
   const [notifyInput, setNotifyInput] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const { data: allProducts = [], isLoading } = useProducts();
 
   const handleNotifySubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -206,10 +207,12 @@ export default function FlashSalePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {MOCK_PRODUCTS.slice(0, 4).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {isLoading
+              ? [1, 2, 3, 4].map((key) => <ProductCardSkeleton key={key} />)
+              : allProducts.slice(0, 4).map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
           </div>
 
           <div className="mt-10 text-center">

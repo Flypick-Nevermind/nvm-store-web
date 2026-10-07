@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { PageShell } from '@/components/layouts/PageShell';
-import { ProductCard } from '@/components/molecules/ProductCard';
-import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { ProductCard, ProductCardSkeleton } from '@/components/molecules/ProductCard';
+import { useProducts } from '@/hooks/useProducts';
 
 type SortByType = 'newest' | 'price-asc' | 'price-desc';
 type StockFilterType = 'all' | 'ready-stock' | 'pre-order';
@@ -13,13 +13,14 @@ type StockFilterType = 'all' | 'ready-stock' | 'pre-order';
 export default function NewArrivalsPage() {
   const [stockFilter, setStockFilter] = useState<StockFilterType>('all');
   const [sortBy, setSortBy] = useState<SortByType>('newest');
+  const { data: allProducts = [], isLoading } = useProducts();
 
   // Sort by newest date as base
   const sortedNewArrivals = useMemo(() => {
-    return [...MOCK_PRODUCTS].sort(
+    return [...allProducts].sort(
       (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     );
-  }, []);
+  }, [allProducts]);
 
   // Counts for filter pills
   const counts = useMemo(() => {
@@ -154,13 +155,19 @@ export default function NewArrivalsPage() {
         </div>
 
         {/* Product Cards Grid */}
-        {filteredProducts.length > 0 ? (
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {[1, 2, 3, 4, 5, 6].map((key) => (
+              <ProductCardSkeleton key={key} />
+            ))}
+          </div>
+        ) : filteredProducts.length > 0 ? (
           <motion.div
             key={`${sortBy}-${stockFilter}`}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.25 }}
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
           >
             {filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />

@@ -73,17 +73,19 @@ export function ProductCard({ product, rank, soldCount }: ProductCardProps) {
         whileHover={{ y: -5, boxShadow: '0 12px 30px -4px rgba(158,26,89,0.12)' }}
         transition={{ type: 'spring', stiffness: 320, damping: 26 }}
       >
-        {/* ── Image Area (3:4 Ratio) ─────────────────────────── */}
-        <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#FAF0F3] shrink-0">
+        {/* ── Image Area (Square 1:1 for Uncropped Bag Images) ─ */}
+        <div className="relative aspect-square w-full overflow-hidden bg-[#FAF0F3] shrink-0">
           {/* Primary image */}
           <Image
             src={product.images[0]}
             alt={product.name}
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className={[
               'object-cover transition-all duration-500',
-              hasSecondImage && isHovered ? 'opacity-0 scale-105' : 'opacity-100 group-hover:scale-105',
+              hasSecondImage && isHovered
+                ? 'opacity-0 scale-105'
+                : 'opacity-100 group-hover:scale-105',
               isSoldOut ? 'grayscale-[30%] opacity-90' : '',
             ].join(' ')}
           />
@@ -94,7 +96,7 @@ export function ProductCard({ product, rank, soldCount }: ProductCardProps) {
               src={product.images[1]}
               alt={`${product.name} angle preview`}
               fill
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className={[
                 'object-cover transition-all duration-500',
                 isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-100',
@@ -122,10 +124,10 @@ export function ProductCard({ product, rank, soldCount }: ProductCardProps) {
                   rank === 1
                     ? 'bg-[#9E1A59] text-white ring-1 ring-white/50'
                     : rank === 2
-                    ? 'bg-[#1A1A1A] text-white ring-1 ring-white/50'
-                    : rank === 3
-                    ? 'bg-[#C23070] text-white ring-1 ring-white/50'
-                    : 'bg-white/95 backdrop-blur-xs text-[#1A1A1A] border border-[#E8D5C0]',
+                      ? 'bg-[#1A1A1A] text-white ring-1 ring-white/50'
+                      : rank === 3
+                        ? 'bg-[#C23070] text-white ring-1 ring-white/50'
+                        : 'bg-white/95 backdrop-blur-xs text-[#1A1A1A] border border-[#E8D5C0]',
                 ].join(' ')}
               >
                 #{rank}
@@ -139,8 +141,8 @@ export function ProductCard({ product, rank, soldCount }: ProductCardProps) {
                 isSoldOut
                   ? 'bg-[#1A1A1A]/85 text-white border-white/20'
                   : product.stock_type === 'ready-stock'
-                  ? 'bg-emerald-50/95 text-emerald-800 border-emerald-300/80'
-                  : 'bg-[#FFF9E6]/95 text-[#7A5200] border-[#FFE082]',
+                    ? 'bg-emerald-50/95 text-emerald-800 border-emerald-300/80'
+                    : 'bg-[#FFF9E6]/95 text-[#7A5200] border-[#FFE082]',
               ].join(' ')}
             >
               <span
@@ -149,16 +151,16 @@ export function ProductCard({ product, rank, soldCount }: ProductCardProps) {
                   isSoldOut
                     ? 'bg-zinc-400'
                     : product.stock_type === 'ready-stock'
-                    ? 'bg-emerald-500 animate-pulse'
-                    : 'bg-amber-500',
+                      ? 'bg-emerald-500 animate-pulse'
+                      : 'bg-amber-500',
                 ].join(' ')}
               />
               <span>
                 {isSoldOut
                   ? 'Sold Out'
                   : product.stock_type === 'ready-stock'
-                  ? 'Ready Stock'
-                  : 'Pre-Order'}
+                    ? 'Ready Stock'
+                    : 'Pre-Order'}
               </span>
             </span>
 
@@ -233,31 +235,6 @@ export function ProductCard({ product, rank, soldCount }: ProductCardProps) {
             )}
           </AnimatePresence>
 
-          {/* Category & Color Swatches */}
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#8A7880]">
-              {product.category.replace('-', ' ')}
-            </span>
-
-            {/* Miniature Color Swatch Dots */}
-            {product.colors && product.colors.length > 0 && (
-              <div className="flex items-center -space-x-1" title={`${product.colors.length} Pilihan Warna`}>
-                {product.colors.slice(0, 3).map((c, i) => (
-                  <span
-                    key={i}
-                    className="w-2.5 h-2.5 rounded-full border border-white shadow-2xs inline-block"
-                    style={{ backgroundColor: c.hex }}
-                  />
-                ))}
-                {product.colors.length > 3 && (
-                  <span className="text-[8px] font-bold text-[#8A7880] pl-1.5">
-                    +{product.colors.length - 3}
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
-
           {/* Product Title */}
           <h3 className="text-xs sm:text-sm font-bold text-[#1A1A1A] leading-snug line-clamp-2 min-h-[2.4rem] group-hover:text-[#9E1A59] transition-colors">
             {product.name}
@@ -287,7 +264,9 @@ export function ProductCard({ product, rank, soldCount }: ProductCardProps) {
                     <span>⚡</span> Siap kirim hari ini
                   </span>
                 ) : (
-                  <span>⏱️ Est. {product.lead_time_days[0]}–{product.lead_time_days[1]} hari</span>
+                  <span>
+                    ⏱️ Est. {product.lead_time_days[0]}–{product.lead_time_days[1]} hari
+                  </span>
                 )}
               </p>
             </div>
@@ -296,7 +275,11 @@ export function ProductCard({ product, rank, soldCount }: ProductCardProps) {
             <button
               type="button"
               onClick={handleToggleWishlist}
-              aria-label={isWishlisted ? `Hapus ${product.name} dari Wishlist` : `Simpan ${product.name} ke Wishlist`}
+              aria-label={
+                isWishlisted
+                  ? `Hapus ${product.name} dari Wishlist`
+                  : `Simpan ${product.name} ke Wishlist`
+              }
               className={[
                 'w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer active:scale-75',
                 isWishlisted

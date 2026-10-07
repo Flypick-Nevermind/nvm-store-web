@@ -12,14 +12,44 @@ export type OrderStatus =
 
 export type ProductType = 'pre-order' | 'ready-stock' | 'sold-out';
 
-// ─── Product ────────────────────────────────────────────────
+// ─── 1. Pilihan Opsi Produk (Warna, Ukuran, dll) ───
+export interface ProductOptionValue {
+  id: string;               // e.g. "aqua-mist"
+  name: string;             // e.g. "Aqua Mist"
+  subtitle?: string;        // e.g. "26 × 9 × 17 cm" (opsional, jika ukuran)
+  hex?: string;             // e.g. "#9DDED1" (opsional, warna palet hex)
+  image_index?: number;     // e.g. 0 (index foto di array images)
+  image?: string;           // e.g. "https://..." (URL foto langsung untuk thumbnail opsi)
+}
 
+export interface ProductOption {
+  id: string;               // e.g. "color" | "size" | "material"
+  name: string;             // e.g. "Pilihan Warna" | "Pilihan Ukuran"
+  type?: 'color' | 'size' | 'text'; // Tipe selector visual di FE
+  values: ProductOptionValue[];
+}
+
+// ─── 2. SKU / Kombinasi Varian Terpilih & Harga ───
+export interface ProductSku {
+  id: string;               // e.g. "sku-jelly-tpu-aqua"
+  options: Record<string, string>; // e.g. { color: "aqua-mist" }
+  price_base: number;       // e.g. 185000 (Harga jual SKU ini)
+  original_price?: number;  // e.g. 235000 (Harga coret jika ada)
+  image_index?: number;     // e.g. 0 (Foto aktif saat SKU ini dipilih)
+  image?: string;           // e.g. "https://..."
+}
+
+// ─── 3. Informasi Spesifikasi Produk (PDP) ───
+export interface ProductSpec {
+  label: string;            // e.g. "Material", "Model", "Ukuran"
+  value: string;            // e.g. "TPU Premium", "Jelly Firkin", "Medium (35×15×27 cm)"
+}
+
+// Backward-compat color & variant types for PDP
 export interface ProductColor {
   name: string;
   hex: string;
-  /** Index into Product.images shown when this color is selected. */
   image_index?: number;
-  /** Direct thumbnail URL for this color option */
   image?: string;
 }
 
@@ -27,69 +57,42 @@ export interface ProductVariant {
   id: string;
   name: string;
   price_delta?: number;
-  /** Colors available for this specific variant (falls back to Product.colors). */
   colors?: ProductColor[];
 }
 
-export interface ProductOptionValue {
-  id: string;
-  name: string;
-  subtitle?: string; // e.g. "26 × 9 × 17 cm"
-  hex?: string; // for color swatches
-  image_index?: number;
-  /** Direct thumbnail URL for this option value */
-  image?: string;
-}
-
-export interface ProductOption {
-  id: string; // e.g. 'material' | 'size' | 'color'
-  name: string; // e.g. 'Pilihan Bahan' | 'Pilihan Ukuran' | 'Pilihan Warna'
-  type?: 'text' | 'color' | 'size';
-  values: ProductOptionValue[];
-}
-
-export interface ProductSku {
-  id: string;
-  options: Record<string, string>; // e.g. { material: 'tpu', size: 'medium', color: 'aqua-mist' }
-  price_base: number;
-  original_price?: number;
-  price_import_duty?: number;
-  price_shipping?: number;
-  image_index?: number;
-  stock_type?: ProductType;
-}
-
-export interface ProductSpec {
-  label: string;
-  value: string;
-}
-
+// ─── 4. Root Product Object ───
 export interface Product {
-  id: string;
-  slug: string;
-  name: string;
-  description: string;
-  short_description: string;
-  images: string[];
-  video_url?: string;
-  price_base: number; // Harga tas (IDR)
-  price_import_duty: number; // Estimasi bea impor (IDR)
-  price_shipping: number; // Estimasi ongkir lokal (IDR)
-  price_total: number; // Total (IDR)
-  original_price?: number; // Harga normal sebelum diskon (IDR)
-  discount_percent?: number; // Persentase diskon (%)
-  stock_type: ProductType;
-  lead_time_days: [number, number]; // e.g. [14, 21]
-  category: string;
-  is_featured: boolean;
-  tags: string[];
-  created_at: string;
-  colors?: ProductColor[];
-  variants?: ProductVariant[];
+  id: string;               // e.g. "prod-001"
+  slug: string;             // e.g. "jelly-firkin-bag"
+  name: string;             // e.g. "Jelly Firkin Bag — TPU"
+  description: string;      // Deskripsi lengkap produk
+  short_description?: string; // (Opsional) Ringkasan singkat untuk SEO & kartu preview
+  images: string[];         // Array URL foto produk: ["https://...", ...]
+  
+  // Pricing
+  price_base: number;       // Harga jual dasar (IDR)
+  original_price?: number;  // (Opsional) Harga normal sebelum diskon (IDR)
+  discount_percent?: number;// (Opsional) Persentase diskon, misal 20 untuk 20%
+  price_import_duty: number;// Estimasi bea impor (IDR)
+  price_shipping: number;   // Estimasi ongkir lokal (IDR)
+  
+  // Status & Logistik
+  stock_type: ProductType;  // 'pre-order' | 'ready-stock' | 'sold-out'
+  lead_time_days: [number, number]; // Estimasi hari PO, misal [14, 21]
+  category: string;         // Slug kategori, misal: "cute-finds", "y2k-core", "trending-now"
+  created_at: string;       // ISO Timestamp, e.g. "2026-09-10T00:00:00Z"
+  
+  // Varian Dinamis
   options?: ProductOption[];
   skus?: ProductSku[];
-  specs?: ProductSpec[];
-  notes?: string[];
+
+  // Detail Tambahan di Halaman Produk
+  specs?: ProductSpec[];    // List spesifikasi
+  notes?: string[];         // (Opsional) List catatan/ketentuan produk
+
+  // Backward compatibility
+  colors?: ProductColor[];
+  variants?: ProductVariant[];
 }
 
 // ─── Order ──────────────────────────────────────────────────

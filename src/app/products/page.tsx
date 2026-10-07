@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { PageShell } from '@/components/layouts/PageShell';
-import { ProductCard } from '@/components/molecules/ProductCard';
-import { MOCK_PRODUCTS } from '@/lib/api/mockData';
+import { ProductCard, ProductCardSkeleton } from '@/components/molecules/ProductCard';
+import { useProducts } from '@/hooks/useProducts';
 import { useRequestBagModalStore } from '@/store/requestBagModalStore';
 
 function ProductsContent() {
@@ -18,6 +18,8 @@ function ProductsContent() {
   );
   const openRequestBag = useRequestBagModalStore((state) => state.openModal);
 
+  const { data: allProducts = [], isLoading } = useProducts();
+
   // Keep searchInput synced with URL query
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -25,7 +27,7 @@ function ProductsContent() {
   }, [query]);
 
   const filtered = useMemo(() => {
-    let result = [...MOCK_PRODUCTS];
+    let result = [...allProducts];
 
     // Filter by search query if present
     if (query.trim()) {
@@ -35,7 +37,6 @@ function ProductsContent() {
           p.name.toLowerCase().includes(qLower) ||
           p.short_description?.toLowerCase().includes(qLower) ||
           p.category?.toLowerCase().includes(qLower) ||
-          p.tags?.some((tag) => tag.toLowerCase().includes(qLower)) ||
           p.colors?.some((c) => c.name.toLowerCase().includes(qLower))
       );
     }
@@ -47,7 +48,7 @@ function ProductsContent() {
     }
 
     return result;
-  }, [query, sortBy]);
+  }, [allProducts, query, sortBy]);
 
   return (
     <section
@@ -88,7 +89,7 @@ function ProductsContent() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3.5 mb-8 border-b border-[#E8D5C0]/80">
         <div className="flex items-center gap-3">
           <p className="text-xs font-bold text-[#8A7880] uppercase tracking-widest shrink-0">
-            {filtered.length} Products
+            {isLoading ? 'Memuat...' : `${filtered.length} Products`}
           </p>
 
           {/* Inline Filter Input on Page */}
@@ -149,14 +150,20 @@ function ProductsContent() {
         </div>
       </div>
 
-      {filtered.length > 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {[1, 2, 3, 4, 5, 6].map((key) => (
+            <ProductCardSkeleton key={key} />
+          ))}
+        </div>
+      ) : filtered.length > 0 ? (
         <>
           <motion.div
             key={sortBy + query}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
           >
             {filtered.map((product, i) => (
               <motion.div
