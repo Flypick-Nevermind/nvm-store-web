@@ -791,8 +791,9 @@ export function PDPActions({ product }: PDPActionsProps) {
             <span className="w-8 text-center text-sm font-bold text-[#1A1A1A]">{quantity}</span>
             <button
               type="button"
-              onClick={() => setQuantity((q) => Math.min(10, q + 1))}
-              className="w-8 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#9E1A59] font-bold text-sm transition-colors cursor-pointer"
+              onClick={() => setQuantity((q) => Math.min(matchedSku?.stock ?? 10, q + 1))}
+              disabled={quantity >= (matchedSku?.stock ?? 10)}
+              className="w-8 h-full flex items-center justify-center text-[#1A1A1A] hover:bg-white hover:text-[#9E1A59] font-bold text-sm transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
               aria-label="Tambah jumlah"
             >
               +

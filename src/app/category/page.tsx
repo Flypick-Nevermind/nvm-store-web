@@ -76,7 +76,8 @@ export default function CategoryPage() {
     ? allProducts.filter(
         (p) =>
           p.category?.toLowerCase().includes(activeCategory.tag.toLowerCase()) ||
-          p.name.toLowerCase().includes(activeCategory.tag.toLowerCase()),
+          p.name.toLowerCase().includes(activeCategory.tag.toLowerCase()) ||
+          p.tags?.some((t) => t.toLowerCase().includes(activeCategory.tag.toLowerCase())),
       )
     : [];
 

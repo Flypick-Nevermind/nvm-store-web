@@ -47,6 +47,8 @@ export interface BackendProduct {
   variant_label?: string;
   specs?: Array<{ label: string; value: string }>;
   notes?: string[];
+  tags?: string[];
+  short_description?: string;
   ms_nevermind_product_categories?: BackendProductCategory[];
   ms_nevermind_product_variants?: BackendProductVariant[] | BackendProductVariant;
   all_variants?: BackendProductVariant[];
@@ -175,6 +177,7 @@ export function transformBackendProduct(bp: BackendProduct): Product {
       original_price: skuOriginalPrice,
       image: vImg,
       image_index: vImg && allImages.includes(vImg) ? allImages.indexOf(vImg) : idx,
+      stock: typeof v.product_variant_qty === 'number' ? v.product_variant_qty : 10,
     };
   });
 
@@ -216,7 +219,7 @@ export function transformBackendProduct(bp: BackendProduct): Product {
     slug,
     name: bp.product_name || 'NEVERMIND Collection',
     description: bp.product_description || 'Koleksi pilihan eksklusif dari NEVERMIND.',
-    short_description: bp.product_description?.slice(0, 100) || 'Koleksi pilihan eksklusif dari NEVERMIND.',
+    short_description: bp.short_description || bp.product_description?.slice(0, 100) || 'Koleksi pilihan eksklusif dari NEVERMIND.',
     images,
     price_base: minPrice,
     original_price: rawOriginalPrice,
@@ -226,6 +229,7 @@ export function transformBackendProduct(bp: BackendProduct): Product {
     stock_type: bp.stock_type || (rawVariants.some((v) => (v.product_variant_qty ?? 0) > 0) ? 'pre-order' : 'sold-out'),
     lead_time_days: bp.lead_time_days || [14, 21],
     category: categoryName,
+    tags: Array.isArray(bp.tags) ? bp.tags : [],
     created_at: bp.created_at || new Date().toISOString(),
     options: colorValues.length > 0 ? [
       {

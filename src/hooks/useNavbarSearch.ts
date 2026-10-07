@@ -27,7 +27,8 @@ export function useNavbarSearch() {
     return allProducts.filter(
       (p) =>
         p.name.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q)
+        p.category.toLowerCase().includes(q) ||
+        p.tags?.some((t) => t.toLowerCase().includes(q))
     ).slice(0, 4);
   }, [searchQuery, allProducts]);
 

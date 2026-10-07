@@ -37,6 +37,7 @@ function ProductsContent() {
           p.name.toLowerCase().includes(qLower) ||
           p.short_description?.toLowerCase().includes(qLower) ||
           p.category?.toLowerCase().includes(qLower) ||
+          p.tags?.some((t) => t.toLowerCase().includes(qLower)) ||
           p.colors?.some((c) => c.name.toLowerCase().includes(qLower))
       );
     }

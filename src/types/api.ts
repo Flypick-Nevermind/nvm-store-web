@@ -37,6 +37,7 @@ export interface ProductSku {
   original_price?: number;  // e.g. 235000 (Harga coret jika ada)
   image_index?: number;     // e.g. 0 (Foto aktif saat SKU ini dipilih)
   image?: string;           // e.g. "https://..."
+  stock?: number;           // e.g. 10 (Jumlah stok SKU ini)
 }
 
 // ─── 3. Informasi Spesifikasi Produk (PDP) ───
@@ -89,6 +90,7 @@ export interface Product {
   // Detail Tambahan di Halaman Produk
   specs?: ProductSpec[];    // List spesifikasi
   notes?: string[];         // (Opsional) List catatan/ketentuan produk
+  tags?: string[];          // (Opsional) Tags produk, e.g. ["Top Handle Bag"]
 
   // Backward compatibility
   colors?: ProductColor[];
